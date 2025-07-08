@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+.tmp
+.idea
+.env
+.npm
+.vscode
+.nyc_output
+k6-results
