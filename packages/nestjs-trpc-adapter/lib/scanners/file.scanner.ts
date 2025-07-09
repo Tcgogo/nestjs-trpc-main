@@ -20,7 +20,7 @@ export class FileScanner {
 
     const caller = stack[skip];
     // const jsFilePath = caller?.getFileName();
-    const jsFilePath = caller?.getFileName().replace(/^(file:\/\/)?/, ''); // ESM support
+    const jsFilePath = caller?.getFileName()?.replace(/^(file:\/\/)?/, ''); // ESM support
 
     if (jsFilePath == null) {
       throw new Error(`Could not find caller file: ${caller}`);

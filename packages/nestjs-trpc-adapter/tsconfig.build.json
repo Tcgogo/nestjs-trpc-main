@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "incremental": false,
+    "declarationMap": true,
+    "noImplicitAny": false,
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "removeComments": false,
+    "noLib": false,
+    "forceConsistentCasingInFileNames": true,
+    "emitDecoratorMetadata": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": "./lib",
+    "experimentalDecorators": true,
+    "emitDeclarationOnly": true
+  },
+  "include": ["lib/**/*.ts"],
+  "exclude": ["node_modules", "dist", "lib/**/__tests__/*", "*.spec.ts"]
+}

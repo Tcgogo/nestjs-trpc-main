@@ -1,5 +1,5 @@
 {
-  "name": "nestjs-trpc",
+  "name": "nestjs-trpc-adapter",
   "version": "1.6.1",
   "homepage": "https://nestjs-trpc.io",
   "main": "./dist/index.js",
@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "build": "rm -rf dist && tsc --project tsconfig.build.json",
+    "build": "rm -rf dist && tsc --project tsconfig.build.json & swc lib -d dist --strip-leading-paths",
     "start:dev": "tsc --project tsconfig.json --watch --preserveWatchOutput",
     "debug:dev": "ts-node --inspect-brk lib/index.ts",
     "clean": "tsc -b --clean"
