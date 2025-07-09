@@ -1,0 +1,27 @@
+DB_CONFIG:
+  type: "mysql" # 数据库链接类型
+  host: rm-wz9s9vq2j8ir547ht.mysql.rds.aliyuncs.com
+  port: 3306
+  username: "schighdbgovnews"
+  password: "sCdb!23465GovNews"
+  database: db_tn_sc8820513B9B1903E4
+  retryDelay: 500
+  retryAttempts: 10
+  synchronize: false # 是否开启同步数据表功能
+  autoLoadEntities: true
+
+REDIS_CONFIG:
+  host: r-wz93yh0cj6wg7mgdo7.redis.rds.aliyuncs.com # redis 链接
+  password: "sCRedis2607"
+  port: 6379 # redis 端口
+  db: 3 # redis 数据库
+
+# nest 服务配置
+NEST:
+  port: 3000
+
+SCID: sc8820513B9B1903E4
+
+LOG:
+  enable: false
+  level: 'info'
