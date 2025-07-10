@@ -1,9 +1,9 @@
-import { ConsoleLogger, Inject, Injectable, Type } from '@nestjs/common';
+import { ConsoleLogger, Inject, Injectable, type Type } from '@nestjs/common';
 import { HttpAdapterHost, ModuleRef } from '@nestjs/core';
 import type { Application as ExpressApplication } from 'express';
 import type { FastifyInstance as FastifyApplication } from 'fastify';
-import { TRPCContext, TRPCModuleOptions } from './interfaces';
-import { AnyRouter, initTRPC } from '@trpc/server';
+import type { TRPCContext, TRPCModuleOptions } from './interfaces';
+import { type AnyRouter, initTRPC } from '@trpc/server';
 import { TRPCFactory } from './factories/trpc.factory';
 import { AppRouterHost } from './app-router.host';
 import { ExpressDriver, FastifyDriver } from './drivers';
@@ -54,7 +54,6 @@ export class TRPCDriver<
   constructor(private moduleRef: ModuleRef) {}
 
   public async start(options: TRPCModuleOptions) {
-    //@ts-expect-error Ignoring typescript here since it's the same type, yet it still isn't able to infer it.
     const { procedure, router } = initTRPC.context().create({
       ...(options.transformer != null
         ? { transformer: options.transformer }
@@ -62,7 +61,7 @@ export class TRPCDriver<
       ...(options.errorFormatter != null
         ? { errorFormatter: options.errorFormatter }
         : {}),
-    });
+    } as any);
 
     const appRouter: AnyRouter = this.trpcFactory.serializeAppRoutes(
       router,

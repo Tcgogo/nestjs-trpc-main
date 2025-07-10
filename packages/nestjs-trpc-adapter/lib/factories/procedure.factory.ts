@@ -1,22 +1,22 @@
-import { ConsoleLogger, Inject, Injectable } from '@nestjs/common';
-import { MetadataScanner, ModuleRef } from '@nestjs/core';
+import { ConsoleLogger, Inject, Injectable } from "@nestjs/common";
+import { MetadataScanner, ModuleRef } from "@nestjs/core";
 import {
   MIDDLEWARES_KEY,
   PROCEDURE_METADATA_KEY,
   PROCEDURE_PARAM_METADATA_KEY,
   PROCEDURE_TYPE_KEY,
-} from '../trpc.constants';
+} from "../trpc.constants";
 import {
-  ProcedureFactoryMetadata,
-  ProcedureImplementation,
-  ProcedureParamDecorator,
+  type ProcedureFactoryMetadata,
+  type ProcedureImplementation,
+  type ProcedureParamDecorator,
   ProcedureParamDecoratorType,
-  TRPCPublicProcedure,
-} from '../interfaces/factory.interface';
-import { ProcedureOptions, TRPCMiddleware } from '../interfaces';
-import type { Class, Constructor } from 'type-fest';
-import { ProcedureType } from '../trpc.enum';
-import { uniqWith, isEqual } from 'lodash';
+  type TRPCPublicProcedure,
+} from "../interfaces/factory.interface";
+import type { ProcedureOptions, TRPCMiddleware } from "../interfaces";
+import type { Class, Constructor } from "type-fest";
+import { ProcedureType } from "../trpc.enum";
+import { uniqWith, isEqual } from "lodash-es";
 
 @Injectable()
 export class ProcedureFactory {
@@ -34,7 +34,7 @@ export class ProcedureFactory {
   ): Array<ProcedureFactoryMetadata> {
     const methodNames = this.metadataScanner.getAllMethodNames(instance);
 
-    return methodNames.map((name) =>
+    return methodNames.map(name =>
       this.extractProcedureMetadata(name, prototype),
     );
   }
@@ -108,7 +108,7 @@ export class ProcedureFactory {
 
       this.consoleLogger.log(
         `Mapped {${type}, ${camelCasedRouterName}.${name}} route.`,
-        'Router Factory',
+        "Router Factory",
       );
     }
 
@@ -123,9 +123,10 @@ export class ProcedureFactory {
       const customProcedureInstance = this.moduleRef.get(middleware, {
         strict: false,
       });
-      if (typeof customProcedureInstance.use === 'function') {
-        //@ts-expect-error this is expected since the type is correct.
-        procedure = procedure.use((opts) => customProcedureInstance.use(opts));
+      if (typeof customProcedureInstance.use === "function") {
+        procedure = procedure.use(opts => {
+          return customProcedureInstance.use(opts) as any;
+        });
       }
     }
     return procedure;
@@ -138,16 +139,16 @@ export class ProcedureFactory {
     if (params == null) {
       return [];
     }
-    return new Array(Math.max(...params.map((val) => val.index)) + 1)
+    return new Array(Math.max(...params.map(val => val.index)) + 1)
       .fill(undefined)
       .map((_val, idx) => {
-        const param = params.find((param) => param.index === idx);
+        const param = params.find(param => param.index === idx);
         if (param == null) {
           return undefined;
         }
         if (param.type === ProcedureParamDecoratorType.Input) {
-          return param['key'] != null
-            ? opts[param.type]?.[param['key']]
+          return param["key"] != null
+            ? opts[param.type]?.[param["key"]]
             : opts[param.type];
         }
         if (param.type === ProcedureParamDecoratorType.Options) {

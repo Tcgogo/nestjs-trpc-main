@@ -6,11 +6,11 @@ import {
   Type,
   SyntaxKind,
   SourceFile,
-  OptionalKind,
-  PropertySignatureStructure,
+  type OptionalKind,
+  type PropertySignatureStructure,
 } from 'ts-morph';
 import { Injectable } from '@nestjs/common';
-import { TRPCMiddleware } from '../interfaces';
+import type { TRPCMiddleware } from '../interfaces';
 import type { Class } from 'type-fest';
 
 @Injectable()

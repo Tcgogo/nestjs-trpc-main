@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AnyRouter } from '@trpc/server';
+import type { AnyRouter } from '@trpc/server';
 
 @Injectable()
 export class AppRouterHost {

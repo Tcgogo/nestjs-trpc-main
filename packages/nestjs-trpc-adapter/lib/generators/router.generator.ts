@@ -1,15 +1,15 @@
 import { Project } from 'ts-morph';
-import {
+import type {
   RouterGeneratorMetadata,
   ProcedureGeneratorMetadata,
 } from '../interfaces/generator.interface';
-import {
+import type {
   RoutersFactoryMetadata,
   ProcedureFactoryMetadata,
 } from '../interfaces/factory.interface';
 import { DecoratorGenerator } from './decorator.generator';
 import { Inject, Injectable } from '@nestjs/common';
-import { camelCase } from 'lodash';
+import { camelCase } from 'lodash-es';
 import { ProcedureGenerator } from './procedure.generator';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ProcedureGeneratorMetadata } from '../interfaces/generator.interface';
+import type { ProcedureGeneratorMetadata } from '../interfaces/generator.interface';
 import { ProcedureType } from '../trpc.enum';
 import { Project, SourceFile, Node } from 'ts-morph';
 import { ImportsScanner } from '../scanners/imports.scanner';

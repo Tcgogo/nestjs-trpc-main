@@ -1,4 +1,7 @@
 import { Module } from "@nestjs/common";
+
+import { TRPCModule } from "nestjs-trpc-adapter";
+
 import { ConfigModule } from "@nestjs/config";
 
 import { HealthModule } from "@/app/health/health.module";
@@ -13,6 +16,9 @@ import { getConfig } from "@/lib/utils";
 
 @Module({
   imports: [
+    TRPCModule.forRoot({
+      autoSchemaFile: "./src/@generated",
+    }),
     // 配置
     ConfigModule.forRoot({ isGlobal: true, cache: true, load: [getConfig] }),
     // 日志

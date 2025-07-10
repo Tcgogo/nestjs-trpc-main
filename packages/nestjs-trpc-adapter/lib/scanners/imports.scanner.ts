@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Project, SourceFile } from 'ts-morph';
-import { SourceFileImportsMap } from '../interfaces/generator.interface';
+import type { SourceFileImportsMap } from '../interfaces/generator.interface';
 
 @Injectable()
 export class ImportsScanner {

@@ -25,5 +25,6 @@
     "type": "es6",
     "resolveFully": true
   },
-  "minify": false
+  "minify": false,
+  "exclude": ["node_modules", "dist", "src/@generated"]
 }

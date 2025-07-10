@@ -1,17 +1,17 @@
-import { ConsoleLogger, Inject, Module } from '@nestjs/common';
-import { DynamicModule, OnModuleInit } from '@nestjs/common/interfaces';
-import { HttpAdapterHost } from '@nestjs/core';
+import { ConsoleLogger, Inject, Module } from "@nestjs/common";
+import type { DynamicModule, OnModuleInit } from "@nestjs/common/interfaces";
+import { HttpAdapterHost } from "@nestjs/core";
 
-import { LOGGER_CONTEXT, TRPC_MODULE_OPTIONS } from './trpc.constants';
+import { LOGGER_CONTEXT, TRPC_MODULE_OPTIONS } from "./trpc.constants";
 
-import { TRPCModuleOptions } from './interfaces';
-import { TRPCDriver } from './trpc.driver';
-import { AppRouterHost } from './app-router.host';
-import { ExpressDriver, FastifyDriver } from './drivers';
-import { FileScanner } from './scanners/file.scanner';
-import { GeneratorModule } from './generators/generator.module';
-import { FactoryModule } from './factories/factory.module';
-import { ScannerModule } from './scanners/scanner.module';
+import type { TRPCModuleOptions } from "./interfaces";
+import { TRPCDriver } from "./trpc.driver";
+import { AppRouterHost } from "./app-router.host";
+import { ExpressDriver, FastifyDriver } from "./drivers";
+import { FileScanner } from "./scanners/file.scanner";
+import { GeneratorModule } from "./generators/generator.module";
+import { FactoryModule } from "./factories/factory.module";
+import { ScannerModule } from "./scanners/scanner.module";
 
 @Module({
   imports: [FactoryModule, ScannerModule],
@@ -82,7 +82,7 @@ export class TRPCModule implements OnModuleInit {
     if (this.appRouterHost.appRouter != null) {
       this.consoleLogger.log(
         `Server has been initialized successfully using the ${platformName} driver.`,
-        'TRPC Server',
+        "TRPC Server",
       );
     }
   }

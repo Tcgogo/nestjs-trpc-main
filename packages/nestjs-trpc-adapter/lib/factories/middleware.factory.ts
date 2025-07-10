@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Class, Constructor } from 'type-fest';
-import { TRPCMiddleware } from '../interfaces';
+import type { Class, Constructor } from 'type-fest';
+import type { TRPCMiddleware } from '../interfaces';
 import { RouterFactory } from './router.factory';
 import { ProcedureFactory } from './procedure.factory';
-import { isEqual, uniqWith } from 'lodash';
+import { isEqual, uniqWith } from 'lodash-es';
 
 interface MiddlewareMetadata {
   path: string;

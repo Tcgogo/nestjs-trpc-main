@@ -1,7 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import * as fs from 'node:fs';
-import * as path from 'node:path';
-import { SourceMapping } from '../interfaces/scanner.interface';
+import { Injectable } from "@nestjs/common";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import type { SourceMapping } from "../interfaces/scanner.interface";
+
+function fileUrlToPath(fileUrl: string | null) {
+  if (!fileUrl) return "";
+
+  // 1. 移除 "file:///" 协议前缀
+  let path = fileUrl.replace(/^file:\/\/\//i, "");
+
+  // 2. 处理 Windows 路径中的盘符重复问题（如 E:/E:/）
+  // 检测连续重复的盘符（例如 "E:/E:/"）
+  const driveLetterRepeat = /^([a-z]:)\/(\1\/)/i;
+  if (driveLetterRepeat.test(path)) {
+    path = path.replace(driveLetterRepeat, "$2");
+  }
+
+  return path;
+}
 
 /**
  * For this specific file, using a static reference is desirable since `getCallerFilePath` uses a stack-trace to figure out the caller.
@@ -19,8 +35,9 @@ export class FileScanner {
     Error.prepareStackTrace = originalPrepareStackTrace;
 
     const caller = stack[skip];
+
     // const jsFilePath = caller?.getFileName();
-    const jsFilePath = caller?.getFileName()?.replace(/^(file:\/\/)?/, ''); // ESM support
+    const jsFilePath = fileUrlToPath(caller?.getFileName()); // ESM support
 
     if (jsFilePath == null) {
       throw new Error(`Could not find caller file: ${caller}`);
@@ -30,11 +47,11 @@ export class FileScanner {
       // Attempt to find the source map file and extract the original TypeScript path
       const sourceMap = this.getSourceMapFromJSPath(jsFilePath);
       return this.normalizePath(
-        path.resolve(jsFilePath, '..', sourceMap.sources[0]),
+        path.resolve(jsFilePath, "..", sourceMap.sources[0]),
       );
     } catch (error) {
       // Suppress the warning if in test environment
-      if (process.env.NODE_ENV !== 'test') {
+      if (process.env.NODE_ENV !== "test") {
         console.warn(
           `Warning: Could not resolve source map for ${jsFilePath}. Falling back to default path resolution.`,
         );
@@ -44,13 +61,13 @@ export class FileScanner {
   }
 
   private normalizePath(p: string): string {
-    return path.resolve(p.replace(/\\/g, '/'));
+    return path.resolve(p.replace(/\\/g, "/"));
   }
 
   private getPlatformPath(p: string): string {
     const exec = /^\/(\w*):(.*)/.exec(p);
     return /^win/.test(process.platform) && exec
-      ? `${exec[1]}:\\${exec[2].replace(/\//g, '\\')}`
+      ? `${exec[1]}:\\${exec[2].replace(/\//g, "\\")}`
       : p;
   }
 
@@ -60,7 +77,7 @@ export class FileScanner {
 
     let content: string;
     try {
-      content = fs.readFileSync(filePath, { encoding: 'utf8' });
+      content = fs.readFileSync(filePath, { encoding: "utf8" });
     } catch (error) {
       throw new Error(`Could not read source file at path: ${filePath}`);
     }
@@ -72,10 +89,10 @@ export class FileScanner {
       );
     }
 
-    const sourceMapPath = path.resolve(filePath, '..', exec[1]);
+    const sourceMapPath = path.resolve(filePath, "..", exec[1]);
     let sourceMapContent: string;
     try {
-      sourceMapContent = fs.readFileSync(sourceMapPath, { encoding: 'utf8' });
+      sourceMapContent = fs.readFileSync(sourceMapPath, { encoding: "utf8" });
     } catch (error) {
       throw new Error(
         `Could not read source map file at path: ${sourceMapPath}`,

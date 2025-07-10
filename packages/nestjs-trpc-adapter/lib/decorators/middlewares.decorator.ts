@@ -1,7 +1,7 @@
 import type { Class, Constructor } from 'type-fest';
 import type { TRPCMiddleware } from '../interfaces';
 import { MIDDLEWARES_KEY } from '../trpc.constants';
-import { isFunction } from 'lodash';
+import { isFunction } from 'lodash-es';
 import { validateEach } from '../utils/validate-each.util';
 
 /**

@@ -1,5 +1,5 @@
 import {
-  ProcedureParamDecorator,
+  type ProcedureParamDecorator,
   ProcedureParamDecoratorType,
 } from '../interfaces/factory.interface';
 import { PROCEDURE_PARAM_METADATA_KEY } from '../trpc.constants';

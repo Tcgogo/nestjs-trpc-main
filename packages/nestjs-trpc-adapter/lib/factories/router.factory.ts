@@ -1,16 +1,16 @@
 import { ConsoleLogger, Inject, Injectable } from '@nestjs/common';
 import { ModulesContainer } from '@nestjs/core';
 import { InstanceWrapper } from '@nestjs/core/injector/instance-wrapper';
-import { camelCase } from 'lodash';
+import { camelCase } from 'lodash-es';
 import { MIDDLEWARES_KEY, ROUTER_METADATA_KEY } from '../trpc.constants';
-import {
+import type {
   RouterInstance,
   TRPCPublicProcedure,
   TRPCRouter,
 } from '../interfaces/factory.interface';
-import { TRPCMiddleware } from '../interfaces';
+import type { TRPCMiddleware } from '../interfaces';
 import { ProcedureFactory } from './procedure.factory';
-import { Class, Constructor } from 'type-fest';
+import type { Class, Constructor } from 'type-fest';
 
 @Injectable()
 export class RouterFactory {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import type { Application as ExpressApplication } from 'express';
-import { TRPCContext, TRPCModuleOptions } from '../interfaces';
+import type { TRPCContext, TRPCModuleOptions } from '../interfaces';
 import type { AnyRouter } from '@trpc/server';
 import * as trpcExpress from '@trpc/server/adapters/express';
 

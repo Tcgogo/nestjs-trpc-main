@@ -1,5 +1,5 @@
 {
-  "$schema": "https://json.schemastore.org/swcrc",
+  "$schema": "https://swc.rs/schema.json#",
   "sourceMaps": true,
   "jsc": {
     "parser": {
@@ -12,11 +12,13 @@
       "decoratorMetadata": true
     },
     "baseUrl": "./",
-    "target": "esnext"
+    "target": "es5"
   },
   "module": {
     "type": "es6",
-    "resolveFully": true
+    "resolveFully": true,
+    "outFileExtension": "js"
   },
+
   "minify": false
 }

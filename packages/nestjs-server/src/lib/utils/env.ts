@@ -70,7 +70,8 @@ const __filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(__filename);
 
 // docker部署路径
-const basePath = path.resolve(dirname, "../../../../app");
+// const basePath = path.resolve(dirname, "../../../../app");
+const basePath = path.resolve(dirname, "../../../");
 
 const commonConfig = (): EnvConfig => {
   const p = path.resolve(basePath, `./.config/.common.yaml`);

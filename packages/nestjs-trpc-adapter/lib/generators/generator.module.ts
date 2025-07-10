@@ -1,7 +1,7 @@
-import { ConsoleLogger, Inject, Module, OnModuleInit } from '@nestjs/common';
-import { DynamicModule } from '@nestjs/common/interfaces';
+import { ConsoleLogger, Inject, Module, type OnModuleInit } from '@nestjs/common';
+import type { DynamicModule } from '@nestjs/common/interfaces';
 import { MetadataScanner } from '@nestjs/core';
-import { CompilerOptions, ModuleKind, Project, ScriptTarget } from 'ts-morph';
+import { type CompilerOptions, ModuleKind, Project, ScriptTarget } from 'ts-morph';
 
 import { TRPCGenerator } from './trpc.generator';
 import { RouterGenerator } from './router.generator';
@@ -21,7 +21,7 @@ import {
 import { FactoryModule } from '../factories/factory.module';
 import { ScannerModule } from '../scanners/scanner.module';
 import * as path from 'node:path';
-import { GeneratorModuleOptions } from './generator.interface';
+import type{ GeneratorModuleOptions } from './generator.interface';
 
 @Module({
   imports: [FactoryModule, ScannerModule],

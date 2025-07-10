@@ -1,5 +1,5 @@
-import { ProcedureParams } from '@trpc/server';
-import { ResolveOptions } from '@trpc/server/dist/core/internals/utils';
+import type { ProcedureParams } from '@trpc/server';
+import type { ResolveOptions } from '@trpc/server/dist/core/internals/utils';
 
 export type ProcedureOptions = ResolveOptions<ProcedureParams> & {
   type: string;

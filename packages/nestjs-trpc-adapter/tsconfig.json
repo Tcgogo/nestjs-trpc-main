@@ -1,26 +1,88 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    // 指定模块系统为 ESNext，使用最新的 ES 模块语法
+    "module": "ESNext",
+
+    // 生成对应的 .d.ts 声明文件，用于类型定义
     "declaration": true,
+
+    // 禁用增量编译，每次都会重新编译所有文件
     "incremental": false,
+
+    // 为声明文件生成源码映射，便于调试
     "declarationMap": true,
+
+    // 允许隐式的 any 类型，不强制要求显式类型注解
     "noImplicitAny": false,
+
+    // 从 tslib 导入辅助函数，减少代码体积
     "importHelpers": true,
-    "esModuleInterop": true,
+
+    // 保留注释，不删除代码中的注释
     "removeComments": false,
+
+    // 包含默认的库文件定义
     "noLib": false,
+
+    // 强制文件名大小写一致，避免跨平台问题
     "forceConsistentCasingInFileNames": true,
-    "emitDecoratorMetadata": true,
-    "target": "ES2021",
-    "sourceMap": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
+
+    // 使用字面量模块语法，要求导入导出语句更明确
+    "verbatimModuleSyntax": true,
+
+    // 编译目标为最新的 ECMAScript 版本
+    "target": "esnext",
+
+    // 使用 Bundler 模块解析策略，适用于现代打包工具
+    "moduleResolution": "bundler",
+
+    // 启用 ES 模块互操作性，允许 CommonJS 和 ES 模块混用
+    "esModuleInterop": false,
+
+    // 启用严格模式，包含所有严格的类型检查选项
     "strict": true,
+
+    // 编译输出目录为 dist
+    "outDir": "dist",
+
+    // 生成源码映射文件，便于调试
+    "sourceMap": true,
+
+    // 将源码内容内联到源码映射文件中
+    "inlineSources": true,
+
+    // 为装饰器生成元数据，NestJS 需要此选项
+    "emitDecoratorMetadata": true,
+
+    // 允许从没有默认导出的模块中导入默认值
+    "allowSyntheticDefaultImports": false,
+
+    // 跳过对库文件的类型检查，提高编译速度
+    "skipLibCheck": true,
+
+    // 允许导入 JSON 文件作为模块
+    "resolveJsonModule": true,
+
+    // 包含 Node.js 的类型定义
     "types": ["node"],
-    "experimentalDecorators": true
+
+    // 启用实验性装饰器支持，NestJS 需要此选项
+    "experimentalDecorators": true,
+
+    // 设置模块解析的基础路径为当前目录
+    "baseUrl": ".",
+
+    // 路径映射配置，用于模块别名
+    "paths": {
+      // 将 @trpc/server/dist/* 映射到 node_modules 中的实际路径
+      "@trpc/server/dist/*": ["node_modules/@trpc/server/dist/*"]
+    }
   },
+
+  // 不包含任何文件，使用 references 引用其他配置
   "files": [],
-  "include": [],
+
+  // 项目引用配置，引用构建配置文件
   "references": [
     {
       "path": "./tsconfig.build.json"

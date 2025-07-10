@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { MergeRouters } from '@trpc/server/dist/core/internals/mergeRouters';
-import { AnyRouterDef } from '@trpc/server/dist/core/router';
+import type { MergeRouters } from '@trpc/server/dist/core/internals/mergeRouters';
+import type { AnyRouterDef } from '@trpc/server/dist/core/router';
 import { RouterFactory } from './router.factory';
-import { TRPCRouter } from '../interfaces/factory.interface';
-import { AnyRouter, ProcedureBuilder } from '@trpc/server';
+import type { TRPCRouter } from '../interfaces/factory.interface';
+import type { AnyRouter, ProcedureBuilder } from '@trpc/server';
 
 @Injectable()
 export class TRPCFactory {

@@ -5,7 +5,7 @@ import {
   SourceFile,
   SyntaxKind,
 } from 'ts-morph';
-import { DecoratorGeneratorMetadata } from '../interfaces/generator.interface';
+import type { DecoratorGeneratorMetadata } from '../interfaces/generator.interface';
 import { ConsoleLogger, Inject, Injectable } from '@nestjs/common';
 import { ProcedureGenerator } from './procedure.generator';
 

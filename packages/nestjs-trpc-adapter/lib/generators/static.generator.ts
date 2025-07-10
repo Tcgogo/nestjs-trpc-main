@@ -1,12 +1,12 @@
 import {
-  ImportDeclarationStructure,
+  type ImportDeclarationStructure,
   SourceFile,
   StructureKind,
   Type,
   VariableDeclarationKind,
 } from 'ts-morph';
 import { Injectable } from '@nestjs/common';
-import { SourceFileImportsMap } from '../interfaces/generator.interface';
+import type { SourceFileImportsMap } from '../interfaces/generator.interface';
 import * as path from 'node:path';
 
 @Injectable()

@@ -1,10 +1,9 @@
-import { ConsoleLogger, Module } from '@nestjs/common';
-import { MetadataScanner } from '@nestjs/core';
-import { TRPCFactory } from './trpc.factory';
-import { RouterFactory } from './router.factory';
-import { ProcedureFactory } from './procedure.factory';
-import { MiddlewareFactory } from './middleware.factory';
-
+import { ConsoleLogger, Module } from "@nestjs/common";
+import { MetadataScanner } from "@nestjs/core";
+import { TRPCFactory } from "./trpc.factory";
+import { RouterFactory } from "./router.factory";
+import { ProcedureFactory } from "./procedure.factory";
+import { MiddlewareFactory } from "./middleware.factory";
 @Module({
   imports: [],
   providers: [

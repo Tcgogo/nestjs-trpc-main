@@ -8,6 +8,6 @@ export class HealthController {
   @HttpCode(200)
   run() {
     this.logger.log("Health endpoint called!");
-    return { status: "ok1" };
+    return { status: "ok111" };
   }
 }
