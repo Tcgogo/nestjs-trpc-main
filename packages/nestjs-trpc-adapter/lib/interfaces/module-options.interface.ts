@@ -1,14 +1,14 @@
-import type { RootConfigTypes } from '@trpc/server/dist/core/internals/config';
-import type { ErrorFormatter } from '@trpc/server/dist/error/formatter';
-import type { TRPCErrorShape } from '@trpc/server/dist/rpc';
-import type { TRPCContext } from './context.interface';
-import type { Class } from 'type-fest';
-import type { ZodTypeAny } from 'zod';
+import type { TRPCRootConfig } from "@trpc/server";
+import type { TRPCErrorFormatter } from "@trpc/server";
+import type { TRPCErrorShape } from "@trpc/server";
+import type { TRPCContext } from "./context.interface";
+import type { Class } from "type-fest";
+import type { ZodType } from "zod";
 
 export type SchemaImports =
   | ((...args: Array<unknown>) => unknown)
   | object
-  | ZodTypeAny;
+  | ZodType;
 
 /**
  * "TRPCModule" options object.
@@ -45,14 +45,11 @@ export interface TRPCModuleOptions {
    * Use custom error formatting
    * @link https://trpc.io/docs/error-formatting
    */
-  errorFormatter?: ErrorFormatter<
-    RootConfigTypes['ctx'],
-    TRPCErrorShape<number> & { [key: string]: any }
-  >;
+  errorFormatter?: TRPCErrorFormatter<any, any>;
 
   /**
    * Use a data transformer
    * @link https://trpc.io/docs/data-transformers
    */
-  transformer?: RootConfigTypes['transformer'];
+  transformer?: TRPCRootConfig<any>["transformer"];
 }

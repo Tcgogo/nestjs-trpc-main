@@ -124,9 +124,9 @@ export class ProcedureFactory {
         strict: false,
       });
       if (typeof customProcedureInstance.use === "function") {
-        procedure = procedure.use(opts => {
+        procedure = procedure.use((opts: any) => {
           return customProcedureInstance.use(opts) as any;
-        });
+        }) as any;
       }
     }
     return procedure;

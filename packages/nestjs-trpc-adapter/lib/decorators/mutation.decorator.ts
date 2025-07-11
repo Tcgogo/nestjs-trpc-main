@@ -1,7 +1,7 @@
-import { ZodSchema } from 'zod';
-import { applyDecorators, SetMetadata } from '@nestjs/common';
-import { PROCEDURE_METADATA_KEY, PROCEDURE_TYPE_KEY } from '../trpc.constants';
-import { ProcedureType } from '../trpc.enum';
+import type { ZodType } from "zod";
+import { applyDecorators, SetMetadata } from "@nestjs/common";
+import { PROCEDURE_METADATA_KEY, PROCEDURE_TYPE_KEY } from "../trpc.constants";
+import { ProcedureType } from "../trpc.enum";
 
 /**
  * Decorator that marks a router class method as a TRPC mutation procedure that can receive inbound
@@ -18,7 +18,7 @@ import { ProcedureType } from '../trpc.enum';
  *
  * @publicApi
  */
-export function Mutation(args?: { input?: ZodSchema; output?: ZodSchema }) {
+export function Mutation(args?: { input?: ZodType; output?: ZodType }) {
   return applyDecorators(
     ...[
       SetMetadata(PROCEDURE_TYPE_KEY, ProcedureType.Mutation),

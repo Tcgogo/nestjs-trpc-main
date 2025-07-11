@@ -1,29 +1,24 @@
-import type {
-  ProcedureRouterRecord,
-  AnyRouter,
-  ProcedureBuilder,
-  ProcedureType,
-  ProcedureParams,
-} from '@trpc/server';
-import type { ZodSchema, ZodType, ZodTypeDef } from 'zod';
-import type { TRPCMiddleware } from './middleware.interface';
-import type { Class, Constructor } from 'type-fest';
+import type { AnyRouter, ProcedureType, TRPCRouterRecord } from "@trpc/server";
+import type { ZodType } from "zod";
+import type { TRPCMiddleware } from "./middleware.interface";
+import type { Class, Constructor } from "type-fest";
+import type { AnyProcedureBuilder } from "@trpc/server/unstable-core-do-not-import";
 
 export enum ProcedureParamDecoratorType {
-  Options = 'options',
-  Ctx = 'ctx',
-  Input = 'input',
-  RawInput = 'rawInput',
-  Type = 'type',
-  Path = 'path',
+  Options = "options",
+  Ctx = "ctx",
+  Input = "input",
+  RawInput = "rawInput",
+  Type = "type",
+  Path = "path",
 }
 
 export type ProcedureImplementation = ({
   input,
   output,
 }: {
-  input?: ZodType<any, ZodTypeDef, any>;
-  output?: ZodType<any, ZodTypeDef, any>;
+  input?: ZodType;
+  output?: ZodType;
 }) => any;
 
 interface ProcedureParamDecoratorBase {
@@ -42,8 +37,8 @@ export type ProcedureParamDecorator =
 
 export interface ProcedureFactoryMetadata {
   type: ProcedureType;
-  input: ZodSchema | undefined;
-  output: ZodSchema | undefined;
+  input: ZodType | undefined;
+  output: ZodType | undefined;
   middlewares: Array<Constructor<TRPCMiddleware> | Class<TRPCMiddleware>>;
   name: string;
   implementation: ProcedureImplementation;
@@ -71,8 +66,8 @@ export interface RoutersFactoryMetadata {
   procedures: Array<ProcedureFactoryMetadata>;
 }
 
-export type TRPCRouter = <TProcRouterRecord extends ProcedureRouterRecord>(
+export type TRPCRouter = <TProcRouterRecord extends TRPCRouterRecord>(
   procedures: TProcRouterRecord,
 ) => AnyRouter;
 
-export type TRPCPublicProcedure = ProcedureBuilder<ProcedureParams>;
+export type TRPCPublicProcedure = AnyProcedureBuilder;
