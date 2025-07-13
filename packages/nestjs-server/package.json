@@ -24,6 +24,7 @@
   },
   "packageManager": "pnpm@9.14.2",
   "main": "dist/main.js",
+  "types": "./src/@generated/server.ts",
   "scripts": {
     "serve": "cp ../../.npmrc .npmrc && docker-compose build --no-cache nestjs-server-dev",
     "build": "node --run build:clean && nest build --path tsconfig.build.json",

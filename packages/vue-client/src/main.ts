@@ -1,9 +1,10 @@
+import { VueQueryPlugin } from 'vue-query'
 // 加载 iconify 图标
 import { downloadAndInstall } from '@/iconify'
 import icons from '@/iconify/index.json'
+
 // 自定义指令
 import directive from '@/utils/directive'
-
 import App from './App.vue'
 import router from './router'
 import pinia from './store'
@@ -19,6 +20,7 @@ import 'virtual:uno.css'
 import '@/assets/styles/globals.css'
 
 const app = createApp(App)
+app.use(VueQueryPlugin)
 app.use(pinia)
 app.use(router)
 app.use(uiProvider)

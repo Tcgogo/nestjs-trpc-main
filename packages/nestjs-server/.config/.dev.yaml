@@ -1,6 +1,6 @@
 DB_CONFIG:
   type: 'mysql' # 数据库链接类型
-  host: 'host.docker.internal'
+  host: localhost
   port: 3307
   username: 'root'
   password: '123456'

@@ -24,6 +24,7 @@
     "release": "bumpp"
   },
   "dependencies": {
+    "@trpc/client": "catalog:",
     "@vee-validate/zod": "^4.15.1",
     "@vueuse/components": "^13.4.0",
     "@vueuse/core": "^13.4.0",
@@ -80,6 +81,7 @@
     "fs-extra": "^11.3.0",
     "http-server": "^14.1.1",
     "lint-staged": "^16.1.2",
+    "nestjs-server": "workspace:*",
     "npm-run-all2": "^8.0.4",
     "picocolors": "^1.1.1",
     "plop": "^4.0.1",

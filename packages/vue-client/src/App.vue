@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { useQuery } from 'vue-query'
 import { ua } from '@/utils/ua'
+import { client } from './trpc'
 import Provider from './ui/provider/index.vue'
 
 const route = useRoute()
@@ -33,6 +35,13 @@ watch([
 })
 
 onMounted(() => {
+  const { data, refetch } = useQuery(['user'], async () => client.healthRouter.getUser.query({
+    name: 'John',
+    age2: 20,
+    breed: 'Labrador',
+  }))
+  console.log(data)
+
   settingsStore.setMode(document.documentElement.clientWidth)
   window.addEventListener('resize', () => {
     settingsStore.setMode(document.documentElement.clientWidth)

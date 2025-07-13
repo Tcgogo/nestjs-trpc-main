@@ -16,6 +16,11 @@ export class HealthRouter {
   @Query({ output: dogsSchema, input: dogsSchema })
   async getUser(@Input() input: any): Promise<string> {
     const dogs = await this.healthService.getUser(input.name);
-    return dogs;
+
+    return {
+      name: dogs.name,
+      age2: 20,
+      breed: "Labrador",
+    };
   }
 }
