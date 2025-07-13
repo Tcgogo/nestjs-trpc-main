@@ -40,6 +40,8 @@
     "registry": "https://registry.npmjs.org"
   },
   "devDependencies": {
+    "@swc/cli": "catalog:",
+    "@swc/core": "catalog:",
     "@nestjs/common": "catalog:",
     "@nestjs/core": "catalog:",
     "@nestjs/testing": "catalog:",

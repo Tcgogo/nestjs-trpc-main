@@ -1,0 +1,1 @@
+{"version":3,"file":"trpc.enum-XZGct68f.js","names":[],"sources":["../lib/trpc.enum.ts"],"sourcesContent":["export enum ProcedureType {\n  Query = 'Query',\n  Mutation = 'Mutation',\n}\n"],"mappings":";AAAA,IAAY,0DAAL;AACL;AACA;;AACD"}

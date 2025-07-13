@@ -1,0 +1,1 @@
+{"version":3,"file":"generator.constants-BHzRvyZp.js","names":[],"sources":["../lib/generators/generator.constants.ts"],"sourcesContent":["export const TYPESCRIPT_PROJECT = 'TypescriptProject';\nexport const TYPESCRIPT_APP_ROUTER_SOURCE_FILE =\n  'TypescriptAppRouterSourceFile';\n"],"mappings":";AAAA,MAAa,qBAAqB;AAClC,MAAa,oCACX"}
