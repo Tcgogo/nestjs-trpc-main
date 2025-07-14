@@ -7,7 +7,7 @@ const settingsStore = useSettingsStore()
 </script>
 
 <template>
-  <footer v-if="settingsStore.settings.copyright.enable" class="my-4 flex flex-wrap items-center justify-center px-4 text-sm text-secondary-foreground/50">
+  <footer v-if="settingsStore.settings.copyright.enable" class="my-4 flex items-center justify-center px-4 text-sm text-secondary-foreground/50 flex-wrap">
     <span class="px-1">Copyright</span>
     <FaIcon name="i-ri:copyright-line" class="size-5" />
     <span v-if="settingsStore.settings.copyright.dates" class="px-1">{{ settingsStore.settings.copyright.dates }}</span>

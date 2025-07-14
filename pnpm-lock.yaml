@@ -222,12 +222,39 @@ importers:
         specifier: workspace:*
         version: link:packages/nestjs-trpc-adapter
     devDependencies:
+      '@antfu/eslint-config':
+        specifier: ^4.16.1
+        version: 4.16.2(@unocss/eslint-plugin@66.3.3(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3))(@vue/compiler-sfc@3.5.17)(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@22.16.3)(jiti@2.4.2)(sass-embedded@1.89.2)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))
+      '@stylistic/stylelint-config':
+        specifier: ^2.0.0
+        version: 2.0.0(stylelint@16.21.1(typescript@5.8.3))
       '@swc/cli':
         specifier: ^0.7.7
         version: 0.7.8(@swc/core@1.12.11(@swc/helpers@0.5.17))(chokidar@4.0.3)
       '@swc/core':
         specifier: ^1.12.11
         version: 1.12.11(@swc/helpers@0.5.17)
+      '@unocss/eslint-plugin':
+        specifier: ^66.3.2
+        version: 66.3.3(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3)
+      bumpp:
+        specifier: ^10.2.0
+        version: 10.2.0(magicast@0.3.5)
+      cz-git:
+        specifier: ^1.11.2
+        version: 1.12.0
+      eslint:
+        specifier: ^9.30.0
+        version: 9.31.0(jiti@2.4.2)
+      lint-staged:
+        specifier: ^16.1.2
+        version: 16.1.2
+      npm-run-all2:
+        specifier: ^8.0.4
+        version: 8.0.4
+      simple-git-hooks:
+        specifier: ^2.13.0
+        version: 2.13.0
 
   packages/nestjs-server:
     dependencies:
@@ -595,9 +622,6 @@ importers:
         specifier: ^3.25.67
         version: 3.25.76
     devDependencies:
-      '@antfu/eslint-config':
-        specifier: ^4.16.1
-        version: 4.16.2(@unocss/eslint-plugin@66.3.3(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3))(@vue/compiler-sfc@3.5.17)(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@22.16.3)(jiti@2.4.2)(sass-embedded@1.89.2)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))
       '@clack/prompts':
         specifier: ^0.11.0
         version: 0.11.0
@@ -610,9 +634,6 @@ importers:
       '@iconify/vue':
         specifier: ^5.0.0
         version: 5.0.0(vue@3.5.17(typescript@5.8.3))
-      '@stylistic/stylelint-config':
-        specifier: ^2.0.0
-        version: 2.0.0(stylelint@16.21.1(typescript@5.8.3))
       '@types/nprogress':
         specifier: ^0.2.3
         version: 0.2.3
@@ -622,9 +643,6 @@ importers:
       '@types/qs':
         specifier: ^6.14.0
         version: 6.14.0
-      '@unocss/eslint-plugin':
-        specifier: ^66.3.2
-        version: 66.3.3(eslint@9.31.0(jiti@2.4.2))(typescript@5.8.3)
       '@unocss/preset-legacy-compat':
         specifier: ^66.3.2
         version: 66.3.3
@@ -646,30 +664,15 @@ importers:
       boxen:
         specifier: ^8.0.1
         version: 8.0.1
-      bumpp:
-        specifier: ^10.2.0
-        version: 10.2.0(magicast@0.3.5)
-      cz-git:
-        specifier: ^1.11.2
-        version: 1.12.0
-      eslint:
-        specifier: ^9.30.0
-        version: 9.31.0(jiti@2.4.2)
       fs-extra:
         specifier: ^11.3.0
         version: 11.3.0
       http-server:
         specifier: ^14.1.1
         version: 14.1.1
-      lint-staged:
-        specifier: ^16.1.2
-        version: 16.1.2
       nestjs-server:
         specifier: workspace:*
         version: link:../nestjs-server
-      npm-run-all2:
-        specifier: ^8.0.4
-        version: 8.0.4
       picocolors:
         specifier: ^1.1.1
         version: 1.1.1
@@ -685,9 +688,6 @@ importers:
       sass-embedded:
         specifier: ^1.89.2
         version: 1.89.2
-      simple-git-hooks:
-        specifier: ^2.13.0
-        version: 2.13.0
       stylelint:
         specifier: ^16.21.0
         version: 16.21.1(typescript@5.8.3)
@@ -13987,7 +13987,7 @@ snapshots:
       eslint: 9.31.0(jiti@2.4.2)
       eslint-compat-utils: 0.6.5(eslint@9.31.0(jiti@2.4.2))
       eslint-json-compat-utils: 0.2.1(eslint@9.31.0(jiti@2.4.2))(jsonc-eslint-parser@2.4.0)
-      espree: 9.6.1
+      espree: 10.4.0
       graphemer: 1.4.0
       jsonc-eslint-parser: 2.4.0
       natural-compare: 1.4.0

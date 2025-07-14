@@ -5,7 +5,7 @@ defineOptions({
 </script>
 
 <template>
-  <kbd class="h-6 inline-flex select-none items-center gap-1 border rounded-md bg-muted px-1.5 text-sm text-muted-foreground font-medium font-sans">
+  <kbd class="inline-flex items-center gap-1 border rounded-md text-sm text-muted-foreground h-6 select-none bg-muted px-1.5 font-medium font-sans">
     <slot />
   </kbd>
 </template>

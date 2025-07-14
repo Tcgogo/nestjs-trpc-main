@@ -21,11 +21,11 @@ onMounted(() => {
     <div class="px-4">
       <div class="grid gap-4 sm-grid-cols-2">
         <div>
-          <h2 class="m-0 text-lg font-bold">
+          <h2 class="font-bold m-0 text-lg">
             全局
           </h2>
-          <ul class="list-none ps-2 pt-2 text-sm">
-            <li class="flex-baseline gap-2 py-1">
+          <ul class="text-sm list-none ps-2 pt-2">
+            <li class="gap-2 flex-baseline py-1">
               <div class="flex-shrink-0 space-x-1">
                 <FaKbd>{{ settingsStore.os === 'mac' ? '⌘' : 'Ctrl' }}</FaKbd>
                 <FaKbd>I</FaKbd>

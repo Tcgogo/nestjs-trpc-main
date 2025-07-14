@@ -19,17 +19,17 @@ const { switchTo } = useMenu()
         <component :is="useSlots('header-start')" />
         <Logo class="title" />
         <component :is="useSlots('header-after-logo')" />
-        <FaScrollArea :scrollbar="false" mask horizontal gradient-color="var(--g-header-bg)" class="menu-container h-full flex-1">
+        <FaScrollArea :scrollbar="false" mask horizontal gradient-color="var(--g-header-bg)" class="flex-1 menu-container h-full">
           <!-- 顶部模式 -->
-          <div class="menu h-full flex of-hidden transition-all">
+          <div class="h-full flex menu of-hidden transition-all">
             <template v-for="(item, index) in menuStore.allMenus" :key="index">
               <div
-                class="menu-item relative mx-1 py-2 transition-all" :class="{
+                class="relative py-2 transition-all menu-item mx-1" :class="{
                   active: index === menuStore.actived,
                 }"
               >
                 <div
-                  v-if="item.children && item.children.length !== 0" class="group menu-item-container relative h-full w-full flex cursor-pointer items-center justify-between gap-1 rounded-lg px-3 text-[var(--g-header-menu-color)] transition-all hover-(bg-[var(--g-header-menu-hover-bg)] text-[var(--g-header-menu-hover-color)])" :class="{
+                  v-if="item.children && item.children.length !== 0" class="relative h-full w-full flex cursor-pointer items-center gap-1 transition-all group menu-item-container justify-between rounded-lg px-3 text-[var(--g-header-menu-color)] hover-bg-[var(--g-header-menu-hover-bg)] hover-text-[var(--g-header-menu-hover-color)]" :class="{
                     'text-[var(--g-header-menu-active-color)]! bg-[var(--g-header-menu-active-bg)]!': index === menuStore.actived,
                   }" :title="typeof item.meta?.title === 'function' ? item.meta?.title() : item.meta?.title" @click="switchTo(index)"
                 >

@@ -61,7 +61,7 @@ function testAccount(account: string) {
 </script>
 
 <template>
-  <div class="min-h-500px w-full flex-col-stretch-center p-12">
+  <div class="w-full flex-col-stretch-center min-h-500px p-12">
     <div class="mb-6 space-y-2">
       <h3 class="text-4xl color-[var(--el-text-color-primary)] font-bold">
         欢迎使用 👋🏻
@@ -119,7 +119,7 @@ function testAccount(account: string) {
         <FaButton :loading="loading" size="lg" class="w-full" type="submit">
           登录
         </FaButton>
-        <div class="mt-4 flex-center gap-2 text-sm">
+        <div class="flex-center gap-2 text-sm mt-4">
           <span class="text-secondary-foreground op-50">还没有帐号?</span>
           <FaButton variant="link" class="h-auto p-0" type="button" @click="emits('onRegister', form.values.account)">
             注册新帐号
@@ -141,7 +141,7 @@ function testAccount(account: string) {
     <div v-show="type === 'qrcode'">
       <div class="flex-col-center">
         <img src="https://s2.loli.net/2024/04/26/GsahtuIZ9XOg5jr.png" class="h-[250px] w-[250px]">
-        <div class="mt-2 text-sm text-secondary-foreground op-50">
+        <div class="text-sm text-secondary-foreground op-50 mt-2">
           请使用微信扫码登录
         </div>
       </div>

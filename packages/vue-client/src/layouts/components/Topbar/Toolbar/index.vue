@@ -8,11 +8,11 @@ defineOptions({
 </script>
 
 <template>
-  <div class="toolbar-container flex items-center justify-between">
-    <div class="left-side h-full flex items-center of-hidden pe-16 ps-2">
+  <div class="flex items-center justify-between toolbar-container">
+    <div class="h-full flex items-center of-hidden ps-2 left-side pe-16">
       <LeftSide />
     </div>
-    <div class="h-full flex flex-shrink-0 items-center justify-end px-2">
+    <div class="h-full flex flex-shrink-0 items-center px-2 justify-end">
       <RightSide />
     </div>
   </div>

@@ -92,7 +92,7 @@ const enableAppSetting = import.meta.env.VITE_APP_SETTING
           <MainSidebar />
           <SubSidebar />
         </div>
-        <div class="invisible fixed inset-0 z-1009 bg-black/50 op-0 backdrop-blur-sm transition-opacity" :class="{ 'op-100! visible!': settingsStore.mode === 'mobile' && !settingsStore.settings.menu.subMenuCollapse }" @click="settingsStore.toggleSidebarCollapse()" />
+        <div class="fixed transition-opacity invisible inset-0 z-1009 bg-black/50 op-0 backdrop-blur-sm" :class="{ 'op-100! visible!': settingsStore.mode === 'mobile' && !settingsStore.settings.menu.subMenuCollapse }" @click="settingsStore.toggleSidebarCollapse()" />
         <div class="main-container pb-[var(--g-main-container-padding-bottom)]">
           <Topbar />
           <div class="main">

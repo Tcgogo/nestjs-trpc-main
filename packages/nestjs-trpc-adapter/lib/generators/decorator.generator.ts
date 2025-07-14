@@ -1,21 +1,23 @@
-import {
+import type {
   Decorator,
   Expression,
   Project,
   SourceFile,
+} from 'ts-morph'
+import type { DecoratorGeneratorMetadata } from '../interfaces/generator.interface'
+import { ConsoleLogger, Inject, Injectable } from '@nestjs/common'
+import {
   SyntaxKind,
-} from 'ts-morph';
-import type { DecoratorGeneratorMetadata } from '../interfaces/generator.interface';
-import { ConsoleLogger, Inject, Injectable } from '@nestjs/common';
-import { ProcedureGenerator } from './procedure.generator';
+} from 'ts-morph'
+import { ProcedureGenerator } from './procedure.generator'
 
 @Injectable()
 export class DecoratorGenerator {
   @Inject(ConsoleLogger)
-  private readonly consoleLogger!: ConsoleLogger;
+  private readonly consoleLogger!: ConsoleLogger
 
   @Inject(ProcedureGenerator)
-  private readonly procedureGenerator!: ProcedureGenerator;
+  private readonly procedureGenerator!: ProcedureGenerator
 
   public serializeProcedureDecorators(
     decorators: Decorator[],
@@ -24,7 +26,7 @@ export class DecoratorGenerator {
   ): Array<DecoratorGeneratorMetadata> {
     return decorators.reduce<DecoratorGeneratorMetadata[]>(
       (array, decorator) => {
-        const decoratorName = decorator.getName();
+        const decoratorName = decorator.getName()
 
         if (decoratorName === 'Query' || decoratorName === 'Mutation') {
           const input = this.getDecoratorPropertyValue(
@@ -32,13 +34,13 @@ export class DecoratorGenerator {
             'input',
             sourceFile,
             project,
-          );
+          )
           const output = this.getDecoratorPropertyValue(
             decorator,
             'output',
             sourceFile,
             project,
-          );
+          )
 
           array.push({
             name: decoratorName,
@@ -46,20 +48,22 @@ export class DecoratorGenerator {
               ...(input ? { input } : {}),
               ...(output ? { output } : {}),
             },
-          });
-        } else if (
-          decoratorName === 'UseMiddlewares' ||
-          decoratorName === 'Middlewares'
+          })
+        }
+        else if (
+          decoratorName === 'UseMiddlewares'
+          || decoratorName === 'Middlewares'
         ) {
-          return array;
-        } else {
-          this.consoleLogger.warn(`Decorator ${decoratorName}, not supported.`);
+          return array
+        }
+        else {
+          this.consoleLogger.warn(`Decorator ${decoratorName}, not supported.`)
         }
 
-        return array;
+        return array
       },
       [],
-    );
+    )
   }
 
   public getDecoratorPropertyValue(
@@ -68,29 +72,29 @@ export class DecoratorGenerator {
     sourceFile: SourceFile,
     project: Project,
   ): string | null {
-    const args = decorator.getArguments();
+    const args = decorator.getArguments()
 
     for (const arg of args) {
       if (arg.getKind() === SyntaxKind.ObjectLiteralExpression) {
-        const properties = (arg as any).getProperties();
+        const properties = (arg as any).getProperties()
         const property = properties.find(
           (p: any) => p.getName() === propertyName,
-        );
+        )
 
         if (!property) {
-          return null;
+          return null
         }
 
-        const propertyInitializer: Expression = property.getInitializer();
+        const propertyInitializer: Expression = property.getInitializer()
         return this.procedureGenerator.flattenZodSchema(
           propertyInitializer,
           sourceFile,
           project,
           propertyInitializer.getText(),
-        );
+        )
       }
     }
 
-    return null;
+    return null
   }
 }

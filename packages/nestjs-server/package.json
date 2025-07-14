@@ -1,30 +1,30 @@
 {
   "name": "nestjs-server",
+  "type": "module",
   "version": "1.0.0",
+  "packageManager": "pnpm@9.14.2",
   "description": "nestjs trpc server",
   "author": "Tcgogo",
   "license": "MIT",
-  "type": "module",
-  "bugs": {
-    "url": "https://github.com/Tcgogo/nestjs-trpc-main/issues"
-  },
   "homepage": "https://github.com/Tcgogo/nestjs-trpc-main#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Tcgogo/nestjs-trpc-main.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Tcgogo/nestjs-trpc-main/issues"
   },
   "keywords": [
     "typescript",
     "nestjs",
     "trpc"
   ],
+  "main": "dist/main.js",
+  "types": "./src/@generated/server.ts",
   "engines": {
     "node": ">=22.x",
     "pnpm": ">=9.x"
   },
-  "packageManager": "pnpm@9.14.2",
-  "main": "dist/main.js",
-  "types": "./src/@generated/server.ts",
   "scripts": {
     "serve": "cp ../../.npmrc .npmrc && docker-compose build --no-cache nestjs-server-dev",
     "build": "node --run build:clean && nest build --path tsconfig.build.json",
@@ -54,16 +54,22 @@
     "@trpc/server": "catalog:",
     "class-transformer": "catalog:",
     "class-validator": "catalog:",
-    "reflect-metadata": "catalog:",
-    "rxjs": "catalog:",
     "glob": "catalog:",
     "lodash-es": "catalog:",
     "mysql2": "catalog:",
     "nestjs-trpc-adapter": "workspace:*",
+    "reflect-metadata": "catalog:",
+    "rxjs": "catalog:",
     "typeorm": "catalog:",
     "typeorm-naming-strategies": "catalog:",
     "yaml": "catalog:",
     "zod": "catalog:"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "catalog:",
+    "@swc/core-linux-arm64-musl": "catalog:",
+    "@swc/core-linux-x64-gnu": "catalog:",
+    "@swc/core-linux-x64-musl": "catalog:"
   },
   "devDependencies": {
     "@commitlint/cli": "catalog:",
@@ -107,11 +113,5 @@
     "vite": "catalog:",
     "vitest": "catalog:",
     "vitest-mock-extended": "catalog:"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "catalog:",
-    "@swc/core-linux-arm64-musl": "catalog:",
-    "@swc/core-linux-x64-gnu": "catalog:",
-    "@swc/core-linux-x64-musl": "catalog:"
   }
 }

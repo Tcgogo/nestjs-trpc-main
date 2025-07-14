@@ -1,23 +1,23 @@
-import { Module } from "@nestjs/common";
+import { Module } from '@nestjs/common'
 
-import { TRPCModule } from "nestjs-trpc-adapter";
+import { ConfigModule } from '@nestjs/config'
 
-import { ConfigModule } from "@nestjs/config";
+import { TRPCModule } from 'nestjs-trpc-adapter'
 
-import { HealthModule } from "@/app/health/health.module";
+import { HealthModule } from '@/app/health/health.module'
 
-import { LoggerModule } from "@/shared/logger/logger.module";
+import { UserModule } from '@/contexts/users/user.module'
 
-import { UserModule } from "@/contexts/users/user.module";
+import { DatabaseModule } from '@/lib/database/database.module'
 
-import { DatabaseModule } from "@/lib/database/database.module";
+import { getConfig } from '@/lib/utils'
 
-import { getConfig } from "@/lib/utils";
+import { LoggerModule } from '@/shared/logger/logger.module'
 
 @Module({
   imports: [
     TRPCModule.forRoot({
-      autoSchemaFile: "./src/@generated",
+      autoSchemaFile: './src/@generated',
     }),
     // 配置
     ConfigModule.forRoot({ isGlobal: true, cache: true, load: [getConfig] }),

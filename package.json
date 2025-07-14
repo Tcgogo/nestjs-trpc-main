@@ -1,19 +1,35 @@
 {
   "name": "nest-trpc-main",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
   "author": "",
   "license": "ISC",
+  "keywords": [],
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "postinstall": "simple-git-hooks",
+    "commit": "git cz",
+    "release": "bumpp",
+    "lint": "npm-run-all -s lint:eslint lint:stylelint",
+    "lint:eslint": "eslint . --cache --fix",
+    "lint:stylelint": "stylelint \"src/**/*.{css,scss,vue}\" --cache --fix"
+  },
   "dependencies": {
     "nestjs-trpc-adapter": "workspace:*"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^4.16.1",
+    "@stylistic/stylelint-config": "^2.0.0",
     "@swc/cli": "^0.7.7",
-    "@swc/core": "^1.12.11"
+    "@swc/core": "^1.12.11",
+    "@unocss/eslint-plugin": "^66.3.2",
+    "bumpp": "^10.2.0",
+    "cz-git": "^1.11.2",
+    "eslint": "^9.30.0",
+    "lint-staged": "^16.1.2",
+    "npm-run-all2": "^8.0.4",
+    "simple-git-hooks": "^2.13.0"
   }
 }

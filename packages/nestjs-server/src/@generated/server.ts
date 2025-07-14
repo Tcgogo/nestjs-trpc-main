@@ -9,11 +9,11 @@ const appRouter = t.router({
     getUser: publicProcedure.input(z.object({
       name: z.string(),
       age2: z.number(),
-      breed: z.enum(["Labrador", "Corgi", "Beagle", "Golden Retriver"]),
+      breed: z.enum(['Labrador', 'Corgi', 'Beagle', 'Golden Retriver']),
     })).output(z.object({
       name: z.string(),
       age2: z.number(),
-      breed: z.enum(["Labrador", "Corgi", "Beagle", "Golden Retriver"]),
+      breed: z.enum(['Labrador', 'Corgi', 'Beagle', 'Golden Retriver']),
     })).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any)
   })
 });

@@ -1,13 +1,16 @@
-import {
-  type ImportDeclarationStructure,
+import type {
+  ImportDeclarationStructure,
   SourceFile,
-  StructureKind,
   Type,
+} from 'ts-morph'
+import type { SourceFileImportsMap } from '../interfaces/generator.interface'
+import * as path from 'node:path'
+import { Injectable } from '@nestjs/common'
+import {
+
+  StructureKind,
   VariableDeclarationKind,
-} from 'ts-morph';
-import { Injectable } from '@nestjs/common';
-import type { SourceFileImportsMap } from '../interfaces/generator.interface';
-import * as path from 'node:path';
+} from 'ts-morph'
 
 @Injectable()
 export class StaticGenerator {
@@ -16,12 +19,12 @@ export class StaticGenerator {
       kind: StructureKind.ImportDeclaration,
       moduleSpecifier: '@trpc/server',
       namedImports: ['initTRPC'],
-    });
+    })
     sourceFile.addImportDeclaration({
       kind: StructureKind.ImportDeclaration,
       moduleSpecifier: 'zod',
       namedImports: ['z'],
-    });
+    })
 
     sourceFile.addVariableStatements([
       {
@@ -32,7 +35,7 @@ export class StaticGenerator {
         declarationKind: VariableDeclarationKind.Const,
         declarations: [{ name: 'publicProcedure', initializer: 't.procedure' }],
       },
-    ]);
+    ])
   }
 
   public addSchemaImports(
@@ -40,18 +43,18 @@ export class StaticGenerator {
     schemaImportNames: Array<string>,
     importsMap: Map<string, SourceFileImportsMap>,
   ): void {
-    const importDeclarations: ImportDeclarationStructure[] = [];
+    const importDeclarations: ImportDeclarationStructure[] = []
 
     for (const schemaImportName of schemaImportNames) {
       for (const [importMapKey, importMapMetadata] of importsMap.entries()) {
         if (schemaImportName == null || importMapKey !== schemaImportName) {
-          continue;
+          continue
         }
 
         const relativePath = path.relative(
           path.dirname(sourceFile.getFilePath()),
           importMapMetadata.sourceFile.getFilePath().replace(/\.ts$/, ''),
-        );
+        )
 
         importDeclarations.push({
           kind: StructureKind.ImportDeclaration,
@@ -59,17 +62,17 @@ export class StaticGenerator {
             ? relativePath
             : `./${relativePath}`,
           namedImports: [schemaImportName],
-        });
+        })
       }
     }
 
-    sourceFile.addImportDeclarations(importDeclarations);
+    sourceFile.addImportDeclarations(importDeclarations)
   }
 
   public findCtxOutProperty(type: Type): string | undefined {
-    const typeText = type.getText();
-    const ctxOutMatch = typeText.match(/_ctx_out:\s*{([^}]*)}/);
+    const typeText = type.getText()
+    const ctxOutMatch = typeText.match(/_ctx_out:\s*\{([^}]*)\}/)
 
-    return ctxOutMatch ? ctxOutMatch[1].trim() : undefined;
+    return ctxOutMatch ? ctxOutMatch[1].trim() : undefined
   }
 }

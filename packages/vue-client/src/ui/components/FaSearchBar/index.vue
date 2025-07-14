@@ -36,8 +36,8 @@ function toggle() {
     }"
   >
     <slot :fold="fold" :toggle="toggle" />
-    <div v-if="showToggle" class="absolute bottom-0 left-0 w-full translate-y-1/2 text-center">
-      <button class="h-5 inline-flex cursor-pointer select-none items-center border-size-0 rounded bg-secondary px-2 text-xs font-medium outline-none" @click="toggle">
+    <div v-if="showToggle" class="absolute bottom-0 left-0 w-full text-center translate-y-1/2">
+      <button class="inline-flex cursor-pointer select-none items-center px-2 text-xs font-medium outline-none h-5 border-size-0 rounded bg-secondary" @click="toggle">
         <FaIcon :name="fold ? 'i-ep:caret-bottom' : 'i-ep:caret-top' " />
       </button>
     </div>

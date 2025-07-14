@@ -1,3 +1,0 @@
-import "../middleware.interface-CBggnn8Z.js";
-import { CustomProcedureFactoryMetadata, ProcedureFactoryMetadata, ProcedureImplementation, ProcedureInputParamDecorator, ProcedureParamDecorator, ProcedureParamDecoratorType, RouterInstance, RoutersFactoryMetadata, TRPCPublicProcedure, TRPCRouter } from "../factory.interface-Dr3xtbWb.js";
-export { CustomProcedureFactoryMetadata, ProcedureFactoryMetadata, ProcedureImplementation, ProcedureInputParamDecorator, ProcedureParamDecorator, ProcedureParamDecoratorType, RouterInstance, RoutersFactoryMetadata, TRPCPublicProcedure, TRPCRouter };

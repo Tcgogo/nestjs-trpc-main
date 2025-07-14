@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // 请勿删除
 if (import.meta.env.PROD) {
   const copyright_common_style = 'font-size: 14px; margin-bottom: 2px; padding: 6px 8px; color: #fff;'

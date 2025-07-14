@@ -27,7 +27,7 @@ withDefaults(
       <TooltipTrigger as-child>
         <slot />
       </TooltipTrigger>
-      <TooltipContent :side :align class="z-10000 text-xs">
+      <TooltipContent :side :align class="text-xs z-10000">
         <slot name="content">
           <p>{{ text }}</p>
         </slot>

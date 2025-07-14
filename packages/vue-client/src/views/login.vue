@@ -27,15 +27,15 @@ const formType = ref<'login' | 'register' | 'resetPassword'>('login')
 
 <template>
   <div class="bg-banner" />
-  <div class="absolute right-4 top-4 z-1 flex-center border rounded-lg bg-background p-1 text-base">
+  <div class="absolute right-4 top-4 z-1 flex-center border rounded-lg bg-background text-base p-1">
     <ColorScheme v-if="settingsStore.settings.toolbar.colorScheme" />
   </div>
   <div class="login-box">
     <div class="login-banner">
-      <img src="@/assets/images/logo.svg" class="absolute inset-s-4 inset-t-4 h-8 rounded">
+      <img src="@/assets/images/logo.svg" class="absolute h-8 rounded inset-s-4 inset-t-4">
       <img src="@/assets/images/login-banner.png" class="banner">
     </div>
-    <div class="login-form flex-col-center">
+    <div class="flex-col-center login-form">
       <Transition name="fade" mode="out-in">
         <LoginForm
           v-if="formType === 'login'"

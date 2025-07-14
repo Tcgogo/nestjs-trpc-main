@@ -174,7 +174,7 @@ export default function createVitePlugins(mode: string, isBuild = false) {
       apply: 'serve',
       async buildStart() {
         const { bold, green, cyan, bgGreen, underline } = picocolors
-        // eslint-disable-next-line no-console
+
         console.log(
           boxen(
             `${bold(green(`由 ${bgGreen('Fantastic-admin')} 驱动`))}\n\n${underline('https://fantastic-admin.hurui.me')}\n\n当前使用：${cyan('基础版')}`,

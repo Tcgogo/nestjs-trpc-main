@@ -1,24 +1,17 @@
 {
   "name": "nestjs-trpc-adapter",
-  "version": "1.0.0",
-  "homepage": "https://github.com/Tcgogo/nestjs-trpc-main",
-  "license": "MIT",
-  "files": [
-    "dist"
-  ],
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
+  "version": "1.0.0",
+  "author": {
+    "name": "Tcgogo",
+    "email": "1812497229@qq.com"
   },
-  "scripts": {
-    "build": "rm -rf dist && tsc --project tsconfig.build.json & swc lib -d dist --strip-leading-paths",
-    "start:dev": "tsc --project tsconfig.json --watch --preserveWatchOutput",
-    "debug:dev": "ts-node --inspect-brk lib/index.ts",
-    "clean": "tsc -b --clean"
+  "license": "MIT",
+  "homepage": "https://github.com/Tcgogo/nestjs-trpc-main",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Tcgogo/nestjs-trpc-main",
+    "directory": "packages/nestjs-trpc-adapter"
   },
   "keywords": [
     "nestjs",
@@ -31,22 +24,39 @@
     "typescript",
     "types"
   ],
-  "author": {
-    "name": "Tcgogo",
-    "email": "1812497229@qq.com"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc --project tsconfig.build.json & swc lib -d dist --strip-leading-paths",
+    "start:dev": "tsc --project tsconfig.json --watch --preserveWatchOutput",
+    "debug:dev": "ts-node --inspect-brk lib/index.ts",
+    "clean": "tsc -b --clean"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
   },
+  "dependencies": {
+    "lodash-es": "catalog:",
+    "ts-morph": "catalog:",
+    "tslib": "catalog:"
+  },
   "devDependencies": {
-    "@swc/cli": "catalog:",
-    "@swc/core": "catalog:",
     "@nestjs/common": "catalog:",
     "@nestjs/core": "catalog:",
     "@nestjs/testing": "catalog:",
-    "@trpc/server": "catalog:",
+    "@swc/cli": "catalog:",
+    "@swc/core": "catalog:",
     "@trpc/client": "catalog:",
+    "@trpc/server": "catalog:",
     "@types/express": "catalog:",
     "@types/lodash-es": "catalog:",
     "@types/node": "catalog:",
@@ -58,15 +68,5 @@
     "type-fest": "catalog:",
     "typescript": "catalog:",
     "zod": "catalog:"
-  },
-  "dependencies": {
-    "lodash-es": "catalog:",
-    "ts-morph": "catalog:",
-    "tslib": "catalog:"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Tcgogo/nestjs-trpc-main",
-    "directory": "packages/nestjs-trpc-adapter"
   }
 }

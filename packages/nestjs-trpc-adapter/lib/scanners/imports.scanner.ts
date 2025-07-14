@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { Project, SourceFile } from 'ts-morph';
-import type { SourceFileImportsMap } from '../interfaces/generator.interface';
+import type { Project, SourceFile } from 'ts-morph'
+import type { SourceFileImportsMap } from '../interfaces/generator.interface'
+import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class ImportsScanner {
@@ -8,52 +8,52 @@ export class ImportsScanner {
     sourceFile: SourceFile,
     project: Project,
   ): Map<string, SourceFileImportsMap> {
-    const sourceFileImportsMap = new Map<string, SourceFileImportsMap>();
-    const importDeclarations = sourceFile.getImportDeclarations();
+    const sourceFileImportsMap = new Map<string, SourceFileImportsMap>()
+    const importDeclarations = sourceFile.getImportDeclarations()
 
     for (const importDeclaration of importDeclarations) {
-      const namedImports = importDeclaration.getNamedImports();
+      const namedImports = importDeclaration.getNamedImports()
       for (const namedImport of namedImports) {
-        const name = namedImport.getName();
-        const importedSourceFile =
-          importDeclaration.getModuleSpecifierSourceFile();
+        const name = namedImport.getName()
+        const importedSourceFile
+          = importDeclaration.getModuleSpecifierSourceFile()
 
         if (importedSourceFile == null) {
-          continue;
+          continue
         }
 
-        const resolvedSourceFile =
-          importedSourceFile.getFilePath().endsWith('index.ts') &&
-          !importedSourceFile.getVariableDeclaration(name)
+        const resolvedSourceFile
+          = importedSourceFile.getFilePath().endsWith('index.ts')
+            && !importedSourceFile.getVariableDeclaration(name)
             ? this.resolveBarrelFileImport(importedSourceFile, name, project)
-            : importedSourceFile;
+            : importedSourceFile
 
         if (resolvedSourceFile == null) {
-          continue;
+          continue
         }
 
         // Generalized logic to handle various kinds of declarations
-        const declaration =
-          resolvedSourceFile.getVariableDeclaration(name) ||
-          resolvedSourceFile.getClass(name) ||
-          resolvedSourceFile.getInterface(name) ||
-          resolvedSourceFile.getEnum(name) ||
-          resolvedSourceFile.getFunction(name);
+        const declaration
+          = resolvedSourceFile.getVariableDeclaration(name)
+            || resolvedSourceFile.getClass(name)
+            || resolvedSourceFile.getInterface(name)
+            || resolvedSourceFile.getEnum(name)
+            || resolvedSourceFile.getFunction(name)
 
         if (declaration != null) {
-          const initializer =
-            'getInitializer' in declaration
+          const initializer
+            = 'getInitializer' in declaration
               ? declaration.getInitializer()
-              : declaration;
+              : declaration
           sourceFileImportsMap.set(name, {
             initializer: initializer ?? declaration,
             sourceFile: resolvedSourceFile,
-          });
+          })
         }
       }
     }
 
-    return sourceFileImportsMap;
+    return sourceFileImportsMap
   }
 
   /**
@@ -71,34 +71,36 @@ export class ImportsScanner {
   ): SourceFile | undefined {
     // Traverse through export declarations to find the actual source of the named import
     for (const exportDeclaration of barrelSourceFile.getExportDeclarations()) {
-      const exportedSourceFile =
-        exportDeclaration.getModuleSpecifierSourceFile();
-      if (exportedSourceFile == null) continue;
+      const exportedSourceFile
+        = exportDeclaration.getModuleSpecifierSourceFile()
+      if (exportedSourceFile == null) { continue }
 
       // Check if the named export is explicitly re-exported
-      const namedExports = exportDeclaration.getNamedExports();
+      const namedExports = exportDeclaration.getNamedExports()
       if (namedExports.length > 0) {
-        const matchingExport = namedExports.find((e) => e.getName() === name);
+        const matchingExport = namedExports.find(e => e.getName() === name)
         if (matchingExport) {
-          return exportedSourceFile;
+          return exportedSourceFile
         }
-      } else {
+      }
+      else {
         // Handle `export * from ...` case: recursively resolve the export
-        const schemaVariable = exportedSourceFile.getVariableDeclaration(name);
+        const schemaVariable = exportedSourceFile.getVariableDeclaration(name)
         if (schemaVariable) {
-          return exportedSourceFile;
-        } else {
+          return exportedSourceFile
+        }
+        else {
           // Continue resolving if it's another barrel file
           const baseSourceFile = this.resolveBarrelFileImport(
             exportedSourceFile,
             name,
             project,
-          );
-          if (baseSourceFile) return baseSourceFile;
+          )
+          if (baseSourceFile) { return baseSourceFile }
         }
       }
     }
 
-    return undefined;
+    return undefined
   }
 }

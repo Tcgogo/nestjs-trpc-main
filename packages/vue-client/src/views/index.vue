@@ -121,7 +121,7 @@ function open(url: string) {
             </FaButton>
           </div>
         </template>
-        <ul class="m-0 list-disc px-8 text-sm leading-6 space-y-1">
+        <ul class="m-0 text-sm space-y-1 list-disc px-8 leading-6">
           <li v-for="item in fantasticStartkitInfo.feature" :key="item">
             {{ item }}
           </li>

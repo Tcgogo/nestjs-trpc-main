@@ -1,8 +1,9 @@
+import type { ProcedureParamDecorator } from '../interfaces/factory.interface'
 import {
-  type ProcedureParamDecorator,
+
   ProcedureParamDecoratorType,
-} from '../interfaces/factory.interface';
-import { PROCEDURE_PARAM_METADATA_KEY } from '../trpc.constants';
+} from '../interfaces/factory.interface'
+import { PROCEDURE_PARAM_METADATA_KEY } from '../trpc.constants'
 
 /**
  * Options procedure parameter decorator. Extracts the root `opts` parameter out of the procedure.
@@ -18,24 +19,24 @@ export function Options(): ParameterDecorator {
     parameterIndex: number,
   ) => {
     if (propertyKey != null) {
-      const existingParams: Array<ProcedureParamDecorator> =
-        Reflect.getMetadata(
+      const existingParams: Array<ProcedureParamDecorator>
+        = Reflect.getMetadata(
           PROCEDURE_PARAM_METADATA_KEY,
           target,
           propertyKey,
-        ) || [];
+        ) || []
 
       const procedureParamMetadata: ProcedureParamDecorator = {
         type: ProcedureParamDecoratorType.Options,
         index: parameterIndex,
-      };
-      existingParams.push(procedureParamMetadata);
+      }
+      existingParams.push(procedureParamMetadata)
       Reflect.defineMetadata(
         PROCEDURE_PARAM_METADATA_KEY,
         existingParams,
         target,
         propertyKey,
-      );
+      )
     }
-  };
+  }
 }

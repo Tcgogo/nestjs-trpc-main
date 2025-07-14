@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { FileScanner } from './file.scanner';
-import { ImportsScanner } from './imports.scanner';
+import { Module } from '@nestjs/common'
+import { FileScanner } from './file.scanner'
+import { ImportsScanner } from './imports.scanner'
 
 @Module({
   imports: [],

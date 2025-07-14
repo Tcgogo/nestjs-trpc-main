@@ -1,1 +1,1 @@
-export * from './constant.enum';
+export * from './constant.enum'

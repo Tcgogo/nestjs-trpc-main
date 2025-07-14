@@ -128,7 +128,7 @@ function handleAnimationEnd() {
 </script>
 
 <template>
-  <div class="group/image-preview relative inline-block overflow-hidden border rounded-lg">
+  <div class="relative overflow-hidden border rounded-lg group/image-preview inline-block">
     <img
       :src="src"
       :class="cn('size-50 object-contain cursor-pointer bg-background transition-all duration-300 group-hover/image-preview:scale-110', props.class, {
@@ -138,9 +138,9 @@ function handleAnimationEnd() {
       @load="handleLoad"
       @click="!isLoading && !isError && handleClick()"
     >
-    <div v-if="isLoading" class="absolute left-0 top-0 h-full w-full flex-center">
+    <div v-if="isLoading" class="absolute top-0 h-full w-full flex-center left-0">
       <slot name="loading">
-        <FaIcon name="i-line-md:loading-twotone-loop" class="size-8 text-secondary-foreground/50" />
+        <FaIcon name="i-line-md:loading-twotone-loop" class="text-secondary-foreground/50 size-8" />
       </slot>
     </div>
     <div v-if="isError" class="absolute left-0 top-0 h-full w-full flex-center">
@@ -153,7 +153,7 @@ function handleAnimationEnd() {
         <div class="relative size-full" @wheel="handleWheel">
           <img
             :src="src"
-            class="mx-auto max-h-full max-w-full object-contain"
+            class="object-contain mx-auto max-h-full max-w-full"
             :class="{
               'transition-all duration-300': !isDragging,
             }"

@@ -1,41 +1,42 @@
-import { Inject, Injectable } from '@nestjs/common';
-import type { ProcedureGeneratorMetadata } from '../interfaces/generator.interface';
-import { ProcedureType } from '../trpc.enum';
-import { Project, SourceFile, Node } from 'ts-morph';
-import { ImportsScanner } from '../scanners/imports.scanner';
-import { StaticGenerator } from './static.generator';
-import { TYPESCRIPT_APP_ROUTER_SOURCE_FILE } from './generator.constants';
+import type { Project, SourceFile } from 'ts-morph'
+import type { ProcedureGeneratorMetadata } from '../interfaces/generator.interface'
+import { Inject, Injectable } from '@nestjs/common'
+import { Node } from 'ts-morph'
+import { ImportsScanner } from '../scanners/imports.scanner'
+import { ProcedureType } from '../trpc.enum'
+import { TYPESCRIPT_APP_ROUTER_SOURCE_FILE } from './generator.constants'
+import { StaticGenerator } from './static.generator'
 
 @Injectable()
 export class ProcedureGenerator {
   @Inject(ImportsScanner)
-  private readonly importsScanner!: ImportsScanner;
+  private readonly importsScanner!: ImportsScanner
 
   @Inject(StaticGenerator)
-  private readonly staticGenerator!: StaticGenerator;
+  private readonly staticGenerator!: StaticGenerator
 
   @Inject(TYPESCRIPT_APP_ROUTER_SOURCE_FILE)
-  private readonly appRouterSourceFile!: SourceFile;
+  private readonly appRouterSourceFile!: SourceFile
 
   public generateProcedureString(
     procedure: ProcedureGeneratorMetadata,
   ): string {
-    const { name, decorators } = procedure;
+    const { name, decorators } = procedure
     const decorator = decorators.find(
-      (decorator) =>
-        decorator.name === ProcedureType.Mutation ||
-        decorator.name === ProcedureType.Query,
-    );
+      decorator =>
+        decorator.name === ProcedureType.Mutation
+        || decorator.name === ProcedureType.Query,
+    )
 
     if (!decorator) {
-      return '';
+      return ''
     }
 
     const decoratorArgumentsArray = Object.entries(decorator.arguments)
       .map(([key, value]) => `.${key}(${value})`)
-      .join('');
+      .join('')
 
-    return `${name}: publicProcedure${decoratorArgumentsArray}.${decorator.name.toLowerCase()}(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any )`;
+    return `${name}: publicProcedure${decoratorArgumentsArray}.${decorator.name.toLowerCase()}(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any )`
   }
 
   public flattenZodSchema(
@@ -47,14 +48,14 @@ export class ProcedureGenerator {
     const importsMap = this.importsScanner.buildSourceFileImportsMap(
       sourceFile,
       project,
-    );
+    )
     if (Node.isIdentifier(node)) {
-      const identifierName = node.getText();
-      const identifierDeclaration =
-        sourceFile.getVariableDeclaration(identifierName);
+      const identifierName = node.getText()
+      const identifierDeclaration
+        = sourceFile.getVariableDeclaration(identifierName)
 
       if (identifierDeclaration != null) {
-        const identifierInitializer = identifierDeclaration.getInitializer();
+        const identifierInitializer = identifierDeclaration.getInitializer()
 
         if (identifierInitializer != null) {
           const identifierSchema = this.flattenZodSchema(
@@ -62,30 +63,32 @@ export class ProcedureGenerator {
             sourceFile,
             project,
             identifierInitializer.getText(),
-          );
+          )
 
-          schema = schema.replace(identifierName, identifierSchema);
+          schema = schema.replace(identifierName, identifierSchema)
         }
-      } else if (importsMap.has(identifierName)) {
-        const importedIdentifier = importsMap.get(identifierName);
+      }
+      else if (importsMap.has(identifierName)) {
+        const importedIdentifier = importsMap.get(identifierName)
 
         if (importedIdentifier != null) {
-          const { initializer } = importedIdentifier;
+          const { initializer } = importedIdentifier
           const identifierSchema = this.flattenZodSchema(
             initializer,
             importedIdentifier.sourceFile,
             project,
             initializer.getText(),
-          );
+          )
 
-          schema = schema.replace(identifierName, identifierSchema);
+          schema = schema.replace(identifierName, identifierSchema)
         }
       }
-    } else if (Node.isObjectLiteralExpression(node)) {
+    }
+    else if (Node.isObjectLiteralExpression(node)) {
       for (const property of node.getProperties()) {
         if (Node.isPropertyAssignment(property)) {
-          const propertyText = property.getText();
-          const propertyInitializer = property.getInitializer();
+          const propertyText = property.getText()
+          const propertyInitializer = property.getInitializer()
 
           if (propertyInitializer != null) {
             schema = schema.replace(
@@ -96,59 +99,63 @@ export class ProcedureGenerator {
                 project,
                 propertyText,
               ),
-            );
+            )
           }
         }
       }
-    } else if (Node.isArrayLiteralExpression(node)) {
+    }
+    else if (Node.isArrayLiteralExpression(node)) {
       for (const element of node.getElements()) {
-        const elementText = element.getText();
+        const elementText = element.getText()
         schema = schema.replace(
           elementText,
           this.flattenZodSchema(element, sourceFile, project, elementText),
-        );
+        )
       }
-    } else if (Node.isCallExpression(node)) {
-      const expression = node.getExpression();
+    }
+    else if (Node.isCallExpression(node)) {
+      const expression = node.getExpression()
       if (
-        Node.isPropertyAccessExpression(expression) &&
-        !expression.getText().startsWith('z')
+        Node.isPropertyAccessExpression(expression)
+        && !expression.getText().startsWith('z')
       ) {
         const baseSchema = this.flattenZodSchema(
           expression,
           sourceFile,
           project,
           expression.getText(),
-        );
-        const propertyName = expression.getName();
+        )
+        const propertyName = expression.getName()
         schema = schema.replace(
           expression.getText(),
           `${baseSchema}.${propertyName}`,
-        );
-      } else if (!expression.getText().startsWith('z')) {
+        )
+      }
+      else if (!expression.getText().startsWith('z')) {
         this.staticGenerator.addSchemaImports(
           this.appRouterSourceFile,
           [expression.getText()],
           importsMap,
-        );
+        )
       }
 
       for (const arg of node.getArguments()) {
-        const argText = arg.getText();
+        const argText = arg.getText()
         schema = schema.replace(
           argText,
           this.flattenZodSchema(arg, sourceFile, project, argText),
-        );
+        )
       }
-    } else if (Node.isPropertyAccessExpression(node)) {
+    }
+    else if (Node.isPropertyAccessExpression(node)) {
       schema = this.flattenZodSchema(
         node.getExpression(),
         sourceFile,
         project,
         node.getExpression().getText(),
-      );
+      )
     }
 
-    return schema;
+    return schema
   }
 }

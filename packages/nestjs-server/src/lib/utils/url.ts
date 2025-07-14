@@ -6,9 +6,9 @@
  * convertObjToUrlencoded({name: 'test', age: 18}) // 返回 "name=test&age=18"
  */
 export function convertObjToUrlencoded(obj: {
-  [key: string]: any;
+  [key: string]: any
 }): string {
-  return new URLSearchParams(Object.entries(obj)).toString();
+  return new URLSearchParams(Object.entries(obj)).toString()
 }
 
 /**
@@ -19,20 +19,21 @@ export function convertObjToUrlencoded(obj: {
  * convertUrlencodedToObj("name=test&age=18") // 返回 {name: 'test', age: '18'}
  */
 export function convertUrlencodedToObj<T = Record<string, any>>(str: string): T {
-  const searchParams = new URLSearchParams(str);
-  const obj: Record<string, any> = {};
-  
+  const searchParams = new URLSearchParams(str)
+  const obj: Record<string, any> = {}
+
   for (const [key, value] of searchParams.entries()) {
     try {
       // 尝试解析 JSON 字符串
-      obj[key] = JSON.parse(value);
-    } catch {
+      obj[key] = JSON.parse(value)
+    }
+    catch {
       // 如果解析失败，则保持原始字符串
-      obj[key] = value;
+      obj[key] = value
     }
   }
-  
-  return obj as T;
+
+  return obj as T
 }
 
 /**
@@ -43,7 +44,7 @@ export function convertUrlencodedToObj<T = Record<string, any>>(str: string): T 
  * decodeUrlString("hello%20world") // 返回 "hello world"
  */
 export function decodeUrlString(str: string): string {
-  return decodeURIComponent(str);
+  return decodeURIComponent(str)
 }
 
 /**
@@ -58,9 +59,9 @@ export function stringify(
   obj: any,
   replacer?: ((key: string, value: any) => any) | (string | number)[] | null,
   spaces?: number | string,
-  cycleReplacer?: (key: string, value: any) => any
+  cycleReplacer?: (key: string, value: any) => any,
 ): string {
-  return JSON.stringify(obj, serializer(replacer, cycleReplacer), spaces);
+  return JSON.stringify(obj, serializer(replacer, cycleReplacer), spaces)
 }
 
 /**
@@ -71,38 +72,39 @@ export function stringify(
  */
 function serializer(
   replacer?: ((key: string, value: any) => any) | (string | number)[] | null,
-  cycleReplacer?: (key: string, value: any) => any
+  cycleReplacer?: (key: string, value: any) => any,
 ): (key: string, value: any) => any {
-  const stack: any[] = [];
-  const keys: string[] = [];
+  const stack: any[] = []
+  const keys: string[] = []
 
   if (cycleReplacer == null) {
     cycleReplacer = (key: string, value: any): string => {
-      if (stack[0] === value) return "[Circular ~]";
-      return "[Circular ~." + keys.slice(0, stack.indexOf(value)).join(".") + "]";
-    };
+      if (stack[0] === value) { return '[Circular ~]' }
+      return `[Circular ~.${keys.slice(0, stack.indexOf(value)).join('.')}]`
+    }
   }
 
-  return function(this: any, key: string, value: any): any {
+  return function (this: any, key: string, value: any): any {
     if (stack.length > 0) {
-      const thisPos = stack.indexOf(this);
-      ~thisPos ? stack.splice(thisPos + 1) : stack.push(this);
-      ~thisPos ? keys.splice(thisPos, Infinity, key) : keys.push(key);
+      const thisPos = stack.indexOf(this)
+      ~thisPos ? stack.splice(thisPos + 1) : stack.push(this)
+      ~thisPos ? keys.splice(thisPos, Infinity, key) : keys.push(key)
       if (~stack.indexOf(value)) {
-        value = cycleReplacer.call(this, key, value);
+        value = cycleReplacer.call(this, key, value)
       }
-    } else {
-      stack.push(value);
+    }
+    else {
+      stack.push(value)
     }
 
     if (replacer) {
       if (typeof replacer === 'function') {
-        return replacer.call(this, key, value);
+        return replacer.call(this, key, value)
       }
       if (Array.isArray(replacer)) {
-        return replacer.includes(key) ? value : undefined;
+        return replacer.includes(key) ? value : undefined
       }
     }
-    return value;
-  };
+    return value
+  }
 }

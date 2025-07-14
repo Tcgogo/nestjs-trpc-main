@@ -45,9 +45,9 @@ const onSubmit = form.handleSubmit((values) => {
 </script>
 
 <template>
-  <div class="min-h-500px w-full flex-col-stretch-center p-12">
+  <div class="w-full flex-col-stretch-center min-h-500px p-12">
     <form @submit="onSubmit">
-      <div class="mb-8 space-y-2">
+      <div class="space-y-2 mb-8">
         <h3 class="text-4xl color-[var(--el-text-color-primary)] font-bold">
           探索从这里开始 🚀
         </h3>
@@ -88,7 +88,7 @@ const onSubmit = form.handleSubmit((values) => {
           </Transition>
         </FormItem>
       </FormField>
-      <FaButton :loading="loading" size="lg" class="mt-4 w-full" type="submit">
+      <FaButton :loading="loading" size="lg" class="w-full mt-4" type="submit">
         注册
       </FaButton>
       <div class="mt-4 flex-center gap-2 text-sm">

@@ -1,8 +1,8 @@
-import type { Class, Constructor } from 'type-fest';
-import type { TRPCMiddleware } from '../interfaces';
-import { MIDDLEWARES_KEY } from '../trpc.constants';
-import { isFunction } from 'lodash-es';
-import { validateEach } from '../utils/validate-each.util';
+import type { Class, Constructor } from 'type-fest'
+import type { TRPCMiddleware } from '../interfaces'
+import { isFunction } from 'lodash-es'
+import { MIDDLEWARES_KEY } from '../trpc.constants'
+import { validateEach } from '../utils/validate-each.util'
 
 /**
  * TODO: Generate Return Context Type.
@@ -34,9 +34,9 @@ export function UseMiddlewares(
     const isMiddlewareValid = (
       middleware: Constructor<TRPCMiddleware> | Record<string, unknown>,
     ) =>
-      middleware &&
-      (isFunction(middleware) ||
-        isFunction((middleware as Record<string, any>).use));
+      middleware
+      && (isFunction(middleware)
+        || isFunction((middleware as Record<string, any>).use))
 
     if (descriptor) {
       validateEach(
@@ -45,13 +45,13 @@ export function UseMiddlewares(
         isMiddlewareValid,
         '@UseMiddlewares',
         'middleware',
-      );
+      )
       Reflect.defineMetadata(
         MIDDLEWARES_KEY,
         [...middlewares],
         descriptor.value,
-      );
-      return descriptor;
+      )
+      return descriptor
     }
     validateEach(
       target.constructor,
@@ -59,10 +59,10 @@ export function UseMiddlewares(
       isMiddlewareValid,
       '@UseMiddlewares',
       'middleware',
-    );
-    Reflect.defineMetadata(MIDDLEWARES_KEY, [...middlewares], target);
-    return target;
-  };
+    )
+    Reflect.defineMetadata(MIDDLEWARES_KEY, [...middlewares], target)
+    return target
+  }
 }
 
 /**
@@ -96,9 +96,9 @@ export function Middlewares(
     const isMiddlewareValid = (
       middleware: Constructor<TRPCMiddleware> | Record<string, unknown>,
     ) =>
-      middleware &&
-      (isFunction(middleware) ||
-        isFunction((middleware as Record<string, any>).use));
+      middleware
+      && (isFunction(middleware)
+        || isFunction((middleware as Record<string, any>).use))
 
     if (descriptor) {
       validateEach(
@@ -107,13 +107,13 @@ export function Middlewares(
         isMiddlewareValid,
         '@Middlewares',
         'middleware',
-      );
+      )
       Reflect.defineMetadata(
         MIDDLEWARES_KEY,
         [...middlewares],
         descriptor.value,
-      );
-      return descriptor;
+      )
+      return descriptor
     }
     validateEach(
       target.constructor,
@@ -121,8 +121,8 @@ export function Middlewares(
       isMiddlewareValid,
       '@Middlewares',
       'middleware',
-    );
-    Reflect.defineMetadata(MIDDLEWARES_KEY, [...middlewares], target);
-    return target;
-  };
+    )
+    Reflect.defineMetadata(MIDDLEWARES_KEY, [...middlewares], target)
+    return target
+  }
 }

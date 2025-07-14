@@ -1,8 +1,8 @@
 DB_CONFIG:
-  type: 'mysql' # 数据库链接类型
+  type: mysql # 数据库链接类型
   host: localhost
   port: 3307
-  username: 'root'
+  username: root
   password: '123456'
   database: temp # 后面改成 scid
   retryDelay: 500
@@ -23,4 +23,4 @@ SCID: sca15516911b95f35b
 
 LOG:
   enable: true
-  level: 'debug'
+  level: debug

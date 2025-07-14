@@ -1,21 +1,21 @@
-import { Injectable } from '@nestjs/common';
-import type { AnyRouter } from '@trpc/server';
+import type { AnyRouter } from '@trpc/server'
+import { Injectable } from '@nestjs/common'
 
 @Injectable()
 export class AppRouterHost {
-  private _appRouter: AnyRouter | undefined;
+  private _appRouter: AnyRouter | undefined
 
   set appRouter(schemaRef: AnyRouter) {
-    this._appRouter = schemaRef;
+    this._appRouter = schemaRef
   }
 
   get appRouter(): AnyRouter {
     if (!this._appRouter) {
       throw new Error(
-        'TRPC appRouter has not yet been created. ' +
-          'Make sure to call the "AppRouterHost#appRouter" getter when the application is already initialized (after the "onModuleInit" hook triggered by either "app.listen()" or "app.init()" method).',
-      );
+        'TRPC appRouter has not yet been created. '
+        + 'Make sure to call the "AppRouterHost#appRouter" getter when the application is already initialized (after the "onModuleInit" hook triggered by either "app.listen()" or "app.init()" method).',
+      )
     }
-    return this._appRouter;
+    return this._appRouter
   }
 }

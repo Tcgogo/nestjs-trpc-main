@@ -63,9 +63,9 @@ const isProfileShow = ref(false)
       }, props.class)"
     >
       <FaAvatar :src="userStore.avatar" :class="cn('size-6', { 'size-full': onlyAvatar })">
-        <FaIcon name="i-carbon:user-avatar-filled" class="size-6 text-secondary-foreground/50" />
+        <FaIcon name="i-carbon:user-avatar-filled" class="text-secondary-foreground/50 size-6" />
       </FaAvatar>
-      <div v-if="!onlyAvatar" class="min-w-0 flex-center-between flex-1 gap-2">
+      <div v-if="!onlyAvatar" class="gap-2 min-w-0 flex-center-between flex-1">
         <div class="flex-1 truncate text-start">
           {{ userStore.account }}
         </div>

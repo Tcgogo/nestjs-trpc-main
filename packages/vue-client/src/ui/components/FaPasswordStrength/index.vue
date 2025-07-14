@@ -56,7 +56,7 @@ const strengthColor = computed(() => {
 
 <template>
   <div class="w-full flex-center gap-2">
-    <div class="h-2 flex-1 overflow-hidden rounded-full bg-border">
+    <div class="flex-1 overflow-hidden rounded-full h-2 bg-border">
       <div
         :class="strengthColor"
         :style="{ width: `${(strength / maxStrength) * 100}%` }"
@@ -64,10 +64,10 @@ const strengthColor = computed(() => {
       />
     </div>
     <FaTooltip>
-      <FaIcon name="i-ri:question-line" class="cursor-help text-sm text-muted-foreground" />
+      <FaIcon name="i-ri:question-line" class="text-sm text-muted-foreground cursor-help" />
       <template #content>
         <div class="py-1">
-          <div class="mb-1 text-sm text-muted-foreground">
+          <div class="text-sm text-muted-foreground mb-1">
             建议
           </div>
           <ul class="text-sm text-muted-foreground space-y-1">

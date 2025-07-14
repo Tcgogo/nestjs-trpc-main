@@ -1,12 +1,12 @@
-import { Injectable } from "@nestjs/common";
-import type { FastifyInstance as FastifyApplication } from "fastify";
+import type { AnyRouter } from '@trpc/server'
+import type { FastifyInstance as FastifyApplication } from 'fastify'
 import type {
   ContextOptions,
   TRPCContext,
   TRPCModuleOptions,
-} from "../interfaces";
-import type { AnyRouter } from "@trpc/server";
-import * as trpcFastify from "@trpc/server/adapters/fastify";
+} from '../interfaces'
+import { Injectable } from '@nestjs/common'
+import * as trpcFastify from '@trpc/server/adapters/fastify'
 
 @Injectable()
 export class FastifyDriver<
@@ -19,7 +19,7 @@ export class FastifyDriver<
     contextInstance: TRPCContext | null,
   ) {
     app.register(trpcFastify.fastifyTRPCPlugin as any, {
-      prefix: options.basePath ?? "/trpc",
+      prefix: options.basePath ?? '/trpc',
       trpcOptions: {
         router: appRouter,
         ...(options.context != null && contextInstance != null
@@ -29,6 +29,6 @@ export class FastifyDriver<
             }
           : {}),
       },
-    });
+    })
   }
 }

@@ -22,12 +22,12 @@ function onClick() {
 </script>
 
 <template>
-  <div class="breadcrumb-item flex items-center text-foreground">
+  <div class="flex items-center breadcrumb-item text-foreground">
     <span class="separator mx-2">
       {{ separator }}
     </span>
     <span
-      class="text flex items-center opacity-60"
+      class="flex items-center text opacity-60"
       :class="{
         'is-link cursor-pointer transition-opacity hover-opacity-100': !!props.to,
       }" @click="onClick"

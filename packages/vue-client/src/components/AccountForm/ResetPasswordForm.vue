@@ -70,7 +70,7 @@ function handleSendCaptcha() {
           </Transition>
         </FormItem>
       </FormField>
-      <div class="flex-start-between gap-2">
+      <div class="gap-2 flex-start-between">
         <FormField v-slot="{ componentField, value, setValue }" name="captcha">
           <FormItem class="relative pb-6 space-y-0">
             <FormControl>

@@ -41,10 +41,10 @@ const outputType = computed(() => {
     </svg>
     <UseImage v-else-if="outputType === 'img'" :src="name" class="size-inherit shrink-0">
       <template #loading>
-        <i class="i-line-md:loading-loop size-inherit" />
+        <i class="size-inherit i-line-md:loading-loop" />
       </template>
       <template #error>
-        <i class="i-tdesign:image-error size-inherit" />
+        <i class="size-inherit i-tdesign:image-error" />
       </template>
     </UseImage>
   </i>

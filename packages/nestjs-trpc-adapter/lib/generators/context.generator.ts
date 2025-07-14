@@ -1,13 +1,15 @@
-import {
+import type {
   ClassDeclaration,
   MethodDeclaration,
-  Type,
-  SyntaxKind,
   SourceFile,
-} from 'ts-morph';
-import { Injectable } from '@nestjs/common';
-import type { TRPCContext } from '../interfaces';
-import type { Class } from 'type-fest';
+  Type,
+} from 'ts-morph'
+import type { Class } from 'type-fest'
+import type { TRPCContext } from '../interfaces'
+import { Injectable } from '@nestjs/common'
+import {
+  SyntaxKind,
+} from 'ts-morph'
 
 @Injectable()
 export class ContextGenerator {
@@ -15,81 +17,81 @@ export class ContextGenerator {
     sourceFile: SourceFile,
     context: Class<TRPCContext>,
   ): Promise<string | null> {
-    const className = context?.name;
+    const className = context?.name
     if (!className) {
-      return null;
+      return null
     }
 
-    const contextInstance = new context();
+    const contextInstance = new context()
 
     if (typeof contextInstance.create !== 'function') {
-      return null;
+      return null
     }
 
-    const classDeclaration = this.getClassDeclaration(sourceFile, context.name);
+    const classDeclaration = this.getClassDeclaration(sourceFile, context.name)
 
     if (!classDeclaration) {
-      return null;
+      return null
     }
 
-    const createMethod = classDeclaration.getMethod('create');
+    const createMethod = classDeclaration.getMethod('create')
     if (!createMethod) {
-      return null;
+      return null
     }
 
-    const ctxType = this.extractReturnTypeFromCreateMethod(createMethod);
+    const ctxType = this.extractReturnTypeFromCreateMethod(createMethod)
     if (!ctxType) {
-      return null;
+      return null
     }
 
-    return ctxType.getText();
+    return ctxType.getText()
   }
 
   private extractReturnTypeFromCreateMethod(
     createMethod: MethodDeclaration,
   ): Type | null {
-    const body = createMethod.getBody();
-    if (!body) return null;
+    const body = createMethod.getBody()
+    if (!body) { return null }
 
     // Find the return statement
     const returnStatement = body
       .getDescendantsOfKind(SyntaxKind.ReturnStatement)
-      .find((statement) => statement.getExpression() !== undefined);
+      .find(statement => statement.getExpression() !== undefined)
 
-    if (!returnStatement) return null;
+    if (!returnStatement) { return null }
 
-    const returnExpression = returnStatement.getExpression();
-    if (!returnExpression) return null;
+    const returnExpression = returnStatement.getExpression()
+    if (!returnExpression) { return null }
 
     // Get the type of the returned expression
-    const returnType = returnExpression.getType();
+    const returnType = returnExpression.getType()
 
     // Check if the type is a Promise
     if (this.isPromiseType(returnType)) {
       // Get the type argument of the Promise
-      const typeArguments = returnType.getTypeArguments();
-      return typeArguments.length > 0 ? typeArguments[0] : null;
+      const typeArguments = returnType.getTypeArguments()
+      return typeArguments.length > 0 ? typeArguments[0] : null
     }
 
-    return returnType;
+    return returnType
   }
 
   private isPromiseType(type: Type): boolean {
     return (
-      type.getSymbol()?.getName() === 'Promise' ||
-      type.getSymbol()?.getName() === '__global.Promise' ||
-      type.getText().startsWith('Promise<')
-    );
+      type.getSymbol()?.getName() === 'Promise'
+      || type.getSymbol()?.getName() === '__global.Promise'
+      || type.getText().startsWith('Promise<')
+    )
   }
 
   private getClassDeclaration(
     sourceFile: SourceFile,
     className: string,
   ): ClassDeclaration | undefined {
-    const classDeclaration = sourceFile.getClass(className);
+    const classDeclaration = sourceFile.getClass(className)
     if (classDeclaration) {
-      return classDeclaration;
+      return classDeclaration
     }
-    return undefined;
+    return undefined
   }
 }

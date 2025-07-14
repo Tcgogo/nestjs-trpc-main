@@ -43,7 +43,7 @@ const onSubmit = form.handleSubmit((values) => {
 
 <template>
   <div class="w-full flex-col-stretch-center">
-    <div class="mb-6 space-y-2">
+    <div class="space-y-2 mb-6">
       <h3 class="text-4xl color-[var(--el-text-color-primary)] font-bold">
         修改密码
       </h3>
@@ -58,7 +58,7 @@ const onSubmit = form.handleSubmit((values) => {
             <FaInput type="password" placeholder="请输入原密码" class="w-full" :class="errors.length && 'border-destructive'" v-bind="componentField" />
           </FormControl>
           <Transition enter-active-class="transition-opacity" enter-from-class="opacity-0" leave-active-class="transition-opacity" leave-to-class="opacity-0">
-            <FormMessage class="absolute bottom-1 text-xs" />
+            <FormMessage class="text-xs absolute bottom-1" />
           </Transition>
         </FormItem>
       </FormField>
@@ -82,7 +82,7 @@ const onSubmit = form.handleSubmit((values) => {
           </Transition>
         </FormItem>
       </FormField>
-      <FaButton :loading="loading" size="lg" class="mt-8 w-full" type="submit">
+      <FaButton :loading="loading" size="lg" class="w-full mt-8" type="submit">
         保存
       </FaButton>
     </form>

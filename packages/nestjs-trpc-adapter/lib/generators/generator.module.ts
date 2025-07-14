@@ -1,27 +1,29 @@
-import { ConsoleLogger, Inject, Module, type OnModuleInit } from '@nestjs/common';
-import type { DynamicModule } from '@nestjs/common/interfaces';
-import { MetadataScanner } from '@nestjs/core';
-import { type CompilerOptions, ModuleKind, Project, ScriptTarget } from 'ts-morph';
+import type { OnModuleInit } from '@nestjs/common'
+import type { DynamicModule } from '@nestjs/common/interfaces'
+import type { CompilerOptions } from 'ts-morph'
+import type { GeneratorModuleOptions } from './generator.interface'
+import * as path from 'node:path'
 
-import { TRPCGenerator } from './trpc.generator';
-import { RouterGenerator } from './router.generator';
-import { StaticGenerator } from './static.generator';
-import { ContextGenerator } from './context.generator';
-import { MiddlewareGenerator } from './middleware.generator';
-import { DecoratorGenerator } from './decorator.generator';
-import { ProcedureGenerator } from './procedure.generator';
-import {
-  TYPESCRIPT_APP_ROUTER_SOURCE_FILE,
-  TYPESCRIPT_PROJECT,
-} from './generator.constants';
+import { ConsoleLogger, Inject, Module } from '@nestjs/common'
+import { MetadataScanner } from '@nestjs/core'
+import { ModuleKind, Project, ScriptTarget } from 'ts-morph'
+import { FactoryModule } from '../factories/factory.module'
+import { ScannerModule } from '../scanners/scanner.module'
 import {
   TRPC_GENERATOR_OPTIONS,
   TRPC_MODULE_CALLER_FILE_PATH,
-} from '../trpc.constants';
-import { FactoryModule } from '../factories/factory.module';
-import { ScannerModule } from '../scanners/scanner.module';
-import * as path from 'node:path';
-import type{ GeneratorModuleOptions } from './generator.interface';
+} from '../trpc.constants'
+import { ContextGenerator } from './context.generator'
+import { DecoratorGenerator } from './decorator.generator'
+import {
+  TYPESCRIPT_APP_ROUTER_SOURCE_FILE,
+  TYPESCRIPT_PROJECT,
+} from './generator.constants'
+import { MiddlewareGenerator } from './middleware.generator'
+import { ProcedureGenerator } from './procedure.generator'
+import { RouterGenerator } from './router.generator'
+import { StaticGenerator } from './static.generator'
+import { TRPCGenerator } from './trpc.generator'
 
 @Module({
   imports: [FactoryModule, ScannerModule],
@@ -43,10 +45,10 @@ import type{ GeneratorModuleOptions } from './generator.interface';
 })
 export class GeneratorModule implements OnModuleInit {
   @Inject(TRPCGenerator)
-  private readonly trpcGenerator!: TRPCGenerator;
+  private readonly trpcGenerator!: TRPCGenerator
 
   @Inject(TRPC_GENERATOR_OPTIONS)
-  private readonly options!: GeneratorModuleOptions;
+  private readonly options!: GeneratorModuleOptions
 
   static forRoot(options: GeneratorModuleOptions): DynamicModule {
     const defaultCompilerOptions: CompilerOptions = {
@@ -57,14 +59,14 @@ export class GeneratorModule implements OnModuleInit {
       allowJs: true,
       checkJs: true,
       esModuleInterop: true,
-    };
-    const project = new Project({ compilerOptions: defaultCompilerOptions });
+    }
+    const project = new Project({ compilerOptions: defaultCompilerOptions })
 
     const appRouterSourceFile = project.createSourceFile(
       path.resolve(options.outputDirPath ?? './', 'server.ts'),
       () => {},
       { overwrite: true },
-    );
+    )
 
     return {
       module: GeneratorModule,
@@ -80,11 +82,11 @@ export class GeneratorModule implements OnModuleInit {
         },
         { provide: TRPC_GENERATOR_OPTIONS, useValue: options },
       ],
-    };
+    }
   }
 
   async onModuleInit() {
-    await this.trpcGenerator.generateSchemaFile(this.options.schemaFileImports);
-    await this.trpcGenerator.generateHelpersFile(this.options.context);
+    await this.trpcGenerator.generateSchemaFile(this.options.schemaFileImports)
+    await this.trpcGenerator.generateHelpersFile(this.options.context)
   }
 }

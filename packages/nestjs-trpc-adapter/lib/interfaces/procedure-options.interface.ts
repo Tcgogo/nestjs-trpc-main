@@ -1,3 +1,3 @@
-import type { TRPCProcedureOptions } from "@trpc/client";
+import type { TRPCProcedureOptions } from '@trpc/client'
 
-export type ProcedureOptions = TRPCProcedureOptions;
+export type ProcedureOptions = TRPCProcedureOptions

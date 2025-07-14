@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import type { Application as ExpressApplication } from 'express';
-import type { TRPCContext, TRPCModuleOptions } from '../interfaces';
-import type { AnyRouter } from '@trpc/server';
-import * as trpcExpress from '@trpc/server/adapters/express';
+import type { AnyRouter } from '@trpc/server'
+import type { Application as ExpressApplication } from 'express'
+import type { TRPCContext, TRPCModuleOptions } from '../interfaces'
+import { Injectable } from '@nestjs/common'
+import * as trpcExpress from '@trpc/server/adapters/express'
 
 @Injectable()
 export class ExpressDriver<
@@ -20,10 +20,10 @@ export class ExpressDriver<
         router: appRouter,
         ...(options.context != null && contextInstance != null
           ? {
-              createContext: (opts) => contextInstance.create(opts),
+              createContext: opts => contextInstance.create(opts),
             }
           : {}),
       }),
-    );
+    )
   }
 }

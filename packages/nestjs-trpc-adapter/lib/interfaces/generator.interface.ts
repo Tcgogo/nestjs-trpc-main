@@ -1,4 +1,4 @@
-import {
+import type {
   ClassDeclaration,
   EnumDeclaration,
   Expression,
@@ -6,25 +6,25 @@ import {
   InterfaceDeclaration,
   SourceFile,
   VariableDeclaration,
-} from 'ts-morph';
+} from 'ts-morph'
 
 export interface RouterGeneratorMetadata {
-  name: string;
-  alias?: string;
-  procedures: Array<ProcedureGeneratorMetadata>;
+  name: string
+  alias?: string
+  procedures: Array<ProcedureGeneratorMetadata>
 }
 
 export interface ProcedureGeneratorMetadata {
-  name: string;
-  decorators: Array<DecoratorGeneratorMetadata>;
+  name: string
+  decorators: Array<DecoratorGeneratorMetadata>
 }
 
 export interface DecoratorGeneratorMetadata {
-  name: 'Query' | 'Mutation';
+  name: 'Query' | 'Mutation'
   arguments: {
-    input?: string;
-    output?: string;
-  };
+    input?: string
+    output?: string
+  }
 }
 
 export interface SourceFileImportsMap {
@@ -34,6 +34,6 @@ export interface SourceFileImportsMap {
     | InterfaceDeclaration
     | EnumDeclaration
     | VariableDeclaration
-    | FunctionDeclaration;
-  sourceFile: SourceFile;
+    | FunctionDeclaration
+  sourceFile: SourceFile
 }

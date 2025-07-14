@@ -61,7 +61,7 @@ function handleBackToTop() {
 <template>
   <Teleport to="body">
     <Transition v-bind="transitionClass">
-      <FaButton v-if="scrollTop >= 200" variant="outline" size="icon" class="fixed inset-b-4 z-1000 h-12 w-12 rounded-full transition-all -inset-e-9" :class="{ 'inset-e-3!': show }" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave" @click="handleBackToTop">
+      <FaButton v-if="scrollTop >= 200" variant="outline" size="icon" class="fixed h-12 transition-all inset-b-4 z-1000 w-12 rounded-full -inset-e-9" :class="{ 'inset-e-3!': show }" @mouseenter="handleMouseenter" @mouseleave="handleMouseleave" @click="handleBackToTop">
         <FaIcon name="i-icon-park-outline:to-top-one" class="size-6" />
       </FaButton>
     </Transition>

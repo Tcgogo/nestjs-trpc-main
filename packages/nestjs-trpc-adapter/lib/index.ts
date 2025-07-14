@@ -1,3 +1,3 @@
-export * from './trpc.module';
-export * from './decorators';
-export * from './app-router.host';
+export * from './app-router.host'
+export * from './decorators'
+export * from './trpc.module'

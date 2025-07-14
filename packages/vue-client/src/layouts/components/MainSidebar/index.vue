@@ -40,15 +40,15 @@ onUnmounted(() => {
       <component :is="useSlots('main-sidebar-after-logo')" />
       <FaScrollArea :scrollbar="false" mask gradient-color="var(--g-main-sidebar-bg)" class="menu flex-1">
         <!-- 侧边栏模式（含主导航） -->
-        <div class="w-full flex flex-col of-hidden py-1 transition-all -mt-2">
+        <div class="w-full flex of-hidden py-1 transition-all flex-col -mt-2">
           <template v-for="(item, index) in menuStore.allMenus" :key="index">
             <div
-              class="menu-item relative px-2 py-1 transition-all" :class="{
+              class="menu-item relative py-1 transition-all px-2" :class="{
                 active: index === menuStore.actived,
               }"
             >
               <div
-                v-if="item.children && item.children.length !== 0" class="group menu-item-container relative h-full w-full flex cursor-pointer items-center justify-between gap-1 rounded-lg py-4 text-[var(--g-main-sidebar-menu-color)] transition-all hover-(bg-[var(--g-main-sidebar-menu-hover-bg)] text-[var(--g-main-sidebar-menu-hover-color)]) px-2!" :class="{
+                v-if="item.children && item.children.length !== 0" class="group menu-item-container relative h-full w-full flex cursor-pointer items-center justify-between gap-1 rounded-lg transition-all py-4 text-[var(--g-main-sidebar-menu-color)] hover-bg-[var(--g-main-sidebar-menu-hover-bg)] hover-text-[var(--g-main-sidebar-menu-hover-color)] px-2!" :class="{
                   'text-[var(--g-main-sidebar-menu-active-color)]! bg-[var(--g-main-sidebar-menu-active-bg)]!': index === menuStore.actived,
                 }" :title="typeof item.meta?.title === 'function' ? item.meta?.title() : item.meta?.title" @click="switchTo(index)"
               >

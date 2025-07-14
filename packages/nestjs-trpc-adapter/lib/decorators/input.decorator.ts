@@ -1,8 +1,9 @@
+import type { ProcedureParamDecorator } from '../interfaces/factory.interface'
 import {
-  type ProcedureParamDecorator,
+
   ProcedureParamDecoratorType,
-} from '../interfaces/factory.interface';
-import { PROCEDURE_PARAM_METADATA_KEY } from '../trpc.constants';
+} from '../interfaces/factory.interface'
+import { PROCEDURE_PARAM_METADATA_KEY } from '../trpc.constants'
 
 /**
  * Input procedure parameter decorator. Extracts the `input` parameter out of the procedure `opts`.
@@ -20,25 +21,25 @@ export function Input(key?: string): ParameterDecorator {
     parameterIndex: number,
   ) => {
     if (propertyKey != null && typeof parameterIndex === 'number') {
-      const existingParams: Array<ProcedureParamDecorator> =
-        Reflect.getMetadata(
+      const existingParams: Array<ProcedureParamDecorator>
+        = Reflect.getMetadata(
           PROCEDURE_PARAM_METADATA_KEY,
           target,
           propertyKey,
-        ) || [];
+        ) || []
 
       const procedureParamMetadata: ProcedureParamDecorator = {
         type: ProcedureParamDecoratorType.Input,
         index: parameterIndex,
         key,
-      };
-      existingParams.push(procedureParamMetadata);
+      }
+      existingParams.push(procedureParamMetadata)
       Reflect.defineMetadata(
         PROCEDURE_PARAM_METADATA_KEY,
         existingParams,
         target,
         propertyKey,
-      );
+      )
     }
-  };
+  }
 }
