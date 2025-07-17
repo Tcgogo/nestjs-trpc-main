@@ -106,6 +106,7 @@
     "supertest": "catalog:",
     "ts-loader": "catalog:",
     "ts-node": "catalog:",
+    "ts-to-zod": "^3.15.0",
     "tsconfig-paths": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",

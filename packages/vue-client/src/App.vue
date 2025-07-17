@@ -34,12 +34,18 @@ watch([
   deep: true,
 })
 
-onMounted(() => {
-  const { data, refetch } = useQuery(['user'], async () => client.healthRouter.getUser.query({
+onMounted(async () => {
+  const data = await client.healthRouter.getUser.query({
     name: 'John',
     age2: 20,
     breed: 'Labrador',
-  }))
+  })
+
+  const modelConfig = await client.modelServiceRouter.getModelConfig.query({
+    modelKey: 'buiness',
+  })
+  console.log('%c [ modelConfig ]-45', 'font-size:13px; background:pink; color:#bf2c9f;', modelConfig)
+
   console.log(data)
 
   settingsStore.setMode(document.documentElement.clientWidth)

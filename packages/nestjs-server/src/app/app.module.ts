@@ -6,6 +6,8 @@ import { TRPCModule } from 'nestjs-trpc-adapter'
 
 import { HealthModule } from '@/app/health/health.module'
 
+import { ModelServiceModule } from '@/app/model-service/model-service.module'
+
 import { UserModule } from '@/contexts/users/user.module'
 
 import { DatabaseModule } from '@/lib/database/database.module'
@@ -27,6 +29,8 @@ import { LoggerModule } from '@/shared/logger/logger.module'
     DatabaseModule,
 
     HealthModule,
+
+    ModelServiceModule,
 
     UserModule,
   ],
