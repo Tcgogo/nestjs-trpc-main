@@ -1,23 +1,21 @@
 import type { ModelConfigTypeAll } from './send-type'
 import { readdirSync, readFileSync } from 'node:fs'
-import { basename, resolve, dirname } from 'node:path'
-import { pathToFileURL, fileURLToPath } from 'node:url'
+import { basename, dirname, resolve } from 'node:path'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 function pathAdapter(url: string) {
   return pathToFileURL(url).href
 }
 
 export async function getModelConfig() {
-
-const __filename = fileURLToPath(import.meta.url);
+  const __filename = fileURLToPath(import.meta.url)
   console.log('%c [ __filename ]-13', 'font-size:13px; background:pink; color:#bf2c9f;', __filename)
-  const rootPath = __filename;
+  const rootPath = __filename
 
   const dirList = readdirSync(dirname(rootPath), {
     recursive: true,
     withFileTypes: true,
   })
-
 
   // 获取 model.ts 文件
   const modelList = dirList.filter(item => ['model.ts', 'model.js'].includes(item.name))
@@ -26,7 +24,7 @@ const __filename = fileURLToPath(import.meta.url);
   // 获取 model.ts 文件中的配置
   const asyncModelConfig = await Promise.all(modelList.map(async (item) => {
     const res = await import(pathAdapter(resolve(rootPath, item.parentPath, item.name)))
-    const parentFolderName = basename(item.parentPath);
+    const parentFolderName = basename(item.parentPath)
 
     return [parentFolderName, res.default]
   }))
@@ -35,7 +33,6 @@ const __filename = fileURLToPath(import.meta.url);
 
   return modelConfig as ModelConfigTypeAll
 }
-
 
 export async function getModelConfigStr() {
   const rootPath = '.'
@@ -54,6 +51,5 @@ export async function getModelConfigStr() {
     return [`./${item.parentPath}/zod-${item.name}`, res]
   }))
 
-
-  return asyncModelConfig;
+  return asyncModelConfig
 }

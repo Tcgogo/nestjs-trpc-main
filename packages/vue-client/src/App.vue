@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useQuery } from 'vue-query'
+import { useMutation, useQuery, useQueryCache } from '@pinia/colada'
 import { ua } from '@/utils/ua'
 import { client } from './trpc'
 import Provider from './ui/provider/index.vue'
@@ -41,11 +41,26 @@ onMounted(async () => {
     breed: 'Labrador',
   })
 
-  const modelConfig = await client.modelServiceRouter.getModelConfig.query({
-    modelKey: 'buiness',
-  })
-  console.log('%c [ modelConfig ]-45', 'font-size:13px; background:pink; color:#bf2c9f;', modelConfig)
+  // const query = await useQuery({
+  //   key: ['menu'],
+  //   query: () => client.modelServiceRouter.getModelConfig.query({
+  //     modelKey: 'buiness',
+  //   }),
+  // })
 
+  const mutation = await useMutation({
+    key: ['men2u2'],
+    mutation: (key: string) => client.modelServiceRouter.getModelConfig.query({
+      modelKey: key,
+    }),
+  })
+  mutation.mutate('course')
+
+  // console.log('%c [ query.isPendi1ng ]-51', 'font-size:13px; background:pink; color:#bf2c9f;', query.isPending.value)
+
+  // console.log('%c [ query.data.value ]-57', 'font-size:13px; background:pink; color:#bf2c9f;', query.data.value)
+
+  console.log('%c [ mutation.isPending ]-63', 'font-size:13px; background:pink; color:#bf2c9f;', mutation.data.value)
   console.log(data)
 
   settingsStore.setMode(document.documentElement.clientWidth)

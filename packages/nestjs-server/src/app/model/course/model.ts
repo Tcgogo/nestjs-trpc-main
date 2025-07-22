@@ -1,34 +1,31 @@
-import type { DashboardModelTypeDefine } from '../type'
-
 const config = {
-  model: 'dashboard',
-  name: '电商系统',
+  name: 'bilibili',
+  desc: 'bilibili管理系统',
+  // key => 默认 menu key
+  homePage: {
+    path: '/todo',
+    query: {
+      menuKey: '',
+    },
+  },
   menu: [
     {
-      key: 'product',
-      name: '商品',
+      key: 'traffic',
+      name: '流量管理',
       menuType: 'module',
-      moduleType: 'custom',
-      customConfig: {
-        path: '/todo',
-      },
-    },
-    {
-      key: 'order',
-      name: '订单',
-      menuType: 'module',
-      moduleType: 'custom',
-      customConfig: {
-        path: '/todo',
-      },
-    },
-    {
-      key: 'client',
-      name: '客户管理',
-      menuType: 'module',
-      moduleType: 'custom',
-      customConfig: {
-        path: '/todo',
+      moduleType: 'sider',
+      sideConfig: {
+        menu: [
+          {
+            key: 'student',
+            name: '学员流量',
+            menuType: 'module',
+            moduleType: 'custom',
+            customConfig: {
+              path: '/todo',
+            },
+          },
+        ],
       },
     },
   ],

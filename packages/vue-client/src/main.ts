@@ -1,4 +1,4 @@
-import { VueQueryPlugin } from 'vue-query'
+import { PiniaColada } from '@pinia/colada'
 // 加载 iconify 图标
 import { downloadAndInstall } from '@/iconify'
 import icons from '@/iconify/index.json'
@@ -20,8 +20,8 @@ import 'virtual:uno.css'
 import '@/assets/styles/globals.css'
 
 const app = createApp(App)
-app.use(VueQueryPlugin)
 app.use(pinia)
+app.use(PiniaColada)
 app.use(router)
 app.use(uiProvider)
 directive(app)
