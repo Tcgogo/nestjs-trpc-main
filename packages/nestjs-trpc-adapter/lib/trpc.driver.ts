@@ -1,11 +1,10 @@
 import type { Type } from '@nestjs/common'
-import type { ModuleRef } from '@nestjs/core'
 import type { AnyRouter } from '@trpc/server'
 import type { Application as ExpressApplication } from 'express'
 import type { FastifyInstance as FastifyApplication } from 'fastify'
 import type { TRPCContext, TRPCModuleOptions } from './interfaces'
 import { ConsoleLogger, Inject, Injectable } from '@nestjs/common'
-import { HttpAdapterHost } from '@nestjs/core'
+import { HttpAdapterHost, ModuleRef } from '@nestjs/core'
 import { initTRPC } from '@trpc/server'
 import { AppRouterHost } from './app-router.host'
 import { ExpressDriver, FastifyDriver } from './drivers'
@@ -54,7 +53,7 @@ export class TRPCDriver<
   @Inject(FastifyDriver)
   protected readonly fastifyDriver!: FastifyDriver
 
-  constructor(private moduleRef: ModuleRef) {}
+  constructor(@Inject(ModuleRef) private moduleRef: ModuleRef) {}
 
   public async start(options: TRPCModuleOptions) {
     const { procedure, router } = initTRPC.context().create({

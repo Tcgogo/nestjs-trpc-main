@@ -6,6 +6,11 @@ import { Injectable } from '@nestjs/common'
 function fileUrlToPath(fileUrl: string | null) {
   if (!fileUrl) { return '' }
 
+  // 判断是否为 windows 路径
+  if (!process.platform.startsWith('win')) {
+    return fileUrl.replace(/^file:\/\//i, '')
+  }
+
   // 1. 移除 "file:///" 协议前缀
   let path = fileUrl.replace(/^file:\/\/\//i, '')
 
@@ -38,6 +43,8 @@ export class FileScanner {
 
     // const jsFilePath = caller?.getFileName();
     const jsFilePath = fileUrlToPath(caller?.getFileName()) // ESM support
+    console.log('%c [caller?.getFileName()]-41', 'font-size:13px; background:#336699; color:#fff;', caller?.getFileName())
+    console.log('%c [jsFilePath]-41', 'font-size:13px; background:#336699; color:#fff;', jsFilePath)
 
     if (jsFilePath == null) {
       throw new Error(`Could not find caller file: ${caller}`)

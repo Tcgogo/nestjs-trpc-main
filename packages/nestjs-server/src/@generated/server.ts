@@ -19,7 +19,33 @@ const appRouter = t.router({
   modelServiceRouter: t.router({
     getModelConfig: publicProcedure.input(z.object({
       modelKey: z.string(),
-    })).output(courseConfigSchema).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any)
+    })).output(z.object({
+      name: z.literal('bilibili'),
+      desc: z.literal('bilibili\u7BA1\u7406\u7CFB\u7EDF'),
+      homePage: z.object({
+        path: z.literal('/todo'),
+        query: z.object({
+          menuKey: z.literal(''),
+        }),
+      }),
+      menu: z.tuple([z.object({
+        key: z.literal('traffic'),
+        name: z.literal('\u6D41\u91CF\u7BA1\u7406'),
+        menuType: z.literal('module'),
+        moduleType: z.literal('sider'),
+        sideConfig: z.object({
+          menu: z.tuple([z.object({
+            key: z.literal('student'),
+            name: z.literal('\u5B66\u5458\u6D41\u91CF'),
+            menuType: z.literal('module'),
+            moduleType: z.literal('custom'),
+            customConfig: z.object({
+              path: z.literal('/todo'),
+            }),
+          })]),
+        }),
+      })]),
+    })).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any)
   })
 });
 export type AppRouter = typeof appRouter;

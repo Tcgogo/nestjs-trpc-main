@@ -1,9 +1,8 @@
-import type { ModuleRef } from '@nestjs/core'
 import type { Class, Constructor } from 'type-fest'
 import type { ProcedureOptions, TRPCMiddleware } from '../interfaces'
-import type { ProcedureFactoryMetadata, ProcedureImplementation, ProcedureParamDecorator, TRPCPublicProcedure } from '../interfaces/factory.interface'
+import type { ProcedureFactoryMetadata, ProcedureImplementation, ProcedureInputParamDecorator, ProcedureParamDecorator, TRPCPublicProcedure } from '../interfaces/factory.interface'
 import { ConsoleLogger, Inject, Injectable } from '@nestjs/common'
-import { MetadataScanner } from '@nestjs/core'
+import { MetadataScanner, ModuleRef } from '@nestjs/core'
 import { isEqual, uniqWith } from 'lodash-es'
 import {
 
@@ -26,7 +25,7 @@ export class ProcedureFactory {
   @Inject(MetadataScanner)
   private readonly metadataScanner!: MetadataScanner
 
-  constructor(private moduleRef: ModuleRef) {}
+  constructor(@Inject(ModuleRef) private moduleRef: ModuleRef) {}
 
   getProcedures(
     instance: any,
@@ -142,7 +141,7 @@ export class ProcedureFactory {
     return Array.from({ length: Math.max(...params.map(val => val.index)) + 1 })
       .fill(undefined)
       .map((_val, idx) => {
-        const param = params.find(param => param.index === idx)
+        const param = params.find(param => param.index === idx) as ProcedureInputParamDecorator
         if (param == null) {
           return undefined
         }
