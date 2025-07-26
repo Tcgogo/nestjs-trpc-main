@@ -50,4 +50,9 @@ export interface TRPCModuleOptions {
    * @link https://trpc.io/docs/data-transformers
    */
   transformer?: TRPCRootConfig<any>['transformer']
+
+  /**
+   * The path to the tsconfig.json file.
+   */
+  tsConfigFilePath?: string
 }
