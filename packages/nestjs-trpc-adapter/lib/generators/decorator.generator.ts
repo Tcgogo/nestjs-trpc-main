@@ -41,7 +41,6 @@ export class DecoratorGenerator {
             sourceFile,
             project,
           )
-
           array.push({
             name: decoratorName,
             arguments: {
@@ -86,6 +85,7 @@ export class DecoratorGenerator {
         }
 
         const propertyInitializer: Expression = property.getInitializer()
+
         return this.procedureGenerator.flattenZodSchema(
           propertyInitializer,
           sourceFile,

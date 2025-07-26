@@ -36,9 +36,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist && tsc --project tsconfig.build.json & swc lib -d dist --strip-leading-paths",
-    "start:dev": "tsc --project tsconfig.json --watch --preserveWatchOutput",
-    "debug:dev": "ts-node --inspect-brk lib/index.ts",
-    "clean": "tsc -b --clean"
+    "serve": "rm -rf dist && tsc --project tsconfig.build.json & swc lib -d dist --strip-leading-paths  --watch"
   },
   "publishConfig": {
     "access": "public",

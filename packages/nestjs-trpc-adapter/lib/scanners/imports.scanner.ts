@@ -1,6 +1,34 @@
 import type { Project, SourceFile } from 'ts-morph'
 import type { SourceFileImportsMap } from '../interfaces/generator.interface'
 import { Injectable } from '@nestjs/common'
+import * as ts from 'typescript'
+
+function getExportName(importedSourceFile: SourceFile) {
+  // 获取声明变量名称
+  const defaultExport = importedSourceFile.getExportAssignments().filter(e => !e.isExportEquals())
+  let exportName = ''
+
+  if (defaultExport && defaultExport.length > 0) {
+    const expr = defaultExport[0].getExpression()
+
+    // 处理标识符导出 (export default otherName)
+    if (expr.getKind() === ts.SyntaxKind.Identifier) {
+      exportName = expr.getText()
+      console.log('Default export name:', exportName) // 输出: otherName
+    }
+    // 处理其他导出形式（可选）
+    else if (expr.getKind() === ts.SyntaxKind.FunctionExpression) {
+      // 处理匿名函数导出
+      console.log('Anonymous function export')
+    }
+    else {
+      // 其他类型的导出（字面量等）
+      console.log('Export expression:', expr.getText())
+    }
+  }
+
+  return exportName
+}
 
 @Injectable()
 export class ImportsScanner {
@@ -13,20 +41,57 @@ export class ImportsScanner {
 
     for (const importDeclaration of importDeclarations) {
       const namedImports = importDeclaration.getNamedImports()
+      const defaultImport = importDeclaration.getDefaultImport()
+      const nameSpaceImport = importDeclaration.getNamespaceImport()
+
+      if (defaultImport) {
+        const name = defaultImport.getText()
+        const importedSourceFile
+        = importDeclaration.getModuleSpecifierSourceFile()
+
+        if (importedSourceFile == null) {
+          continue
+        }
+
+        const exportName = getExportName(importedSourceFile)
+
+        const declaration
+        = importedSourceFile.getVariableDeclaration(exportName)
+          || importedSourceFile.getClass(exportName)
+          || importedSourceFile.getInterface(exportName)
+          || importedSourceFile.getEnum(exportName)
+          || importedSourceFile.getFunction(exportName)
+
+        if (declaration != null) {
+          const initializer
+          = 'getInitializer' in declaration
+            ? declaration.getInitializer()
+            : declaration
+          sourceFileImportsMap.set(name, {
+            initializer: initializer ?? declaration,
+            sourceFile: importedSourceFile,
+          })
+        }
+      }
+
       for (const namedImport of namedImports) {
         const name = namedImport.getName()
+
+        // 获取重命名导出
+        const aliasName = namedImport.getAliasNode()?.getFullText()?.trim()
+
         const importedSourceFile
-          = importDeclaration.getModuleSpecifierSourceFile()
+        = importDeclaration.getModuleSpecifierSourceFile()
 
         if (importedSourceFile == null) {
           continue
         }
 
         const resolvedSourceFile
-          = importedSourceFile.getFilePath().endsWith('index.ts')
-            && !importedSourceFile.getVariableDeclaration(name)
-            ? this.resolveBarrelFileImport(importedSourceFile, name, project)
-            : importedSourceFile
+        = importedSourceFile.getFilePath().endsWith('index.ts')
+          && !importedSourceFile.getVariableDeclaration(name)
+          ? this.resolveBarrelFileImport(importedSourceFile, name, project)
+          : importedSourceFile
 
         if (resolvedSourceFile == null) {
           continue
@@ -34,18 +99,18 @@ export class ImportsScanner {
 
         // Generalized logic to handle various kinds of declarations
         const declaration
-          = resolvedSourceFile.getVariableDeclaration(name)
-            || resolvedSourceFile.getClass(name)
-            || resolvedSourceFile.getInterface(name)
-            || resolvedSourceFile.getEnum(name)
-            || resolvedSourceFile.getFunction(name)
+        = resolvedSourceFile.getVariableDeclaration(name)
+          || resolvedSourceFile.getClass(name)
+          || resolvedSourceFile.getInterface(name)
+          || resolvedSourceFile.getEnum(name)
+          || resolvedSourceFile.getFunction(name)
 
         if (declaration != null) {
           const initializer
-            = 'getInitializer' in declaration
-              ? declaration.getInitializer()
-              : declaration
-          sourceFileImportsMap.set(name, {
+          = 'getInitializer' in declaration
+            ? declaration.getInitializer()
+            : declaration
+          sourceFileImportsMap.set(aliasName ?? name, {
             initializer: initializer ?? declaration,
             sourceFile: resolvedSourceFile,
           })

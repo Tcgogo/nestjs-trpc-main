@@ -43,9 +43,6 @@ export class FileScanner {
 
     // const jsFilePath = caller?.getFileName();
     const jsFilePath = fileUrlToPath(caller?.getFileName()) // ESM support
-    console.log('%c [caller?.getFileName()]-41', 'font-size:13px; background:#336699; color:#fff;', caller?.getFileName())
-    console.log('%c [jsFilePath]-41', 'font-size:13px; background:#336699; color:#fff;', jsFilePath)
-
     if (jsFilePath == null) {
       throw new Error(`Could not find caller file: ${caller}`)
     }

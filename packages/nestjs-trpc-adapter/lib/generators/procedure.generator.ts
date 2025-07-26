@@ -1,11 +1,52 @@
-import type { Project, SourceFile } from 'ts-morph'
+import type { MethodDeclaration, ObjectLiteralExpression, Project, PropertyAssignment, SourceFile, VariableDeclaration } from 'ts-morph'
 import type { ProcedureGeneratorMetadata } from '../interfaces/generator.interface'
 import { Inject, Injectable } from '@nestjs/common'
-import { Node } from 'ts-morph'
+import { Node, ts } from 'ts-morph'
 import { ImportsScanner } from '../scanners/imports.scanner'
 import { ProcedureType } from '../trpc.enum'
 import { TYPESCRIPT_APP_ROUTER_SOURCE_FILE } from './generator.constants'
 import { StaticGenerator } from './static.generator'
+
+// 获取对象属性的值
+function getPropertyValue(
+  variable: VariableDeclaration,
+  propertyKey: string,
+): { kindName: 'PropertyAssignment' | 'ShorthandPropertyAssignment' | 'MethodDeclaration', value: string } | undefined {
+  const initializer = variable.getInitializer()
+
+  // 检查是否是对象字面量
+  if (initializer && initializer.getKindName() === 'ObjectLiteralExpression') {
+    const objLiteral = initializer as ObjectLiteralExpression
+
+    // 查找指定属性
+    const property = objLiteral.getProperty(propertyKey)
+
+    if (property) {
+      // 处理不同属性类型
+      if (property.getKindName() === 'PropertyAssignment') {
+        return {
+          kindName: 'PropertyAssignment',
+          value: (property as PropertyAssignment).getInitializer()?.getText() || '',
+        }
+      }
+      // 处理简写属性 (shorthand property)
+      if (property.getKindName() === 'ShorthandPropertyAssignment') {
+        return {
+          kindName: 'ShorthandPropertyAssignment',
+          value: property.getText(),
+        }
+      }
+      // 处理方法属性
+      if (property.getKindName() === 'MethodDeclaration') {
+        return {
+          kindName: 'MethodDeclaration',
+          value: (property as MethodDeclaration).getBody()?.getText() || '',
+        }
+      }
+    }
+  }
+  return undefined
+}
 
 @Injectable()
 export class ProcedureGenerator {
@@ -148,12 +189,48 @@ export class ProcedureGenerator {
       }
     }
     else if (Node.isPropertyAccessExpression(node)) {
-      schema = this.flattenZodSchema(
-        node.getExpression(),
-        sourceFile,
-        project,
-        node.getExpression().getText(),
-      )
+      const nodeTextArr = node.getText().split('.')
+
+      const parentNodePath = nodeTextArr[0]
+      const childNodePath = nodeTextArr[1]
+
+      if (importsMap.has(parentNodePath)) {
+      // 只支持 obj.a 一层读取
+        if (nodeTextArr.length > 2) {
+          console.warn(`只支持 obj.a 一层读取, 当前路径: ${node.getText()}`)
+          schema = node.getText()
+          return schema
+        }
+
+        const parentSourceFile = importsMap.get(parentNodePath)!.sourceFile
+        const childSourceFile = parentSourceFile.getVariableDeclaration(parentNodePath)
+        if (childSourceFile) {
+          const childPropertyValue = getPropertyValue(childSourceFile!, childNodePath!)
+          const { kindName, value } = childPropertyValue || {}
+          if (kindName === 'ShorthandPropertyAssignment') {
+            const declaration = parentSourceFile.getVariableDeclaration(childNodePath)
+              || parentSourceFile.getClass(childNodePath)
+              || parentSourceFile.getInterface(childNodePath)
+              || parentSourceFile.getEnum(childNodePath)
+            const initializer
+          = 'getInitializer' in declaration!
+            ? declaration.getInitializer()
+            : declaration
+            schema = initializer?.getText() || node.getText()
+          }
+          else {
+            schema = value || node.getText()
+          }
+        }
+      }
+      else {
+        schema = this.flattenZodSchema(
+          node.getExpression(),
+          sourceFile,
+          project,
+          node.getExpression().getText(),
+        )
+      }
     }
 
     return schema

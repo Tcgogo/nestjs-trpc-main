@@ -30,3 +30,65 @@ export const configSchema = z.object({
     }),
   })]),
 })
+
+export const configSchema2 = z.object({
+  model: z.string(),
+  name: z.string(),
+  menu: z.tuple([z.object({
+    key: z.string(),
+    name: z.string(),
+    menuType: z.string(),
+    moduleType: z.string(),
+    customConfig: z.object({
+      path: z.string(),
+    }),
+  }), z.object({
+    key: z.string(),
+    name: z.string(),
+    menuType: z.string(),
+    moduleType: z.string(),
+    customConfig: z.object({
+      path: z.string(),
+    }),
+  }), z.object({
+    key: z.string(),
+    name: z.string(),
+    menuType: z.string(),
+    moduleType: z.string(),
+    customConfig: z.object({
+      path: z.string(),
+    }),
+  })]),
+})
+
+export const configSchema3 = z.object({
+  model: z.string(),
+  name: z.string(),
+  menu: z.tuple([z.object({
+    key: z.string(),
+    name: z.string(),
+    menuType: z.string(),
+    moduleType: z.string(),
+    customConfig: z.object({
+      path: z.string(),
+    }),
+  }), z.object({
+    key: z.string(),
+    name: z.string(),
+    menuType: z.string(),
+    moduleType: z.string(),
+    customConfig: z.object({
+      path: z.string(),
+    }),
+  }), z.object({
+    key: z.string(),
+    name: z.string(),
+    menuType: z.string(),
+    moduleType: z.string(),
+    customConfig: z.object({
+      path: z.string(),
+    }),
+  })]),
+})
+
+export default configSchema3

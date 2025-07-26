@@ -28,3 +28,9 @@ export const configSchema = z.object({
     }),
   })]),
 })
+
+export const obj = {
+  configSchema,
+}
+
+export default obj

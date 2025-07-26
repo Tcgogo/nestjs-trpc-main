@@ -45,6 +45,94 @@ const appRouter = t.router({
           })]),
         }),
       })]),
+    })).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+    getModelConfig2: publicProcedure.input(z.object({
+      modelKey: z.string(),
+    })).output(z.object({
+      model: z.string(),
+      name: z.string(),
+      menu: z.tuple([z.object({
+        key: z.string(),
+        name: z.string(),
+        menuType: z.string(),
+        moduleType: z.string(),
+        customConfig: z.object({
+          path: z.string(),
+        }),
+      }), z.object({
+        key: z.string(),
+        name: z.string(),
+        menuType: z.string(),
+        moduleType: z.string(),
+        customConfig: z.object({
+          path: z.string(),
+        }),
+      }), z.object({
+        key: z.string(),
+        name: z.string(),
+        menuType: z.string(),
+        moduleType: z.string(),
+        customConfig: z.object({
+          path: z.string(),
+        }),
+      })]),
+    })).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
+    getModelConfig3: publicProcedure.input(z.object({
+      model: z.string(),
+      name: z.string(),
+      menu: z.tuple([z.object({
+        key: z.string(),
+        name: z.string(),
+        menuType: z.string(),
+        moduleType: z.string(),
+        customConfig: z.object({
+          path: z.string(),
+        }),
+      }), z.object({
+        key: z.string(),
+        name: z.string(),
+        menuType: z.string(),
+        moduleType: z.string(),
+        customConfig: z.object({
+          path: z.string(),
+        }),
+      }), z.object({
+        key: z.string(),
+        name: z.string(),
+        menuType: z.string(),
+        moduleType: z.string(),
+        customConfig: z.object({
+          path: z.string(),
+        }),
+      })]),
+    })).output(z.object({
+      model: z.string(),
+      name: z.string(),
+      menu: z.tuple([z.object({
+        key: z.string(),
+        name: z.string(),
+        menuType: z.string(),
+        moduleType: z.string(),
+        customConfig: z.object({
+          path: z.string(),
+        }),
+      }), z.object({
+        key: z.string(),
+        name: z.string(),
+        menuType: z.string(),
+        moduleType: z.string(),
+        customConfig: z.object({
+          path: z.string(),
+        }),
+      }), z.object({
+        key: z.string(),
+        name: z.string(),
+        menuType: z.string(),
+        moduleType: z.string(),
+        customConfig: z.object({
+          path: z.string(),
+        }),
+      })]),
     })).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any)
   })
 });
