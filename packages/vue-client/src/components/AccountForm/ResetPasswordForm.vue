@@ -52,7 +52,7 @@ function handleSendCaptcha() {
 <template>
   <div class="min-h-500px w-full flex-col-stretch-center p-12">
     <form @submit="onSubmit">
-      <div class="mb-8 space-y-2">
+      <div class="space-y-2 mb-8">
         <h3 class="text-4xl color-[var(--el-text-color-primary)] font-bold">
           忘记密码了? 🔒
         </h3>

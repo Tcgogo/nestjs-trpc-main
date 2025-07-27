@@ -29,13 +29,13 @@ const { switchTo } = useMenu()
                 }"
               >
                 <div
-                  v-if="item.children && item.children.length !== 0" class="relative h-full w-full flex cursor-pointer items-center gap-1 transition-all group menu-item-container justify-between rounded-lg px-3 text-[var(--g-header-menu-color)] hover-bg-[var(--g-header-menu-hover-bg)] hover-text-[var(--g-header-menu-hover-color)]" :class="{
+                  v-if="item.children && item.children.length !== 0" class="relative h-full w-full flex cursor-pointer items-center gap-1 transition-all justify-between rounded-lg group menu-item-container px-3 text-[var(--g-header-menu-color)] hover-bg-[var(--g-header-menu-hover-bg)] hover-text-[var(--g-header-menu-hover-color)]" :class="{
                     'text-[var(--g-header-menu-active-color)]! bg-[var(--g-header-menu-active-bg)]!': index === menuStore.actived,
                   }" :title="typeof item.meta?.title === 'function' ? item.meta?.title() : item.meta?.title" @click="switchTo(index)"
                 >
                   <div class="inline-flex flex-1 items-center justify-center gap-1">
                     <FaIcon v-if="item.meta?.icon" :name="item.meta?.icon" class="menu-item-container-icon transition-transform group-hover-scale-120" />
-                    <span class="w-full flex-1 truncate text-sm transition-height transition-opacity transition-width">
+                    <span class="w-full flex-1 truncate text-sm transition-opacity transition-height transition-width">
                       {{ typeof item.meta?.title === 'function' ? item.meta?.title() : item.meta?.title }}
                     </span>
                   </div>

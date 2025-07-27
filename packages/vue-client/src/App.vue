@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMutation, useQuery, useQueryCache } from '@pinia/colada'
+import { useMutation } from '@pinia/colada'
 import { ua } from '@/utils/ua'
 import { client } from './trpc'
 import Provider from './ui/provider/index.vue'
@@ -50,10 +50,10 @@ onMounted(async () => {
   })
   try {
     const data = await mutation.mutateAsync('buiness')
-  console.log('%c [ mutation.isPending ]-63', 'font-size:13px; background:pink; color:#bf2c9f;', data)
-  } catch (error) {
+    console.log('%c [ mutation.isPending ]-63', 'font-size:13px; background:pink; color:#bf2c9f;', data)
+  }
+  catch (error) {
     console.log('%c [ error ]-54', 'font-size:13px; background:pink; color:#bf2c9f;', error)
-
   }
   // mutation.mutate()
 

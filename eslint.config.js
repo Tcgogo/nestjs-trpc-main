@@ -22,6 +22,8 @@ export default antfu(
       'no-console': 'off',
       'unicorn/error-message': 'off',
       'unused-imports/no-unused-vars': 'off',
+      'jsonc/no-useless-escape': 'off',
+      'vue/no-empty-pattern': 'off',
       'ts/no-unused-expressions': ['error', {
         allowShortCircuit: true,
         allowTernary: true,

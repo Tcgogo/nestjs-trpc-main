@@ -1,7 +1,7 @@
 import type { MethodDeclaration, ObjectLiteralExpression, Project, PropertyAssignment, SourceFile, VariableDeclaration } from 'ts-morph'
 import type { ProcedureGeneratorMetadata } from '../interfaces/generator.interface'
 import { Inject, Injectable } from '@nestjs/common'
-import { Node, ts } from 'ts-morph'
+import { Node } from 'ts-morph'
 import { ImportsScanner } from '../scanners/imports.scanner'
 import { ProcedureType } from '../trpc.enum'
 import { TYPESCRIPT_APP_ROUTER_SOURCE_FILE } from './generator.constants'

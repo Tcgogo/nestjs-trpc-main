@@ -1,5 +1,3 @@
-import type { DashboardModelTypeDefine } from '../type'
-
 const config = {
   model: 'dashboard',
   name: '电商系统',

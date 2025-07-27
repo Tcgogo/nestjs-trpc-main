@@ -9,7 +9,6 @@ import {
   Logger,
 } from '@nestjs/common'
 import { map } from 'rxjs/operators'
-import { RESPONSE_SUCCESS_MSG } from '@/lib/constants'
 
 interface Response<T> {
   data: T

@@ -203,7 +203,7 @@ function pageJump(path: listTypes['path'], link: listTypes['link']) {
         <div class="h-full flex-center w-14">
           <FaIcon name="i-ri:search-line" class="size-4 text-foreground/30" />
         </div>
-        <input ref="searchInputRef" v-model="searchInput" placeholder="搜索页面，支持标题、URL模糊查询" class="h-full w-full text-base text-foreground border-0 rounded-md bg-transparent focus-outline-none placeholder-foreground/30" @keydown.esc.prevent="isShow = false" @keydown.up.prevent="keyUp" @keydown.down.prevent="keyDown" @keydown.enter.prevent="keyEnter">
+        <input ref="searchInputRef" v-model="searchInput" placeholder="搜索页面，支持标题、URL模糊查询" class="h-full w-full text-base text-foreground rounded-md bg-transparent border-0 focus-outline-none placeholder-foreground/30" @keydown.esc.prevent="isShow = false" @keydown.up.prevent="keyUp" @keydown.down.prevent="keyDown" @keydown.enter.prevent="keyEnter">
         <div v-if="settingsStore.mode === 'mobile'" class="h-full w-14 flex-center border-s">
           <FaIcon name="i-carbon:close" class="size-4" @click="isShow = false" />
         </div>

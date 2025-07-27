@@ -1,21 +1,19 @@
 import path from 'node:path'
 
-import { Controller, Get, Module } from '@nestjs/common'
+import { Module } from '@nestjs/common'
 
 import { ConfigModule } from '@nestjs/config'
 
-import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core'
+import { APP_INTERCEPTOR } from '@nestjs/core'
 
 import { TRPCModule } from 'nestjs-trpc-adapter'
 
 import { ModelServiceModule } from '@/app/model-service/model-service.module'
 import { UserModule } from '@/contexts/users/user.module'
 import { DatabaseModule } from '@/lib/database/database.module'
-import { AllExceptionsFilter } from '@/lib/filters/any-exception.filter'
 import { TransformInterceptor } from '@/lib/interceptors/transform.interceptor'
 import { getConfig } from '@/lib/utils'
 import { LoggerModule } from '@/shared/logger/logger.module'
-
 
 @Module({
   imports: [

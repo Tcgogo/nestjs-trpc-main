@@ -19,7 +19,7 @@ onMounted(() => {
 <template>
   <FaModal v-model="isShow" title="快捷键介绍" :footer="false">
     <div class="px-4">
-      <div class="grid gap-4 sm-grid-cols-2">
+      <div class="gap-4 grid sm-grid-cols-2">
         <div>
           <h2 class="font-bold m-0 text-lg">
             全局

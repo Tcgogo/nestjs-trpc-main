@@ -24,7 +24,7 @@ function open() {
       <FaPageMain :key="route.meta.link" class="flex flex-1 flex-col justify-center">
         <div class="flex flex-col items-center">
           <FaIcon name="i-icon-park-twotone:planet" class="size-30 text-primary/80" />
-          <div class="my-2 text-xl text-dark dark-text-white">
+          <div class="text-xl my-2 text-dark dark-text-white">
             是否访问此链接
           </div>
           <div class="my-2 cursor-pointer text-center text-secondary-foreground/50 max-w-[300px] text-[14px]" @click="route.meta.link && copy(route.meta.link)">

@@ -1,9 +1,8 @@
 import type { ModelConfigType, ModelConfigTypeAll } from '@/src/data/model/send-type'
 import { Inject } from '@nestjs/common'
 import { Input, Query, Router } from 'nestjs-trpc-adapter'
-import buinessConfigSchema, { configSchema3 } from '@/src/data/model/buiness/zod-model'
-import { obj } from '@/src/data/model/course/zod-model'
 import { z } from 'zod'
+import buinessConfigSchema from '@/src/data/model/buiness/zod-model'
 import { ModelServiceService } from './model-service.service'
 
 const getModelConfigInput = z.object({

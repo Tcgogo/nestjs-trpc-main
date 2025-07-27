@@ -41,10 +41,10 @@ const isProfileShow = ref(false)
   >
     <template #header>
       <div class="space-y-2">
-        <div class="text-xs text-secondary-foreground/50 font-light">
+        <div class="text-secondary-foreground/50 text-xs font-light">
           当前登录账号
         </div>
-        <div class="flex-center-start gap-2">
+        <div class="gap-2 flex-center-start">
           <FaAvatar :src="userStore.avatar" :fallback="userStore.account.slice(0, 5)" shape="square" />
           <div class="space-y-1">
             <div class="text-base lh-none">
@@ -65,7 +65,7 @@ const isProfileShow = ref(false)
       <FaAvatar :src="userStore.avatar" :class="cn('size-6', { 'size-full': onlyAvatar })">
         <FaIcon name="i-carbon:user-avatar-filled" class="text-secondary-foreground/50 size-6" />
       </FaAvatar>
-      <div v-if="!onlyAvatar" class="gap-2 min-w-0 flex-center-between flex-1">
+      <div v-if="!onlyAvatar" class="gap-2 flex-1 min-w-0 flex-center-between">
         <div class="flex-1 truncate text-start">
           {{ userStore.account }}
         </div>

@@ -1,12 +1,9 @@
 /* eslint-disable ts/consistent-type-imports */
 import type { AnyRouter } from '@trpc/server'
-import type { FastifyReply } from 'fastify'
 import {
-  All,
   Controller,
   Inject,
   OnModuleInit,
-  Response,
 } from '@nestjs/common'
 // import { renderTrpcPanel } from '@rikkainc/trpc-panel'
 import { AppRouterHost } from 'nestjs-trpc-adapter'

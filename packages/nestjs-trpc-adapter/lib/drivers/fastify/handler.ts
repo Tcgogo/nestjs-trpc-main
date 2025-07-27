@@ -1,5 +1,5 @@
 // @trpc/server
-import type { AnyRouter, CreateContextCallback, inferRouterContext } from '@trpc/server'
+import type { AnyRouter } from '@trpc/server'
 import type { NodeHTTPCreateContextOption, NodeHTTPRequest } from '@trpc/server/adapters/node-http'
 import type { HTTPBaseHandlerOptions, ResolveHTTPRequestOptionsContextFn } from '@trpc/server/http'
 /**

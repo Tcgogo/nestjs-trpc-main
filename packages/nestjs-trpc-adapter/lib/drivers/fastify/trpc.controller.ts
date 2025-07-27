@@ -1,8 +1,8 @@
 import type { Request, Response } from 'express'
-import { All, Controller, Get, HttpException, HttpStatus, Inject, Req, Res } from '@nestjs/common'
+import { All, Controller, HttpException, HttpStatus, Inject, Req, Res } from '@nestjs/common'
 
-import { TRPCService } from './trpc.service'
 import { fastifyRequestHandler } from './handler'
+import { TRPCService } from './trpc.service'
 
 @Controller('trpc')
 export class TRPCController {

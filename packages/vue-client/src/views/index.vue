@@ -103,7 +103,7 @@ function open(url: string) {
         </FaDropdown>
       </div>
     </FaPageHeader>
-    <div class="w-full flex flex-col gap-4 px-4 xl-flex-row">
+    <div class="flex gap-4 w-full flex-col px-4 xl-flex-row">
       <FaPageMain class="m-0 flex-1" title-class="flex flex-wrap items-center justify-between gap-4">
         <template #title>
           <div class="title-info">
