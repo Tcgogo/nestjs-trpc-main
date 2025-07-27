@@ -6,6 +6,11 @@ import { HttpAdapterHost } from '@nestjs/core'
 
 import { AppRouterHost } from './app-router.host'
 import { ExpressDriver, FastifyDriver } from './drivers'
+
+// 注意：这里需要根据不同的驱动来引入不同的控制器和服务
+import { TRPCController } from './drivers/fastify/trpc.controller'
+import { TRPCService } from './drivers/fastify/trpc.service'
+
 import { FactoryModule } from './factories/factory.module'
 import { GeneratorModule } from './generators/generator.module'
 import { FileScanner } from './scanners/file.scanner'
@@ -15,7 +20,10 @@ import { TRPCDriver } from './trpc.driver'
 
 @Module({
   imports: [FactoryModule, ScannerModule],
+  controllers: [TRPCController],
   providers: [
+    TRPCService,
+
     // NestJS Providers
     ConsoleLogger,
 
