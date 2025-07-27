@@ -5,10 +5,10 @@
     "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
-    "dev": "vite",
+    "serve": "vite",
     "build": "vue-tsc -b && vite build",
     "build:test": "vue-tsc -b && vite build --mode test",
-    "serve": "http-server ./dist -o",
+    "dev": "http-server ./dist -o",
     "serve:test": "http-server ./dist-test -o",
     "svgo": "svgo -f src/assets/icons",
     "new": "plop",

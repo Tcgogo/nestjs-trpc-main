@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url'
 import { DataSource } from 'typeorm'
 
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies'
-import { ConstantEnum } from '../enums'
+import { ConstantEnum } from '@/lib/constants'
 import { getConfig } from '../utils'
 
 type DBConfigOptions = Partial<MysqlConnectionOptions>

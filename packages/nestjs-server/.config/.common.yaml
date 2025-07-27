@@ -1,22 +1,9 @@
-FEISHU_CONFIG: # 飞书配置
-  FEISHU_URL: https://open.feishu.cn/open-apis
-  FEISHU_API_HOST: https://open.feishu.cn
-  FEISHU_APP_ID: cli_a00e6f11f778100e
-  FEISHU_APP_SECRET: VdLY05vfbWIyQUc86L6GvcSwPWDrqHlr
-
-DD: # 钉钉配置
-  DD_AppKey: dingsqeymayoona1jalx
-  DD_AppSecret: rK_if39oDU4gyQf_jwts9V1tMkqWfzq-nfBxonefETanf21oM-nnWk_b6mRzdA28
-
 # nest 服务配置
 NEST:
   port: 3000
 
 # jwt 配置 {"alg": "HS256","typ": "JWT"}
 JWT:
-  secret: iSc!scloud
+  secret: Tcgogo
   access_token_expires_time: 8h
   refresh_token_expires_time: 30d
-
-ATM:
-  mcuid: 57FF72067067545637490767

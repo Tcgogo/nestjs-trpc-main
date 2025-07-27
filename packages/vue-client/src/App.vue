@@ -35,12 +35,6 @@ watch([
 })
 
 onMounted(async () => {
-  const data = await client.healthRouter.getUser.query({
-    name: 'John',
-    age2: 20,
-    breed: 'Labrador',
-  })
-
   // const query = await useQuery({
   //   key: ['menu'],
   //   query: () => client.modelServiceRouter.getModelConfig.query({
@@ -50,18 +44,22 @@ onMounted(async () => {
 
   const mutation = await useMutation({
     key: ['men2u2'],
-    mutation: (key: string) => client.modelServiceRouter.getModelConfig.query({
+    mutation: (key: string) => client.model.getModelConfig.query({
       modelKey: key,
     }),
   })
-  mutation.mutate('course')
+  try {
+    const data = await mutation.mutateAsync('buiness')
+  console.log('%c [ mutation.isPending ]-63', 'font-size:13px; background:pink; color:#bf2c9f;', data)
+  } catch (error) {
+    console.log('%c [ error ]-54', 'font-size:13px; background:pink; color:#bf2c9f;', error)
+
+  }
+  // mutation.mutate()
 
   // console.log('%c [ query.isPendi1ng ]-51', 'font-size:13px; background:pink; color:#bf2c9f;', query.isPending.value)
 
   // console.log('%c [ query.data.value ]-57', 'font-size:13px; background:pink; color:#bf2c9f;', query.data.value)
-
-  console.log('%c [ mutation.isPending ]-63', 'font-size:13px; background:pink; color:#bf2c9f;', mutation.data.value)
-  console.log(data)
 
   settingsStore.setMode(document.documentElement.clientWidth)
   window.addEventListener('resize', () => {

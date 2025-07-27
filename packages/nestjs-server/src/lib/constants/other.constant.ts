@@ -1,3 +1,5 @@
+export const alphabet = `1234567890abcdefghijklmnopqrstuvwxyz`
+
 export enum ConstantEnum {
   /** 数据库 */
   DB_DATA_SOURCE = 'DB_DATA_SOURCE',

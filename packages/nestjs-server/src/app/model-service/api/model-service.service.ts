@@ -1,6 +1,6 @@
-import type { ModelConfigTypeAll } from '@/app/model/send-type'
+import type { ModelConfigTypeAll } from '@/src/data/model/send-type'
 import { Injectable } from '@nestjs/common'
-import { getModelConfig } from '@/app/model'
+import { getModelConfig } from '@/src/data/model'
 
 interface User {
   name: string
@@ -17,7 +17,6 @@ export class ModelServiceService {
 
   async getModelConfig(modelKey: keyof ModelConfigTypeAll) {
     const modelConfig = await getModelConfig()
-    console.log('%c [ modelConfig ]-20', 'font-size:13px; background:pink; color:#bf2c9f;', modelConfig)
     return modelConfig[modelKey]
   }
 }

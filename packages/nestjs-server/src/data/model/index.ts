@@ -9,7 +9,7 @@ function pathAdapter(url: string) {
 
 export async function getModelConfig() {
   const __filename = fileURLToPath(import.meta.url)
-  console.log('%c [ __filename ]-13', 'font-size:13px; background:pink; color:#bf2c9f;', __filename)
+
   const rootPath = __filename
 
   const dirList = readdirSync(dirname(rootPath), {
@@ -19,12 +19,14 @@ export async function getModelConfig() {
 
   // 获取 model.ts 文件
   const modelList = dirList.filter(item => ['model.ts', 'model.js'].includes(item.name))
-  console.log('%c [ modelList ]-20', 'font-size:13px; background:pink; color:#bf2c9f;', modelList)
 
   // 获取 model.ts 文件中的配置
   const asyncModelConfig = await Promise.all(modelList.map(async (item) => {
-    const res = await import(pathAdapter(resolve(rootPath, item.parentPath, item.name)))
-    const parentFolderName = basename(item.parentPath)
+    // item.path 兼容 node 20 以下版本
+    // Alias for dirent.parentPath.
+    // @since — v20.1.0
+    const res = await import(pathAdapter(resolve(rootPath, item.parentPath || item.path, item.name)))
+    const parentFolderName = basename(item.parentPath || item.path)
 
     return [parentFolderName, res.default]
   }))
