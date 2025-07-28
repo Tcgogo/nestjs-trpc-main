@@ -11,32 +11,32 @@ import type { HTTPBaseHandlerOptions, ResolveHTTPRequestOptionsContextFn } from 
  * import type { HTTPBaseHandlerOptions } from '@trpc/server/http'
  * ```
  */
-import type { FastifyReply, FastifyRequest } from 'fastify'
+import type { Request, Response } from 'express'
 import { incomingMessageToRequest } from '@trpc/server/adapters/node-http'
 import { resolveResponse } from '@trpc/server/http'
 
-export type FastifyHandlerOptions<
+export type ExpressHandlerOptions<
   TRouter extends AnyRouter,
-  TRequest extends FastifyRequest,
-  TResponse extends FastifyReply,
+  TRequest extends Request,
+  TResponse extends Response,
 > = HTTPBaseHandlerOptions<TRouter, TRequest>
   & NodeHTTPCreateContextOption<TRouter, TRequest, TResponse>
 
-type FastifyRequestHandlerOptions<
+type ExpressRequestHandlerOptions<
   TRouter extends AnyRouter,
-  TRequest extends FastifyRequest,
-  TResponse extends FastifyReply,
-> = FastifyHandlerOptions<TRouter, TRequest, TResponse> & {
+  TRequest extends Request,
+  TResponse extends Response,
+> = ExpressHandlerOptions<TRouter, TRequest, TResponse> & {
   req: TRequest
   res: TResponse
   path: string
 }
 
-export async function fastifyRequestHandler<
+export async function expressRequestHandler<
   TRouter extends AnyRouter,
-  TRequest extends FastifyRequest,
-  TResponse extends FastifyReply,
->(opts: FastifyRequestHandlerOptions<TRouter, TRequest, TResponse>) {
+  TRequest extends Request,
+  TResponse extends Response,
+>(opts: ExpressRequestHandlerOptions<TRouter, TRequest, TResponse>) {
   const createContext: ResolveHTTPRequestOptionsContextFn<TRouter> = async (
     innerOpts,
   ) => {
@@ -46,13 +46,13 @@ export async function fastifyRequestHandler<
     })
   }
 
-  const incomingMessage: NodeHTTPRequest = opts.req.raw
+  const incomingMessage: NodeHTTPRequest = opts.req as any
 
-  // monkey-path body to the IncomingMessage
+  // monkey-patch body to the IncomingMessage
   if ('body' in opts.req) {
-    incomingMessage.body = opts.req.body
+    (incomingMessage as any).body = opts.req.body
   }
-  const req = incomingMessageToRequest(incomingMessage, opts.res.raw, {
+  const req = incomingMessageToRequest(incomingMessage, opts.res as any, {
     maxBodySize: null,
   })
 
@@ -68,6 +68,7 @@ export async function fastifyRequestHandler<
       })
     },
   })
+  // const res2 = await opts.res.send(res)
 
   return res
 }

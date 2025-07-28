@@ -13,6 +13,12 @@ export type SchemaImports
  */
 export interface TRPCModuleOptions {
   /**
+   * The platform to use for the TRPC server.
+   * @default 'express'
+   */
+  platform?: 'express' | 'fastify'
+
+  /**
    * Path to trpc app router and helpers types output.
    */
   autoSchemaFile?: string

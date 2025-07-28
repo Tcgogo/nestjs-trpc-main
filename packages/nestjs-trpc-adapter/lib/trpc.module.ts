@@ -7,9 +7,10 @@ import { HttpAdapterHost } from '@nestjs/core'
 import { AppRouterHost } from './app-router.host'
 import { ExpressDriver, FastifyDriver } from './drivers'
 
-// 注意：这里需要根据不同的驱动来引入不同的控制器和服务
-import { TRPCController } from './drivers/fastify/trpc.controller'
-import { TRPCService } from './drivers/fastify/trpc.service'
+import { ExpressTRPCController } from './drivers/express/trpc.controller'
+import { ExpressTRPCService } from './drivers/express/trpc.service'
+import { FastifyTRPCController } from './drivers/fastify/trpc.controller'
+import { FastifyTRPCService } from './drivers/fastify/trpc.service'
 
 import { FactoryModule } from './factories/factory.module'
 import { GeneratorModule } from './generators/generator.module'
@@ -20,9 +21,11 @@ import { TRPCDriver } from './trpc.driver'
 
 @Module({
   imports: [FactoryModule, ScannerModule],
-  controllers: [TRPCController],
+  // 控制器将在 forRoot 中动态决定
+  controllers: [],
   providers: [
-    TRPCService,
+    FastifyTRPCService,
+    ExpressTRPCService,
 
     // NestJS Providers
     ConsoleLogger,
@@ -56,6 +59,10 @@ export class TRPCModule implements OnModuleInit {
   static forRoot(options: TRPCModuleOptions = {}): DynamicModule {
     const imports: Array<DynamicModule> = []
 
+    if (!options.platform) {
+      options.platform = 'express'
+    }
+
     if (options.autoSchemaFile != null) {
       const fileScanner = new FileScanner()
       const callerFilePath = fileScanner.getCallerFilePath()
@@ -70,9 +77,21 @@ export class TRPCModule implements OnModuleInit {
       )
     }
 
+    // 根据平台类型决定注册哪个控制器
+    const platformName = options.platform
+    const controllers: Array<typeof ExpressTRPCController | typeof FastifyTRPCController> = []
+
+    if (platformName === 'express') {
+      controllers.push(ExpressTRPCController)
+    }
+    else if (platformName === 'fastify') {
+      controllers.push(FastifyTRPCController)
+    }
+
     return {
       module: TRPCModule,
       imports,
+      controllers,
       providers: [{ provide: TRPC_MODULE_OPTIONS, useValue: options }],
     }
   }

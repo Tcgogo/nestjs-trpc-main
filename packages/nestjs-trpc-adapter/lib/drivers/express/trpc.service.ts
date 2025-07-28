@@ -4,7 +4,7 @@ import type { ContextOptions, TRPCContext } from '../../interfaces'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()
-export class FastifyTRPCService {
+export class ExpressTRPCService {
   private router!: AnyRouter
   private createContext?: (opts: ContextOptions) => any
 

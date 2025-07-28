@@ -1,13 +1,13 @@
 import type { Request, Response } from 'express'
 import { All, Controller, HttpException, HttpStatus, Inject, Req, Res } from '@nestjs/common'
 
-import { fastifyRequestHandler } from './handler'
-import { FastifyTRPCService } from './trpc.service'
+import { expressRequestHandler } from './handler'
+import { ExpressTRPCService } from './trpc.service'
 
 @Controller('trpc')
-export class FastifyTRPCController {
+export class ExpressTRPCController {
   constructor(
-    @Inject(FastifyTRPCService) private readonly trpcService: FastifyTRPCService,
+    @Inject(ExpressTRPCService) private readonly trpcService: ExpressTRPCService,
   ) {}
 
   @All(':path')
@@ -33,7 +33,7 @@ export class FastifyTRPCController {
       }
     }
 
-    const data = await fastifyRequestHandler({
+    const data = await expressRequestHandler({
       router,
       createContext: createContext ? opts => createContext(opts) : undefined,
       req: req as any,

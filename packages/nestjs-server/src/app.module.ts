@@ -18,6 +18,7 @@ import { LoggerModule } from '@/shared/logger/logger.module'
 @Module({
   imports: [
     TRPCModule.forRoot({
+      platform: 'fastify',
       autoSchemaFile: './src/@generated',
       tsConfigFilePath: path.resolve(process.cwd(), 'tsconfig.json'),
       // errorFormatter: (opts) => {

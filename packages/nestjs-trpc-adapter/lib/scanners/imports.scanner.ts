@@ -14,12 +14,10 @@ function getExportName(importedSourceFile: SourceFile) {
     // 处理标识符导出 (export default otherName)
     if (expr.getKind() === ts.SyntaxKind.Identifier) {
       exportName = expr.getText()
-      console.log('Default export name:', exportName) // 输出: otherName
     }
     // 处理其他导出形式（可选）
     else if (expr.getKind() === ts.SyntaxKind.FunctionExpression) {
       // 处理匿名函数导出
-      console.log('Anonymous function export')
     }
     else {
       // 其他类型的导出（字面量等）
