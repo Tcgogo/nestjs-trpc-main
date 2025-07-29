@@ -11,7 +11,7 @@ const globalSettingsDefault: RecursiveRequired<Settings.all> = {
     enablePermission: false,
     enableProgress: true,
     enableDynamicTitle: false,
-    routeBaseOn: 'frontend',
+    routeBaseOn: 'backend',
   },
   home: {
     enable: true,
@@ -22,7 +22,7 @@ const globalSettingsDefault: RecursiveRequired<Settings.all> = {
     enableMobileAdaptation: false,
   },
   menu: {
-    baseOn: 'frontend',
+    baseOn: 'backend',
     mode: 'head',
     mainMenuClickMode: 'switch',
     subMenuUniqueOpened: true,

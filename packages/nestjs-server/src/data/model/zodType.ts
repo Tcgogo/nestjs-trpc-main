@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import tz from 'ts-to-zod'
 import { getModelConfigStr } from '.'
 
@@ -17,4 +17,16 @@ async function generateZod() {
   // return zodSchema
 }
 
-generateZod()
+async function generateZod2() {
+  const path = './type.ts'
+  const targetPath = './zod-model.ts'
+  const sourceText = readFileSync(path, 'utf-8')
+  const zodSchema = tz.generate({
+    sourceText,
+  })
+
+  const zodSchemasFile = zodSchema.getZodSchemasFile('')
+  writeFileSync(targetPath, zodSchemasFile, 'utf-8')
+}
+
+generateZod2()
