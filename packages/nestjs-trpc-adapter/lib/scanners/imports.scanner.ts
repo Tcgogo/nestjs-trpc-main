@@ -35,86 +35,86 @@ export class ImportsScanner {
     project: Project,
   ): Map<string, SourceFileImportsMap> {
     const sourceFileImportsMap = new Map<string, SourceFileImportsMap>()
-    const importDeclarations = sourceFile.getImportDeclarations()
+    // const importDeclarations = sourceFile.getImportDeclarations()
 
-    for (const importDeclaration of importDeclarations) {
-      const namedImports = importDeclaration.getNamedImports()
-      const defaultImport = importDeclaration.getDefaultImport()
-      const nameSpaceImport = importDeclaration.getNamespaceImport()
+    // for (const importDeclaration of importDeclarations) {
+    //   const namedImports = importDeclaration.getNamedImports()
+    //   const defaultImport = importDeclaration.getDefaultImport()
+    //   const nameSpaceImport = importDeclaration.getNamespaceImport()
 
-      if (defaultImport) {
-        const name = defaultImport.getText()
-        const importedSourceFile
-        = importDeclaration.getModuleSpecifierSourceFile()
+    //   if (defaultImport) {
+    //     const name = defaultImport.getText()
+    //     const importedSourceFile
+    //       = importDeclaration.getModuleSpecifierSourceFile()
 
-        if (importedSourceFile == null) {
-          continue
-        }
+    //     if (importedSourceFile == null) {
+    //       continue
+    //     }
 
-        const exportName = getExportName(importedSourceFile)
+    //     const exportName = getExportName(importedSourceFile)
 
-        const declaration
-        = importedSourceFile.getVariableDeclaration(exportName)
-          || importedSourceFile.getClass(exportName)
-          || importedSourceFile.getInterface(exportName)
-          || importedSourceFile.getEnum(exportName)
-          || importedSourceFile.getFunction(exportName)
+    //     const declaration
+    //       = importedSourceFile.getVariableDeclaration(exportName)
+    //       || importedSourceFile.getClass(exportName)
+    //       || importedSourceFile.getInterface(exportName)
+    //       || importedSourceFile.getEnum(exportName)
+    //       || importedSourceFile.getFunction(exportName)
 
-        if (declaration != null) {
-          const initializer
-          = 'getInitializer' in declaration
-            ? declaration.getInitializer()
-            : declaration
-          sourceFileImportsMap.set(name, {
-            initializer: initializer ?? declaration,
-            sourceFile: importedSourceFile,
-          })
-        }
-      }
+    //     if (declaration != null) {
+    //       const initializer
+    //         = 'getInitializer' in declaration
+    //           ? declaration.getInitializer()
+    //           : declaration
+    //       sourceFileImportsMap.set(name, {
+    //         initializer: initializer ?? declaration,
+    //         sourceFile: importedSourceFile,
+    //       })
+    //     }
+    //   }
 
-      for (const namedImport of namedImports) {
-        const name = namedImport.getName()
+    //   for (const namedImport of namedImports) {
+    //     const name = namedImport.getName()
 
-        // 获取重命名导出
-        const aliasName = namedImport.getAliasNode()?.getFullText()?.trim()
+    //     // 获取重命名导出
+    //     const aliasName = namedImport.getAliasNode()?.getFullText()?.trim()
 
-        const importedSourceFile
-        = importDeclaration.getModuleSpecifierSourceFile()
+    //     const importedSourceFile
+    //       = importDeclaration.getModuleSpecifierSourceFile()
 
-        if (importedSourceFile == null) {
-          continue
-        }
+    //     if (importedSourceFile == null) {
+    //       continue
+    //     }
 
-        const resolvedSourceFile
-        = importedSourceFile.getFilePath().endsWith('index.ts')
-          && !importedSourceFile.getVariableDeclaration(name)
-          ? this.resolveBarrelFileImport(importedSourceFile, name, project)
-          : importedSourceFile
+    //     const resolvedSourceFile
+    //       = importedSourceFile.getFilePath().endsWith('index.ts')
+    //         && !importedSourceFile.getVariableDeclaration(name)
+    //         ? this.resolveBarrelFileImport(importedSourceFile, name, project)
+    //         : importedSourceFile
 
-        if (resolvedSourceFile == null) {
-          continue
-        }
+    //     if (resolvedSourceFile == null) {
+    //       continue
+    //     }
 
-        // Generalized logic to handle various kinds of declarations
-        const declaration
-        = resolvedSourceFile.getVariableDeclaration(name)
-          || resolvedSourceFile.getClass(name)
-          || resolvedSourceFile.getInterface(name)
-          || resolvedSourceFile.getEnum(name)
-          || resolvedSourceFile.getFunction(name)
+    //     // Generalized logic to handle various kinds of declarations
+    //     const declaration
+    //       = resolvedSourceFile.getVariableDeclaration(name)
+    //       || resolvedSourceFile.getClass(name)
+    //       || resolvedSourceFile.getInterface(name)
+    //       || resolvedSourceFile.getEnum(name)
+    //       || resolvedSourceFile.getFunction(name)
 
-        if (declaration != null) {
-          const initializer
-          = 'getInitializer' in declaration
-            ? declaration.getInitializer()
-            : declaration
-          sourceFileImportsMap.set(aliasName ?? name, {
-            initializer: initializer ?? declaration,
-            sourceFile: resolvedSourceFile,
-          })
-        }
-      }
-    }
+    //     if (declaration != null) {
+    //       const initializer
+    //         = 'getInitializer' in declaration
+    //           ? declaration.getInitializer()
+    //           : declaration
+    //       sourceFileImportsMap.set(aliasName ?? name, {
+    //         initializer: initializer ?? declaration,
+    //         sourceFile: resolvedSourceFile,
+    //       })
+    //     }
+    //   }
+    // }
 
     return sourceFileImportsMap
   }

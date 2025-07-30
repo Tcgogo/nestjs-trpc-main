@@ -3,6 +3,7 @@ import { Inject } from '@nestjs/common'
 import { Input, Query, Router } from 'nestjs-trpc-adapter'
 import { z } from 'zod'
 import { modelSchema } from '@/src/data/model/zod-model'
+
 import { ModelServiceService } from './model-service.service'
 
 const getModelConfigInput = z.object({

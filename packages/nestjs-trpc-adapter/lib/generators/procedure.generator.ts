@@ -1,51 +1,55 @@
-import type { MethodDeclaration, ObjectLiteralExpression, Project, PropertyAssignment, SourceFile, VariableDeclaration } from 'ts-morph'
+import type { Project, SourceFile } from 'ts-morph'
 import type { ProcedureGeneratorMetadata } from '../interfaces/generator.interface'
+import type { GeneratorModuleOptions } from './generator.interface'
+import { existsSync } from 'node:fs'
+import path from 'node:path'
 import { Inject, Injectable } from '@nestjs/common'
+import { TRPC_GENERATOR_OPTIONS } from 'lib/trpc.constants'
 import { Node } from 'ts-morph'
+import { ImportSet } from '../import-set'
 import { ImportsScanner } from '../scanners/imports.scanner'
 import { ProcedureType } from '../trpc.enum'
 import { TYPESCRIPT_APP_ROUTER_SOURCE_FILE } from './generator.constants'
 import { StaticGenerator } from './static.generator'
 
-// 获取对象属性的值
-function getPropertyValue(
-  variable: VariableDeclaration,
-  propertyKey: string,
-): { kindName: 'PropertyAssignment' | 'ShorthandPropertyAssignment' | 'MethodDeclaration', value: string } | undefined {
-  const initializer = variable.getInitializer()
+/**
+ * 解析导入路径
+ * @param importPath 导入路径
+ * @param baseUrl 基础路径
+ * @param paths 路径映射
+ * @returns 解析后的路径
+ */
+function resolvePath(importPath: string, baseUrl: string, paths: Record<string, string[]>) {
+  for (const [aliasPattern, mappings] of Object.entries(paths)) {
+    // 移除模式中的通配符
+    const cleanAlias = aliasPattern.replace('/*', '')
 
-  // 检查是否是对象字面量
-  if (initializer && initializer.getKindName() === 'ObjectLiteralExpression') {
-    const objLiteral = initializer as ObjectLiteralExpression
+    // 检查路径是否匹配别名
+    if (importPath.startsWith(cleanAlias)) {
+      // 获取路径中的剩余部分
+      const remainingPath = importPath.slice(cleanAlias.length)
 
-    // 查找指定属性
-    const property = objLiteral.getProperty(propertyKey)
+      // 尝试每个映射
+      for (const mapping of mappings) {
+        // 移除映射中的通配符
+        const cleanMapping = mapping.replace('/*', '')
 
-    if (property) {
-      // 处理不同属性类型
-      if (property.getKindName() === 'PropertyAssignment') {
-        return {
-          kindName: 'PropertyAssignment',
-          value: (property as PropertyAssignment).getInitializer()?.getText() || '',
+        // 构造完整路径
+        let resolvedPath = path.resolve(baseUrl, cleanMapping)
+
+        // 添加剩余路径
+        if (remainingPath) {
+          resolvedPath = path.join(resolvedPath, remainingPath)
         }
-      }
-      // 处理简写属性 (shorthand property)
-      if (property.getKindName() === 'ShorthandPropertyAssignment') {
-        return {
-          kindName: 'ShorthandPropertyAssignment',
-          value: property.getText(),
-        }
-      }
-      // 处理方法属性
-      if (property.getKindName() === 'MethodDeclaration') {
-        return {
-          kindName: 'MethodDeclaration',
-          value: (property as MethodDeclaration).getBody()?.getText() || '',
+
+        // 检查路径是否存在
+        if (existsSync(resolvedPath) || existsSync(`${resolvedPath}.ts`)) {
+          // 转换为相对路径
+          return resolvedPath
         }
       }
     }
   }
-  return undefined
 }
 
 @Injectable()
@@ -58,6 +62,12 @@ export class ProcedureGenerator {
 
   @Inject(TYPESCRIPT_APP_ROUTER_SOURCE_FILE)
   private readonly appRouterSourceFile!: SourceFile
+
+  @Inject(TRPC_GENERATOR_OPTIONS)
+  private readonly options!: GeneratorModuleOptions
+
+  @Inject(ImportSet)
+  private readonly importSet!: ImportSet
 
   public generateProcedureString(
     procedure: ProcedureGeneratorMetadata,
@@ -86,150 +96,74 @@ export class ProcedureGenerator {
     project: Project,
     schema: string,
   ): string {
-    const importsMap = this.importsScanner.buildSourceFileImportsMap(
-      sourceFile,
-      project,
-    )
+    const compilerOptions = project.getCompilerOptions()
+    const paths = compilerOptions.paths || {}
+    const baseUrl = path.resolve(process.cwd(), compilerOptions.baseUrl || '.')
+
     if (Node.isIdentifier(node)) {
-      const identifierName = node.getText()
       const identifierDeclaration
-        = sourceFile.getVariableDeclaration(identifierName)
+        = sourceFile.getVariableDeclaration(schema)
 
       if (identifierDeclaration != null) {
         const identifierInitializer = identifierDeclaration.getInitializer()
 
         if (identifierInitializer != null) {
-          const identifierSchema = this.flattenZodSchema(
-            identifierInitializer,
-            sourceFile,
-            project,
-            identifierInitializer.getText(),
-          )
-
-          schema = schema.replace(identifierName, identifierSchema)
-        }
-      }
-      else if (importsMap.has(identifierName)) {
-        const importedIdentifier = importsMap.get(identifierName)
-
-        if (importedIdentifier != null) {
-          const { initializer } = importedIdentifier
-          const identifierSchema = this.flattenZodSchema(
-            initializer,
-            importedIdentifier.sourceFile,
-            project,
-            initializer.getText(),
-          )
-
-          schema = schema.replace(identifierName, identifierSchema)
-        }
-      }
-    }
-    else if (Node.isObjectLiteralExpression(node)) {
-      for (const property of node.getProperties()) {
-        if (Node.isPropertyAssignment(property)) {
-          const propertyText = property.getText()
-          const propertyInitializer = property.getInitializer()
-
-          if (propertyInitializer != null) {
-            schema = schema.replace(
-              propertyText,
-              this.flattenZodSchema(
-                propertyInitializer,
-                sourceFile,
-                project,
-                propertyText,
-              ),
-            )
-          }
-        }
-      }
-    }
-    else if (Node.isArrayLiteralExpression(node)) {
-      for (const element of node.getElements()) {
-        const elementText = element.getText()
-        schema = schema.replace(
-          elementText,
-          this.flattenZodSchema(element, sourceFile, project, elementText),
-        )
-      }
-    }
-    else if (Node.isCallExpression(node)) {
-      const expression = node.getExpression()
-      if (
-        Node.isPropertyAccessExpression(expression)
-        && !expression.getText().startsWith('z')
-      ) {
-        const baseSchema = this.flattenZodSchema(
-          expression,
-          sourceFile,
-          project,
-          expression.getText(),
-        )
-        const propertyName = expression.getName()
-        schema = schema.replace(
-          expression.getText(),
-          `${baseSchema}.${propertyName}`,
-        )
-      }
-      else if (!expression.getText().startsWith('z')) {
-        this.staticGenerator.addSchemaImports(
-          this.appRouterSourceFile,
-          [expression.getText()],
-          importsMap,
-        )
-      }
-
-      for (const arg of node.getArguments()) {
-        const argText = arg.getText()
-        schema = schema.replace(
-          argText,
-          this.flattenZodSchema(arg, sourceFile, project, argText),
-        )
-      }
-    }
-    else if (Node.isPropertyAccessExpression(node)) {
-      const nodeTextArr = node.getText().split('.')
-
-      const parentNodePath = nodeTextArr[0]
-      const childNodePath = nodeTextArr[1]
-
-      if (importsMap.has(parentNodePath)) {
-      // 只支持 obj.a 一层读取
-        if (nodeTextArr.length > 2) {
-          console.warn(`只支持 obj.a 一层读取, 当前路径: ${node.getText()}`)
-          schema = node.getText()
-          return schema
-        }
-
-        const parentSourceFile = importsMap.get(parentNodePath)!.sourceFile
-        const childSourceFile = parentSourceFile.getVariableDeclaration(parentNodePath)
-        if (childSourceFile) {
-          const childPropertyValue = getPropertyValue(childSourceFile!, childNodePath!)
-          const { kindName, value } = childPropertyValue || {}
-          if (kindName === 'ShorthandPropertyAssignment') {
-            const declaration = parentSourceFile.getVariableDeclaration(childNodePath)
-              || parentSourceFile.getClass(childNodePath)
-              || parentSourceFile.getInterface(childNodePath)
-              || parentSourceFile.getEnum(childNodePath)
-            const initializer
-          = 'getInitializer' in declaration!
-            ? declaration.getInitializer()
-            : declaration
-            schema = initializer?.getText() || node.getText()
-          }
-          else {
-            schema = value || node.getText()
-          }
+          // 不支持嵌套的变量
+          schema = identifierInitializer.getText()
         }
       }
       else {
-        schema = this.flattenZodSchema(
-          node.getExpression(),
-          sourceFile,
-          project,
-          node.getExpression().getText(),
-        )
+        const importDeclarations = sourceFile.getImportDeclarations()
+        for (const importDeclaration of importDeclarations) {
+          const namedImports = importDeclaration.getNamedImports()
+          const defaultImport = importDeclaration.getDefaultImport()
+          namedImports.forEach((namedImport) => {
+            const text = importDeclaration.getText()
+            const name = namedImport.getAliasNode()?.getFullText()?.trim() || namedImport.getName()
+            // 匹配到对应名称
+            if (name === schema) {
+              // importDeclaration 获取导入路径
+              const moduleSpecifier = importDeclaration.getModuleSpecifier()
+              const importPath = moduleSpecifier.getLiteralValue()
+              const importText = moduleSpecifier.getText()
+              if (importDeclaration.isModuleSpecifierRelative()) {
+                const p1 = path.resolve(path.resolve(sourceFile.getFilePath(), '..'), importPath)
+                const relativeImportPath = path.relative(this.options.outputDirPath!, p1).replace(new RegExp(`\\${path.sep}`, 'g'), '/')
+                this.importSet.addImport(text.replace(importText, `"${relativeImportPath}";`))
+              }
+              else {
+                const resolvedPath = resolvePath(importPath, baseUrl, paths)
+                const relativePath = resolvedPath ? path.relative(this.options.outputDirPath!, resolvedPath).replace(new RegExp(`\\${path.sep}`, 'g'), '/') : ''
+                const relativeImportPath = resolvedPath ? text.replace(importText, `"${relativePath}";`) : importPath
+
+                this.importSet.addImport(relativeImportPath)
+              }
+            }
+          })
+
+          if (defaultImport) {
+            const text = importDeclaration.getText()
+            const moduleSpecifier = importDeclaration.getModuleSpecifier()
+            const importText = moduleSpecifier.getText()
+            const importPath = moduleSpecifier.getLiteralValue()
+            const importName = defaultImport.getText()
+
+            if (importName === schema) {
+              if (importDeclaration.isModuleSpecifierRelative()) {
+                const p1 = path.resolve(path.resolve(sourceFile.getFilePath(), '..'), importPath)
+                const relativeImportPath = path.relative(this.options.outputDirPath!, p1).replace(new RegExp(`\\${path.sep}`, 'g'), '/')
+                this.importSet.addImport(text.replace(importText, `"${relativeImportPath}";`))
+              }
+              else {
+                const resolvedPath = resolvePath(importPath, baseUrl, paths)
+                const relativePath = resolvedPath ? path.relative(this.options.outputDirPath!, resolvedPath).replace(new RegExp(`\\${path.sep}`, 'g'), '/') : ''
+                const relativeImportPath = resolvedPath ? text.replace(importText, `"${relativePath}";`) : importPath
+
+                this.importSet.addImport(relativeImportPath)
+              }
+            }
+          }
+        }
       }
     }
 

@@ -50,6 +50,7 @@ onMounted(async () => {
   })
   try {
     const data = await mutation.mutateAsync('buiness')
+
     console.log('%c [ mutation.isPending ]-63', 'font-size:13px; background:pink; color:#bf2c9f;', data)
   }
   catch (error) {

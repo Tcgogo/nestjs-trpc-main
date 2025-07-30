@@ -8,6 +8,7 @@ import { ConsoleLogger, Inject, Module } from '@nestjs/common'
 import { MetadataScanner } from '@nestjs/core'
 import { ModuleKind, Project, ScriptTarget } from 'ts-morph'
 import { FactoryModule } from '../factories/factory.module'
+import { ImportSet } from '../import-set'
 import { ScannerModule } from '../scanners/scanner.module'
 import {
   TRPC_GENERATOR_OPTIONS,
@@ -40,6 +41,8 @@ import { TRPCGenerator } from './trpc.generator'
     MiddlewareGenerator,
     ContextGenerator,
     StaticGenerator,
+
+    ImportSet,
   ],
   exports: [TRPCGenerator],
 })

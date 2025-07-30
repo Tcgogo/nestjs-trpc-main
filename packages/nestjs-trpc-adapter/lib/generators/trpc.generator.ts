@@ -14,6 +14,7 @@ import {
 import { MiddlewareFactory } from '../factories/middleware.factory'
 import { ProcedureFactory } from '../factories/procedure.factory'
 import { RouterFactory } from '../factories/router.factory'
+import { ImportSet } from '../import-set'
 import { ImportsScanner } from '../scanners/imports.scanner'
 import { TRPC_MODULE_CALLER_FILE_PATH } from '../trpc.constants'
 import { saveOrOverrideFile } from '../utils/ts-morph.util'
@@ -71,6 +72,9 @@ export class TRPCGenerator implements OnModuleInit {
   @Inject(ImportsScanner)
   private readonly importsScanner!: ImportsScanner
 
+  @Inject(ImportSet)
+  private readonly importSet!: ImportSet
+
   onModuleInit() {
     this.rootModuleImportsMap = this.buildRootImportsMap()
   }
@@ -79,6 +83,9 @@ export class TRPCGenerator implements OnModuleInit {
     schemaImports?: Array<SchemaImports> | undefined,
   ): Promise<void> {
     try {
+      // 清空导入集合
+      this.importSet.clearImport()
+
       const routers = this.routerFactory.getRouters()
       const mappedRoutesAndProcedures = routers.map((route) => {
         const { instance, name, alias, path } = route
@@ -114,7 +121,11 @@ export class TRPCGenerator implements OnModuleInit {
           routersMetadata,
         )
 
+      console.log('%c []-121', 'font-size:13px; background:#336699; color:#fff;', this.importSet.importSet)
+      const importStatements = Array.from(this.importSet.importSet).join('\n')
+
       this.appRouterSourceFile.addStatements(/* ts */ `
+        ${importStatements}
         const appRouter = t.router({${routersStringDeclarations}});
         export type AppRouter = typeof appRouter;
       `)

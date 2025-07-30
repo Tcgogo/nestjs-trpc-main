@@ -21,4 +21,6 @@ export const modelSchema = z.object({
   menu: z.array(menuItemSchema),
 })
 
+export const modelSchema2 = modelSchema
+
 export default modelSchema

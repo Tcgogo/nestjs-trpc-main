@@ -14,6 +14,7 @@ import { FastifyTRPCService } from './drivers/fastify/trpc.service'
 
 import { FactoryModule } from './factories/factory.module'
 import { GeneratorModule } from './generators/generator.module'
+import { ImportSet } from './import-set'
 import { FileScanner } from './scanners/file.scanner'
 import { ScannerModule } from './scanners/scanner.module'
 import { LOGGER_CONTEXT, TRPC_MODULE_OPTIONS } from './trpc.constants'
@@ -37,8 +38,9 @@ import { TRPCDriver } from './trpc.driver'
 
     // Exports
     AppRouterHost,
+    ImportSet,
   ],
-  exports: [AppRouterHost],
+  exports: [AppRouterHost, ImportSet],
 })
 export class TRPCModule implements OnModuleInit {
   @Inject(TRPC_MODULE_OPTIONS)
