@@ -86,7 +86,7 @@ const id = inject('DrawerId')
         v-if="closable"
         class="absolute transition-opacity right-4 top-4 bg-transparent rounded-sm opacity-70 ring-offset-background disabled:pointer-events-none data-[state=open]:bg-secondary hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-ring"
       >
-        <X class="h-4 w-4 text-muted-foreground" />
+        <X class="text-muted-foreground h-4 w-4" />
       </DialogClose>
     </DialogContent>
   </DialogPortal>

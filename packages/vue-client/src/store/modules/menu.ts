@@ -1,8 +1,9 @@
 import type { Menu, Route } from '#/global'
 import type { RouteRecordRaw } from 'vue-router'
+import { useMutation } from '@pinia/colada'
 import { cloneDeep } from 'es-toolkit'
-import apiApp from '@/api/modules/app'
 import menu from '@/menu'
+import { client } from '@/trpc'
 import { resolveRoutePath } from '@/utils'
 
 export const useMenuStore = defineStore(
@@ -12,7 +13,7 @@ export const useMenuStore = defineStore(
     const settingsStore = useSettingsStore()
     const routeStore = useRouteStore()
 
-    const filesystemMenusRaw = ref<Menu.recordMainRaw[]>([])
+    const filesystemMenusRaw = ref<any[]>([])
     const actived = ref(0)
 
     // 将原始路由转换成导航菜单
@@ -173,9 +174,17 @@ export const useMenuStore = defineStore(
     }
     // 生成导航（后端生成）
     async function generateMenusAtBack() {
-      await apiApp.menuList().then(async (res) => {
-        filesystemMenusRaw.value = (res.data as Menu.recordMainRaw[]).filter(item => item.children.length !== 0)
-      }).catch(() => {})
+      const mutation = await useMutation({
+        key: ['men2u2'],
+        mutation: (key: string) => client.model.getModelConfig.query({
+          modelKey: key,
+        }),
+      })
+
+      const data = await mutation.mutateAsync('buiness')
+
+      filesystemMenusRaw.value = data.menu.filter(item => item.children?.length !== 0)
+      console.log('%c [ filesystemMenusRaw.value ]-187', 'font-size:13px; background:pink; color:#bf2c9f;', filesystemMenusRaw.value)
     }
     // 设置主导航
     function isPathInMenus(menus: Menu.recordRaw[], path: string) {

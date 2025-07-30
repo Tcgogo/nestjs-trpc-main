@@ -27,7 +27,7 @@ function open() {
           <div class="text-xl my-2 text-dark dark-text-white">
             是否访问此链接
           </div>
-          <div class="my-2 cursor-pointer text-center text-secondary-foreground/50 max-w-[300px] text-[14px]" @click="route.meta.link && copy(route.meta.link)">
+          <div class="my-2 cursor-pointer text-secondary-foreground/50 text-center max-w-[300px] text-[14px]" @click="route.meta.link && copy(route.meta.link)">
             <FaTooltip text="复制链接">
               <div class="line-clamp-3">
                 {{ route.meta.link }}

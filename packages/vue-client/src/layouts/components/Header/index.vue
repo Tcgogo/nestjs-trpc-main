@@ -24,16 +24,16 @@ const { switchTo } = useMenu()
           <div class="h-full flex menu of-hidden transition-all">
             <template v-for="(item, index) in menuStore.allMenus" :key="index">
               <div
-                class="relative py-2 transition-all menu-item mx-1" :class="{
+                class="relative transition-all py-2 menu-item mx-1" :class="{
                   active: index === menuStore.actived,
                 }"
               >
                 <div
-                  v-if="item.children && item.children.length !== 0" class="relative h-full w-full flex cursor-pointer items-center gap-1 transition-all justify-between rounded-lg group menu-item-container px-3 text-[var(--g-header-menu-color)] hover-bg-[var(--g-header-menu-hover-bg)] hover-text-[var(--g-header-menu-hover-color)]" :class="{
+                  v-if="item.children && item.children.length !== 0" class="relative h-full w-full flex cursor-pointer items-center transition-all justify-between gap-1 rounded-lg group menu-item-container px-3 text-[var(--g-header-menu-color)] hover-bg-[var(--g-header-menu-hover-bg)] hover-text-[var(--g-header-menu-hover-color)]" :class="{
                     'text-[var(--g-header-menu-active-color)]! bg-[var(--g-header-menu-active-bg)]!': index === menuStore.actived,
                   }" :title="typeof item.meta?.title === 'function' ? item.meta?.title() : item.meta?.title" @click="switchTo(index)"
                 >
-                  <div class="inline-flex flex-1 items-center justify-center gap-1">
+                  <div class="flex-1 items-center gap-1 inline-flex justify-center">
                     <FaIcon v-if="item.meta?.icon" :name="item.meta?.icon" class="menu-item-container-icon transition-transform group-hover-scale-120" />
                     <span class="w-full flex-1 truncate text-sm transition-opacity transition-height transition-width">
                       {{ typeof item.meta?.title === 'function' ? item.meta?.title() : item.meta?.title }}

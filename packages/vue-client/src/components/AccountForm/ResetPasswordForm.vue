@@ -50,7 +50,7 @@ function handleSendCaptcha() {
 </script>
 
 <template>
-  <div class="min-h-500px w-full flex-col-stretch-center p-12">
+  <div class="w-full min-h-500px flex-col-stretch-center p-12">
     <form @submit="onSubmit">
       <div class="space-y-2 mb-8">
         <h3 class="text-4xl color-[var(--el-text-color-primary)] font-bold">
@@ -66,7 +66,7 @@ function handleSendCaptcha() {
             <FaInput type="text" placeholder="请输入用户名" class="w-full" :class="errors.length && 'border-destructive'" v-bind="componentField" />
           </FormControl>
           <Transition enter-active-class="transition-opacity" enter-from-class="opacity-0" leave-active-class="transition-opacity" leave-to-class="opacity-0">
-            <FormMessage class="absolute bottom-1 text-xs" />
+            <FormMessage class="absolute text-xs bottom-1" />
           </Transition>
         </FormItem>
       </FormField>
@@ -95,7 +95,7 @@ function handleSendCaptcha() {
           </Transition>
         </FormItem>
       </FormField>
-      <FaButton :loading="loading" size="lg" class="mt-4 w-full" type="submit">
+      <FaButton :loading="loading" size="lg" class="w-full mt-4" type="submit">
         确认
       </FaButton>
       <div class="mt-4 flex-center gap-2 text-sm color-[var(--el-text-color-secondary)]">
