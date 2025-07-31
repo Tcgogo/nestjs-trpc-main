@@ -1,7 +1,7 @@
 DB_CONFIG:
   type: mysql # 数据库链接类型
   host: localhost
-  port: 3307
+  port: 3306
   username: root
   password: '123456'
   database: temp # 后面改成 scid

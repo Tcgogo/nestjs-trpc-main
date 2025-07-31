@@ -1,75 +1,71 @@
-import type { Model } from '../type'
-
-const config: Model = {
-  model: 'dashboard',
-  title: 'bilibili',
+const config: Model.Info = {
+  model: 'course',
+  title: '课程系统',
   menu: [
     {
       meta: {
-        title: '测试12',
+        title: '课程管理',
         icon: 'uim:box',
       },
       children: [
         {
           path: '/multilevel_menu_example',
           component: 'Layout',
-          name: 'multilevelMenuExample',
+          name: 'courseList',
           meta: {
-            title: '多级导航',
+            title: '课程列表',
             icon: 'heroicons-solid:menu-alt-3',
           },
           children: [
             {
               path: 'page',
-              name: 'multilevelMenuExample1',
+              name: 'courseList1',
               component: 'multilevel_menu_example/page.vue',
               meta: {
-                title: '导航1',
+                title: '课程列表1',
               },
             },
             {
-              path: 'level2',
-              name: 'multilevelMenuExample2',
+              path: 'page',
+              name: 'courseList2',
+              component: 'multilevel_menu_example/page.vue',
               meta: {
-                title: '导航2',
+                title: '课程列表2',
               },
-              children: [
-                {
-                  path: 'page',
-                  name: 'multilevelMenuExample2-1',
-                  component: 'multilevel_menu_example/level2/page.vue',
-                  meta: {
-                    title: '导航2-1',
-                  },
-                },
-                {
-                  path: 'level3',
-                  name: 'multilevelMenuExample2-2',
-                  meta: {
-                    title: '导航2-2',
-                  },
-                  children: [
-                    {
-                      path: 'page1',
-                      name: 'multilevelMenuExample2-2-1',
-                      component: 'multilevel_menu_example/level2/level3/page1.vue',
-                      meta: {
-                        title: '导航2-2-1',
-                      },
-                    },
-                    {
-                      path: 'page2',
-                      name: 'multilevelMenuExample2-2-2',
-                      component: 'multilevel_menu_example/level2/level3/page2.vue',
-                      meta: {
-                        title: '导航2-2-2',
-                      },
-                    },
-                  ],
-                },
-              ],
             },
           ],
+        },
+      ],
+    },
+    {
+      meta: {
+        title: '课程分类',
+        icon: 'uim:box',
+      },
+      children: [
+        {
+          path: '/page',
+          name: 'courseCategoryList',
+          component: 'multilevel_menu_example/page.vue',
+          meta: {
+            title: '课程分类列表',
+          },
+        },
+      ],
+    },
+    {
+      meta: {
+        title: '课程标签',
+        icon: 'uim:box',
+      },
+      children: [
+        {
+          path: '/page',
+          name: 'courseTagList',
+          component: 'multilevel_menu_example/page.vue',
+          meta: {
+            title: '课程标签列表',
+          },
         },
       ],
     },

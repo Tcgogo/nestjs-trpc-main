@@ -13,7 +13,8 @@
       "vite-plugin-pages/client",
       "vite-plugin-vue-meta-layouts/client",
       "vite-plugin-app-loading/client",
-      "element-plus/global"
+      "element-plus/global",
+      "@tcgogo/types/global"
     ],
     "allowJs": false,
     "strict": true,

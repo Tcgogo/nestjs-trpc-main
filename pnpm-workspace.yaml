@@ -1,5 +1,6 @@
 packages:
   - packages/*
+  - libs/*
 
 catalog:
   '@commitlint/cli': ^19.8.1

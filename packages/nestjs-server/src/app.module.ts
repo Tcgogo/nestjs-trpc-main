@@ -8,12 +8,12 @@ import { APP_INTERCEPTOR } from '@nestjs/core'
 
 import { TRPCModule } from 'nestjs-trpc-adapter'
 
-import { ModelServiceModule } from '@/app/model-service/model-service.module'
 import { UserModule } from '@/contexts/users/user.module'
 import { DatabaseModule } from '@/lib/database/database.module'
 import { TransformInterceptor } from '@/lib/interceptors/transform.interceptor'
 import { getConfig } from '@/lib/utils'
 import { LoggerModule } from '@/shared/logger/logger.module'
+import { ModelServiceModule } from '@/src/app/model/model.module'
 
 @Module({
   imports: [

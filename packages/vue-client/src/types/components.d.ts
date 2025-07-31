@@ -49,6 +49,7 @@ declare module 'vue' {
     FileUpload: typeof import('./../components/FileUpload/index.vue')['default']
     ImagesUpload: typeof import('./../components/ImagesUpload/index.vue')['default']
     ImageUpload: typeof import('./../components/ImageUpload/index.vue')['default']
+    ModelSelect: typeof import('./../components/ModelSelect/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

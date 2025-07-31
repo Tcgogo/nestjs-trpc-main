@@ -80,7 +80,8 @@ function setupRoutes(router: Router) {
           }
           routeStore.setCurrentRemoveRoutes(removeRoutes)
         }
-        catch {
+        catch (err) {
+          console.log('%c [err]-84', 'font-size:13px; background:#336699; color:#fff;', err)
           userStore.logout()
         }
         // 动态路由生成并注册后，重新进入当前路由

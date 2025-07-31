@@ -1,4 +1,3 @@
-import type { ModelConfigTypeAll } from '@/src/data/model/send-type'
 import { Injectable } from '@nestjs/common'
 import { getModelConfig } from '@/src/data/model'
 
@@ -9,14 +8,18 @@ interface User {
 }
 
 @Injectable()
-export class ModelServiceService {
-  async getAllModelConfig(): Promise<ModelConfigTypeAll> {
-    const modelConfig = await getModelConfig()
-    return modelConfig
-  }
-
-  async getModelConfig(modelKey: keyof ModelConfigTypeAll) {
+export class ModelService {
+  async getModelConfig(modelKey: string) {
     const modelConfig = await getModelConfig()
     return modelConfig[modelKey]
+  }
+
+  async getModelList() {
+    const modelConfig = await getModelConfig()
+    const modelList = Object.values(modelConfig).map(item => ({
+      title: item.title,
+      model: item.model,
+    }))
+    return modelList
   }
 }

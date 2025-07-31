@@ -79,6 +79,7 @@
     "@nestjs/testing": "catalog:",
     "@swc/cli": "catalog:",
     "@swc/core": "catalog:",
+    "@tcgogo/types": "workspace:*",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash-es": "catalog:",
     "@types/node": "catalog:",

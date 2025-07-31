@@ -1,16 +1,15 @@
 import type { Route } from '#/global'
 import type { RouteRecordRaw, RouterMatcher } from 'vue-router'
-import { useMutation } from '@pinia/colada'
 import { cloneDeep } from 'es-toolkit'
 import { createRouterMatcher } from 'vue-router'
-import apiApp from '@/api/modules/app'
 import { systemRoutes as systemRoutesRaw } from '@/router/routes'
-import { client } from '@/trpc'
 
 export const useRouteStore = defineStore(
   // 唯一ID
   'route',
   () => {
+    const modelStore = useModelStore()
+
     const settingsStore = useSettingsStore()
 
     const isGenerate = ref(false)
@@ -120,18 +119,12 @@ export const useRouteStore = defineStore(
     }
     // 生成路由（后端获取）
     async function generateRoutesAtBack() {
-      const mutation = await useMutation({
-        key: ['men2u2'],
-        mutation: (key: string) => client.model.getModelConfig.query({
-          modelKey: key,
-        }),
-      })
-
-      const data = await mutation.mutateAsync('buiness')
+      await modelStore.apiGetModelList()
+      await modelStore.apiGetModelData(modelStore.currentModel)
 
       // 设置 routes 数据
-      routesRaw.value = formatBackRoutes(data.menu)
-      // 创建路由匹配器
+      routesRaw.value = formatBackRoutes(modelStore.modelData?.menu)
+
       const routes: RouteRecordRaw[] = []
       routesRaw.value.forEach((route) => {
         if (route.children) {

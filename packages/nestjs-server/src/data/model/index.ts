@@ -1,4 +1,3 @@
-import type { ModelConfigTypeAll } from './send-type'
 import { readdirSync, readFileSync } from 'node:fs'
 import { basename, dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -33,7 +32,7 @@ export async function getModelConfig() {
   // 构建模型配置
   const modelConfig = Object.fromEntries(asyncModelConfig)
 
-  return modelConfig as ModelConfigTypeAll
+  return modelConfig as Record<string, Model.Info>
 }
 
 export async function getModelConfigStr() {

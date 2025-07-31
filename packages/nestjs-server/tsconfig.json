@@ -16,7 +16,7 @@
       "@/tests/*": ["tests/*"]
     },
     "resolveJsonModule": true,
-    "types": ["vitest/globals"],
+    "types": ["vitest/globals", "@tcgogo/types/global.d.ts"],
     "strict": true,
     "inlineSources": true,
     "outDir": "dist",
