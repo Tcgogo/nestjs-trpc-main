@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@pinia/colada'
+import { useMutation, useQuery, useQueryCache, defineMutation, defineQuery } from '@pinia/colada'
 import { client } from '@/trpc'
 
 export const useModelStore = defineStore(
@@ -11,41 +11,58 @@ export const useModelStore = defineStore(
 
     const currentModel = ref('')
 
-    async function apiGetModelData(modelKey: string) {
-      const mutation = await useMutation({
-        key: ['model'],
-        mutation: (key: string) => client.model.getModelInfo.query({
-          modelKey: key,
-        }),
+    const queryCache = useQueryCache()
+
+    const ApiModelDataMutation = useMutation({
+      key: () => ['model', currentModel.value],
+      mutation: () => client.model.getModelInfo.query({
+        modelKey: currentModel.value,
+      }),
+      onSuccess: (data) => {
+        currentModel.value = data.model || ''
+        modelData.value = data
+      },
+      onError: (error) => {
+        console.log('%c [ error ]-19', 'font-size:13px; background:#336699; color:#fff;', error)
+      },
+    })
+
+    const useModelListMutation = defineQuery(() => {
+      const queryKey = ['modelList']
+      const { mutate: mutateFn, ...mutation } = useMutation({
+        mutation: () => client.model.getModelList.query(),
+        onSuccess: (data) => {
+          modelList.value = data
+          queryCache.setQueryData(queryKey, data)
+        },
+        onError: (error) => {
+          console.log('%c [ error ]-19', 'font-size:13px; background:#336699; color:#fff;', error)
+        },
       })
 
-      const data = await mutation.mutateAsync(modelKey)
+      async function cacheMutate(refresh = false) {
+        const cacheData = queryCache.getQueryData(queryKey)
+        if (!refresh && cacheData) {
+          return cacheData
+        }
 
-      modelData.value = data
-    }
-
-    async function apiGetModelList() {
-      const query = await useQuery({
-        key: ['modelList', currentModel.value],
-        query: () => client.model.getModelList.query(),
-        enabled: false,
-      })
-
-      const { data } = await query.refetch()
-
-      modelList.value = data || []
-
-      if (!currentModel.value) {
-        currentModel.value = modelList.value[0]?.model || ''
+        return await mutateFn()
       }
-    }
+
+      return {
+        ...mutation,
+        mutate: cacheMutate
+      }
+    })
+
+    const ApiModelListMutation = useModelListMutation()
 
     return {
       modelList,
       modelData,
       currentModel,
-      apiGetModelData,
-      apiGetModelList,
+      ApiModelDataMutation,
+      ApiModelListMutation,
     }
   },
 )

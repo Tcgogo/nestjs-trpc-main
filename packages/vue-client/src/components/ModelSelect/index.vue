@@ -9,11 +9,16 @@ const options = computed(() => {
   }))
 })
 
+watch(() => modelStore.currentModel, () => {
+  routeStore.generateRoutesAtBack()
+}, {
+  deep: true,
+})
+
+
 async function handleChange(value?: string) {
-  console.log('%c [ value ]-12', 'font-size:13px; background:pink; color:#bf2c9f;', value)
   if (value) {
-    await modelStore.apiGetModelData(value)
-    routeStore.generateRoutesAtBack()
+    // modelStore.apiGetModelData()
   }
 }
 </script>

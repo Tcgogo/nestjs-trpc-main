@@ -6,16 +6,22 @@ import { ModelInfoSchema, ModelListSchema } from '@/src/data/model/zod-model'
 import { ModelService } from './model.service'
 
 const getModelConfigInput = z.object({
-  modelKey: z.string(),
+  modelKey: z.string().optional(),
 })
 
 @Router({ alias: 'model' })
 export class ModelRouter {
-  constructor(@Inject(ModelService) private modelService: ModelService) {}
+  constructor(@Inject(ModelService) private modelService: ModelService) { }
 
   @Query({ input: getModelConfigInput, output: ModelInfoSchema })
   async getModelInfo(@Input() input: z.infer<typeof getModelConfigInput>): Promise<z.infer<typeof ModelInfoSchema>> {
-    const config = await this.modelService.getModelConfig(input.modelKey)
+    let key = input.modelKey
+    if (!key) {
+      const list = await this.modelService.getModelList()
+      key = list[0].model
+    }
+
+    const config = await this.modelService.getModelConfig(key)
 
     return config
   }

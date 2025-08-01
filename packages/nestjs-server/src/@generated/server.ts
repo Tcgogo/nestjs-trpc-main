@@ -8,7 +8,7 @@ import { ModelInfoSchema, ModelListSchema } from "../data/model/zod-model";
 const appRouter = t.router({
   model: t.router({
     getModelInfo: publicProcedure.input(z.object({
-      modelKey: z.string(),
+      modelKey: z.string().optional(),
     })).output(ModelInfoSchema).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any),
     getModelList: publicProcedure.output(ModelListSchema).query(async () => "PLACEHOLDER_DO_NOT_REMOVE" as any)
   })
