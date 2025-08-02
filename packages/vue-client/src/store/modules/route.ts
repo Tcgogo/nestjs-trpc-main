@@ -122,7 +122,6 @@ export const useRouteStore = defineStore(
       modelStore.ApiModelListMutation.mutate()
       await modelStore.ApiModelDataMutation.mutateAsync()
 
-      console.log('%c []-125', 'font-size:13px; background:#336699; color:#fff;', modelStore.modelData);
       // 设置 routes 数据
       routesRaw.value = formatBackRoutes(modelStore.modelData?.menu)
 

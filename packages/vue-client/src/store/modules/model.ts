@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryCache, defineMutation, defineQuery } from '@pinia/colada'
+import { defineQuery, useMutation, useQueryCache } from '@pinia/colada'
 import { client } from '@/trpc'
 
 export const useModelStore = defineStore(
@@ -51,7 +51,7 @@ export const useModelStore = defineStore(
 
       return {
         ...mutation,
-        mutate: cacheMutate
+        mutate: cacheMutate,
       }
     })
 

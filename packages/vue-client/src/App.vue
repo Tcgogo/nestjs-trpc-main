@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { useMutation } from '@pinia/colada'
 import { ua } from '@/utils/ua'
-import { client } from './trpc'
 import Provider from './ui/provider/index.vue'
 
 const route = useRoute()

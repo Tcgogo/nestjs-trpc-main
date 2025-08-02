@@ -15,7 +15,6 @@ watch(() => modelStore.currentModel, () => {
   deep: true,
 })
 
-
 async function handleChange(value?: string) {
   if (value) {
     // modelStore.apiGetModelData()

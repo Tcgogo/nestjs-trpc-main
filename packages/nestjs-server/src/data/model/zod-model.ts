@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
-const customRouteRecordRaw: z.ZodSchema<Model.CustomRouteRecordRaw> = z.object({
+// 使用 z.lazy() 处理递归结构
+const MenuItemSchema: z.ZodSchema<Model.recordMainRaw> = z.lazy(() => z.object({
   path: z.string().optional(),
   name: z.string().optional(),
   meta: z.object({
@@ -8,18 +9,8 @@ const customRouteRecordRaw: z.ZodSchema<Model.CustomRouteRecordRaw> = z.object({
     icon: z.string().optional(),
     auth: z.string().optional(),
   }).optional(),
-})
-
-const MenuItemSchema: z.ZodSchema<Model.recordMainRaw> = z.object({
-  path: z.string().optional(),
-  name: z.string().optional(),
-  meta: z.object({
-    title: z.string().optional(),
-    icon: z.string().optional(),
-    auth: z.string().optional(),
-  }).optional(),
-  children: z.array(customRouteRecordRaw).optional(),
-})
+  children: z.array(MenuItemSchema).optional(),
+}))
 
 export const ModelInfoSchema: z.ZodSchema<Model.Info> = z.object({
   title: z.string(),

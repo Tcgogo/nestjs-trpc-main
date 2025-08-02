@@ -43,7 +43,7 @@ const config: Model.Info = {
                 },
                 {
                   path: 'page',
-                  component: 'multilevel_menu_example/level2/level3/page.vue',
+                  component: 'multilevel_menu_example/level3/page.vue',
                   name: 'productList2-2',
                   meta: {
                     title: '商品列表2-2',

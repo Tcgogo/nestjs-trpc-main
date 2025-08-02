@@ -62,118 +62,20 @@ function open(url: string) {
   <div>
     <FaPageHeader>
       <template #title>
-        <div class="flex items-center gap-4">
-          欢迎使用 Fantastic-admin
-          <FaTabs
-            v-model="versionType" :list="[
-              { label: '基础版', value: 'basic' },
-              { label: '专业版', value: 'pro' },
-            ]" class="-mb-2"
-          />
-        </div>
+        title
       </template>
       <template #description>
-        <div class="text-sm/6">
-          <div>
-            这是一款<b class="text-emphasis">开箱即用</b>的中后台框架，同时它也经历过数十个真实项目的技术沉淀，确保框架在开发中可落地、可使用、可维护
-          </div>
-          <div>
-            注：在作者就职过的公司，本框架已在电商、直播、OA、ERP等多个不同领域的中后台系统中应用并稳定运行
-          </div>
-        </div>
+        description
       </template>
-      <div class="flex gap-2">
-        <FaButton variant="outline" @click="open('https://fantastic-admin.hurui.me')">
-          <FaIcon name="i-ri:file-text-line" />
-          开发文档
-        </FaButton>
-        <FaDropdown
-          :items="[
-            [
-              { label: 'Github', icon: 'i-simple-icons:github', handle: () => open('https://github.com/fantastic-admin/basic') },
-              { label: 'Gitee', icon: 'i-simple-icons:gitee', handle: () => open('https://gitee.com/fantastic-admin/basic') },
-            ],
-          ]"
-        >
-          <FaButton>
-            <FaIcon name="i-ri:code-s-slash-line" />
-            代码仓库
-            <FaIcon name="i-ep:arrow-down" />
-          </FaButton>
-        </FaDropdown>
-      </div>
+      main
     </FaPageHeader>
     <div class="flex gap-4 flex-col w-full px-4 xl-flex-row">
       <FaPageMain class="m-0 flex-1" title-class="flex flex-wrap items-center justify-between gap-4">
         <template #title>
-          <div class="title-info">
-            <img src="https://cn.vuejs.org/logo.svg">
-            <div>
-              <h1 class="c-[#41b883]">
-                Fantastic-startkit
-              </h1>
-              <h2>一款简单好用的 Vue3 项目启动套件</h2>
-            </div>
-          </div>
-          <div class="ms-auto">
-            <FaButton @click="open('https://hooray.github.io/fantastic-startkit')">
-              访问官网
-            </FaButton>
-          </div>
+          main-title
         </template>
-        <ul class="m-0 text-sm space-y-1 list-disc px-8 leading-6">
-          <li v-for="item in fantasticStartkitInfo.feature" :key="item">
-            {{ item }}
-          </li>
-        </ul>
-      </FaPageMain>
-      <FaPageMain class="m-0 flex-1" title-class="flex flex-wrap items-center justify-between gap-4">
-        <template #title>
-          <div class="title-info">
-            <img src="https://fantastic-admin.hurui.me/logo.svg">
-            <div>
-              <h1 class="c-[#41b883]">
-                Fantastic-admin
-              </h1>
-              <h2>一款开箱即用的 Vue 中后台管理系统框架</h2>
-            </div>
-          </div>
-          <div class="ms-auto">
-            <FaButton @click="open('https://fantastic-admin.hurui.me')">
-              访问官网
-            </FaButton>
-          </div>
-        </template>
-        <ElCarousel trigger="click" indicator-position="none" :interval="5000" height="250px">
-          <ElCarouselItem v-for="(item, index) in fantasticAdminInfo.data" :key="item">
-            <ElImage :src="item" fit="cover" style="width: 100%; height: 250px; margin: auto; cursor: pointer;" @click="fantasticAdminInfo.imageVisible = true; fantasticAdminInfo.index = index" />
-          </ElCarouselItem>
-        </ElCarousel>
-        <ElImageViewer v-if="fantasticAdminInfo.imageVisible" :url-list="fantasticAdminInfo.data" :initial-index="fantasticAdminInfo.index" @close="fantasticAdminInfo.imageVisible = false" />
-      </FaPageMain>
-      <FaPageMain class="m-0 flex-1" title-class="flex flex-wrap items-center justify-between gap-4">
-        <template #title>
-          <div class="title-info">
-            <img src="https://one-step-admin.hurui.me/logo.png">
-            <div>
-              <h1 class="c-[#67c23a]">
-                One-step-admin
-              </h1>
-              <h2>一款干啥都快人一步的 Vue 中后台系统框架</h2>
-            </div>
-          </div>
-          <div class="ms-auto">
-            <FaButton @click="open('https://one-step-admin.hurui.me')">
-              访问官网
-            </FaButton>
-          </div>
-        </template>
-        <ElCarousel trigger="click" indicator-position="none" :interval="5000" height="250px">
-          <ElCarouselItem v-for="(item, index) in oneStepAdminInfo.data" :key="item">
-            <ElImage :src="item" fit="cover" style="width: 100%; height: 250px; margin: auto; cursor: pointer;" @click="oneStepAdminInfo.imageVisible = true; oneStepAdminInfo.index = index" />
-          </ElCarouselItem>
-        </ElCarousel>
-        <ElImageViewer v-if="oneStepAdminInfo.imageVisible" :url-list="oneStepAdminInfo.data" :initial-index="oneStepAdminInfo.index" @close="oneStepAdminInfo.imageVisible = false" />
+
+        main-content
       </FaPageMain>
     </div>
   </div>

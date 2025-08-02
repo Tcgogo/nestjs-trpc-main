@@ -121,7 +121,6 @@ export class TRPCGenerator implements OnModuleInit {
           routersMetadata,
         )
 
-      console.log('%c []-121', 'font-size:13px; background:#336699; color:#fff;', this.importSet.importSet)
       const importStatements = Array.from(this.importSet.importSet).join('\n')
 
       this.appRouterSourceFile.addStatements(/* ts */ `
