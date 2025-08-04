@@ -14,6 +14,7 @@ import { TransformInterceptor } from '@/lib/interceptors/transform.interceptor'
 import { getConfig } from '@/lib/utils'
 import { LoggerModule } from '@/shared/logger/logger.module'
 import { ModelServiceModule } from '@/src/app/model/model.module'
+import { errorFormatter } from '@/lib/utils/error-formatter'
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { ModelServiceModule } from '@/src/app/model/model.module'
       platform: 'fastify',
       autoSchemaFile: './src/@generated',
       tsConfigFilePath: path.resolve(process.cwd(), 'tsconfig.json'),
+      errorFormatter,
       // errorFormatter: (opts) => {
       //   const { shape, error } = opts
       //   if (error.code === 'BAD_REQUEST' && error.cause instanceof ZodError) {

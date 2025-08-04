@@ -256,6 +256,12 @@ declare module 'vue-router' {
     cache?: boolean | string | string[]
     noCache?: string | string[]
     link?: string
+    iframeConfig?: {
+      path: string
+    }
+    schemaConfig?: {
+      title: string
+    }
   }
 }
 

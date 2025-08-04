@@ -15,40 +15,51 @@ interface Meta {
   auth?: string | string[]
 }
 
+// iframe 配置
+interface IframeConfig {
+  /** 路径 */
+  path: string
+}
+
+// schema 配置
+interface SchemaConfig {
+  /** 标题 */
+  title?: string
+  /** 描述 */
+  description?: string
+}
+
 declare namespace Model {
-
-  interface CustomRouteRecordRaw {
-    /** 路径 */
+  // 基础接口保持不变
+  interface recordMainRawBase {
     path?: string
-    /** 名称 */
     name?: string
-    /** 元数据 */
     meta?: Meta
-    /** 组件 */
-    component?: string
-    /** 子路由 */
-    children?: CustomRouteRecordRaw[]
+    children?: recordMainRaw[]
   }
 
-  /** 原始路由 */
-  interface recordMainRaw {
-    /** 路径 */
-    path?: string
-    /** 名称 */
-    name?: string
-    /** 元数据 */
-    meta?: Meta
-    /** 子路由 */
-    children?: CustomRouteRecordRaw[]
+  // 使用互斥属性确保类型安全
+  interface recordMainRawIframe extends recordMainRawBase {
+    component: 'Iframe'
+    iframeConfig: IframeConfig // Iframe 必须配置
   }
 
-  /** 模型 */
+  interface recordMainRawSchema extends recordMainRawBase {
+    component: 'Schema'
+    schemaConfig: SchemaConfig // Schema 必须配置
+  }
+
+  interface recordMainRawOther extends recordMainRawBase {
+    component?: { path: string } | 'Layout'
+  }
+
+  // 最终联合类型
+  type recordMainRaw = recordMainRawIframe | recordMainRawSchema | recordMainRawOther
+
+  // 模型接口保持不变
   interface Info {
-    /** 模型名称 */
     title: string
-    /** 模型唯一标识 */
     model: string
-    /** 模型菜单 */
     menu?: recordMainRaw[]
   }
 }

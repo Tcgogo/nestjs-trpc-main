@@ -26,6 +26,10 @@ export const useRouteStore = defineStore(
       if (settingsStore.settings.app.routeBaseOn !== 'filesystem') {
         if (routesRaw.value) {
           routesRaw.value.forEach((item) => {
+            if (!item.children) {
+              item.children = []
+            }
+
             const tmpRoutes = cloneDeep(item.children) as RouteRecordRaw[]
             tmpRoutes.map((v) => {
               if (!v.meta) {
@@ -103,6 +107,12 @@ export const useRouteStore = defineStore(
           case 'Layout':
             route.component = () => import('@/layouts/index.vue')
             break
+          case 'Iframe':
+            route.component = () => import('@/views/dashboard/iframe/iframe.vue')
+            break
+          case 'Schema':
+            route.component = () => import('@/views/dashboard/schema/schema.vue')
+            break
           default:
             if (route.component) {
               route.component = views[`../../views/${route.component}`]
@@ -111,9 +121,19 @@ export const useRouteStore = defineStore(
               delete route.component
             }
         }
+
+        // 方便读取
+        if (route.meta) {
+          route.meta = {
+            ...route,
+            ...route.meta,
+          }
+        }
+
         if (route.children) {
           route.children = formatBackRoutes(route.children, views)
         }
+
         return route
       })
     }
@@ -132,6 +152,8 @@ export const useRouteStore = defineStore(
         }
       })
       routesMatcher.value = createRouterMatcher(routes, {})
+      console.log('%c [routes]-145', 'font-size:13px; background:#336699; color:#fff;', routes);
+      console.log('%c [routesMatcher.value]-145', 'font-size:13px; background:#336699; color:#fff;', routesMatcher.value.getRoutes());
       isGenerate.value = true
     }
     // 生成路由（文件系统生成）

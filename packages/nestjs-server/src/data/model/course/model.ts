@@ -20,7 +20,7 @@ const config: Model.Info = {
             {
               path: 'page',
               name: 'courseList1',
-              component: 'multilevel_menu_example/page.vue',
+              component: { path: 'multilevel_menu_example/page.vue' },
               meta: {
                 title: '课程列表1',
               },
@@ -28,7 +28,7 @@ const config: Model.Info = {
             {
               path: 'page',
               name: 'courseList2',
-              component: 'multilevel_menu_example/page.vue',
+              component: { path: 'multilevel_menu_example/page.vue' },
               meta: {
                 title: '课程列表2',
               },
@@ -46,7 +46,7 @@ const config: Model.Info = {
         {
           path: '/page',
           name: 'courseCategoryList',
-          component: 'multilevel_menu_example/page.vue',
+          component: { path: 'multilevel_menu_example/page.vue' },
           meta: {
             title: '课程分类列表',
           },
@@ -62,7 +62,7 @@ const config: Model.Info = {
         {
           path: '/page',
           name: 'courseTagList',
-          component: 'multilevel_menu_example/page.vue',
+          component: { path: 'multilevel_menu_example/page.vue' },
           meta: {
             title: '课程标签列表',
           },

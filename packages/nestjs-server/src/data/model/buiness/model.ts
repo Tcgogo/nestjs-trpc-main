@@ -9,49 +9,15 @@ const config: Model.Info = {
       },
       children: [
         {
-          path: '/multilevel_menu_example',
-          component: 'Layout',
-          name: 'multilevelMenuExample',
+          path: '/dashboard/schema',
+          component: 'Schema',
+          schemaConfig: {
+            title: '商品列表',
+          },
+          name: 'goodsList',
           meta: {
             title: '商品列表',
-            icon: 'heroicons-solid:menu-alt-3',
           },
-          children: [
-            {
-              path: 'page',
-              name: 'productList1',
-              component: 'multilevel_menu_example/page.vue',
-              meta: {
-                title: '商品列表1',
-              },
-            },
-            {
-              path: 'page',
-              component: 'multilevel_menu_example/level2/page.vue',
-              name: 'productList2',
-              meta: {
-                title: '商品列表2',
-              },
-              children: [
-                {
-                  path: 'page',
-                  name: 'productList2-1',
-                  component: 'multilevel_menu_example/level3/page.vue',
-                  meta: {
-                    title: '商品列表2-1',
-                  },
-                },
-                {
-                  path: 'page',
-                  component: 'multilevel_menu_example/level3/page.vue',
-                  name: 'productList2-2',
-                  meta: {
-                    title: '商品列表2-2',
-                  },
-                },
-              ],
-            },
-          ],
         },
       ],
     },
@@ -62,21 +28,14 @@ const config: Model.Info = {
       },
       children: [
         {
-          path: '/page',
-          component: 'multilevel_menu_example/level2/level3/page1.vue',
-          name: 'shopSetting',
-          meta: {
-            title: '店铺设置',
-            icon: 'material-symbols:settings-suggest-outline',
+          path: '/dashboard/iframe',
+          component: 'Iframe',
+          iframeConfig: {
+            path: 'http://localhost:9000/#/login',
           },
-        },
-        {
-          path: '/page',
-          component: 'multilevel_menu_example/level2/level3/page1.vue',
           name: 'shopList',
           meta: {
             title: '店铺列表',
-            icon: 'material-symbols:store-outline',
           },
         },
       ],
@@ -88,8 +47,8 @@ const config: Model.Info = {
       },
       children: [
         {
-          path: '/page',
-          component: 'multilevel_menu_example/level2/level3/page2.vue',
+          path: '/multilevel_menu_example',
+          component: { path: 'multilevel_menu_example/level2/level3/page2.vue' },
           name: 'orderList',
           meta: {
             title: '订单列表',
@@ -97,8 +56,8 @@ const config: Model.Info = {
           },
         },
         {
-          path: '/page',
-          component: 'multilevel_menu_example/level2/level3/page2.vue',
+          path: '/multilevel_menu_example',
+          component: { path: 'multilevel_menu_example/level2/level3/page2.vue' },
           name: 'orderList',
           meta: {
             title: '订单统计',

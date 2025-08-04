@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useSlots } from '@/slots'
+import { useSlots as useSlotsFn } from '@/slots'
 import eventBus from '@/utils/eventBus'
 import AppSetting from './components/AppSetting/index.vue'
 import Header from './components/Header/index.vue'
@@ -73,6 +73,8 @@ watch(() => routeInfo.path, () => {
 })
 
 const enableAppSetting = import.meta.env.VITE_APP_SETTING
+
+const slots = useSlots()
 </script>
 
 <template>
@@ -96,14 +98,20 @@ const enableAppSetting = import.meta.env.VITE_APP_SETTING
         <div class="main-container pb-[var(--g-main-container-padding-bottom)]">
           <Topbar />
           <div class="main">
-            <RouterView v-slot="{ Component, route }">
-              <Transition :name="!settingsStore.isReloading ? 'slide-right' : ''" mode="out-in">
-                <KeepAlive :include="keepAliveStore.list">
-                  <component :is="Component" v-show="!isLink" :key="route.fullPath" />
-                </KeepAlive>
-              </Transition>
-            </RouterView>
-            <LinkView v-if="isLink" />
+            <div v-if="Object.keys(slots).length > 0" class="flex-1" >
+              <slot />
+            </div>
+
+            <template v-else>
+              <RouterView v-slot="{ Component, route }">
+                <Transition :name="!settingsStore.isReloading ? 'slide-right' : ''" mode="out-in">
+                  <KeepAlive :include="keepAliveStore.list">
+                    <component :is="Component" v-show="!isLink" :key="route.fullPath" />
+                  </KeepAlive>
+                </Transition>
+              </RouterView>
+              <LinkView v-if="isLink" />
+            </template>
           </div>
           <FaCopyright />
         </div>
@@ -116,7 +124,7 @@ const enableAppSetting = import.meta.env.VITE_APP_SETTING
       </div>
       <AppSetting />
     </template>
-    <component :is="useSlots('free-position')" />
+    <component :is="useSlotsFn('free-position')" />
   </div>
 </template>
 
@@ -194,6 +202,7 @@ const enableAppSetting = import.meta.env.VITE_APP_SETTING
     transition: margin-left 0.3s, background-color 0.3s, box-shadow 0.3s;
 
     .main {
+      display: flex;
       position: relative;
       flex: auto;
       height: 100%;
