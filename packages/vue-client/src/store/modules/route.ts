@@ -152,8 +152,8 @@ export const useRouteStore = defineStore(
         }
       })
       routesMatcher.value = createRouterMatcher(routes, {})
-      console.log('%c [routes]-145', 'font-size:13px; background:#336699; color:#fff;', routes);
-      console.log('%c [routesMatcher.value]-145', 'font-size:13px; background:#336699; color:#fff;', routesMatcher.value.getRoutes());
+      console.log('%c [routes]-145', 'font-size:13px; background:#336699; color:#fff;', routes)
+      console.log('%c [routesMatcher.value]-145', 'font-size:13px; background:#336699; color:#fff;', routesMatcher.value.getRoutes())
       isGenerate.value = true
     }
     // 生成路由（文件系统生成）

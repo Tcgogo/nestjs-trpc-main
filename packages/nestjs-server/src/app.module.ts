@@ -12,9 +12,11 @@ import { UserModule } from '@/contexts/users/user.module'
 import { DatabaseModule } from '@/lib/database/database.module'
 import { TransformInterceptor } from '@/lib/interceptors/transform.interceptor'
 import { getConfig } from '@/lib/utils'
+import { errorFormatter } from '@/lib/utils/error-formatter'
 import { LoggerModule } from '@/shared/logger/logger.module'
 import { ModelServiceModule } from '@/src/app/model/model.module'
-import { errorFormatter } from '@/lib/utils/error-formatter'
+
+import { ShopModule } from '@/src/app/tables/shop/shop.module'
 
 @Module({
   imports: [
@@ -48,6 +50,8 @@ import { errorFormatter } from '@/lib/utils/error-formatter'
     ModelServiceModule,
 
     UserModule,
+
+    ShopModule,
   ],
   providers: [
     {

@@ -259,9 +259,7 @@ declare module 'vue-router' {
     iframeConfig?: {
       path: string
     }
-    schemaConfig?: {
-      title: string
-    }
+    schemaConfig?: Model.SchemaConfig
   }
 }
 

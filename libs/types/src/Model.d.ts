@@ -1,35 +1,35 @@
 /// <reference path="./JsonSchema.d.ts" />
 
-interface Meta {
-  /** 标题 */
-  title?: string | (() => string)
-  /** 图标 */
-  icon?: string
-  /** 权限 */
-  auth?: string | string[]
-}
-
-// iframe 配置
-interface IframeConfig {
-  /** 路径 */
-  path: string
-}
-
-// schema 配置
-interface SchemaConfig {
-  /** 标题 */
-  title?: string
-  /** 描述 */
-  description?: string
-
-  /** JSON Schema */
-  jsonSchema: JsonSchema.ObjectProperty
-
-  /** API Name */
-  api?: string
-}
-
 declare namespace Model {
+  interface Meta {
+    /** 标题 */
+    title?: string | (() => string)
+    /** 图标 */
+    icon?: string
+    /** 权限 */
+    auth?: string | string[]
+  }
+
+  // iframe 配置
+  interface IframeConfig {
+    /** 路径 */
+    path: string
+  }
+
+  // schema 配置
+  interface SchemaConfig {
+    /** 标题 */
+    title?: string
+    /** 描述 */
+    description?: string
+
+    /** JSON Schema */
+    jsonSchema: JsonSchema.ObjectProperty
+
+    /** API Name */
+    api?: string
+  }
+
   // 基础接口保持不变
   interface recordMainRawBase {
     path?: string
