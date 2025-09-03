@@ -1,0 +1,18 @@
+{
+  "name": "vue-form-render",
+  "version": "1.0.0",
+  "packageManager": "pnpm@10.13.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "main": "lib/vue-form-render.js",
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "vue3-form-render-vuedraggable": "4.0.1-beta.1",
+    "wangeditor": "^4.7.15",
+    "xlsx": "^0.18.5"
+  }
+}
