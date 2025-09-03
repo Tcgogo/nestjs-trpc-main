@@ -8,6 +8,8 @@
 import formRender from 'vue-form-render/index.vue'
 import Layout from '@/layouts/index.vue'
 import Boolean from '@/widgets/boolean.vue'
+import SearchPanel from '../complexs/search-panel/search-panel.vue'
+import TablePanel from '../complexs/table-panel/table-panel.vue'
 
 const versionType = ref('basic')
 
@@ -81,7 +83,8 @@ watch(versionType, (val) => {
             main-title
           </template>
 
-          <Boolean :schema="state.schema.properties.boolean" />
+          <SearchPanel />
+          <TablePanel />
         </FaPageMain>
       </div>
     </div>

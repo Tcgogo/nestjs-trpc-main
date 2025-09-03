@@ -1,10 +1,4 @@
-// import type { RouteRecordRaw } from 'vue-router'
-
-// // 重写 component 类型
-// type CustomRouteRecordRaw = Omit<RouteRecordRaw, 'component' | 'children'> & {
-//   component?: string // 可选字符串
-//   children?: CustomRouteRecordRaw[]
-// }
+/// <reference path="./JsonSchema.d.ts" />
 
 interface Meta {
   /** 标题 */
@@ -27,6 +21,12 @@ interface SchemaConfig {
   title?: string
   /** 描述 */
   description?: string
+
+  /** JSON Schema */
+  jsonSchema: JsonSchema.ObjectProperty
+
+  /** API Name */
+  api?: string
 }
 
 declare namespace Model {

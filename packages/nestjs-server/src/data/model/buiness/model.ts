@@ -13,6 +13,31 @@ const config: Model.Info = {
           component: 'Schema',
           schemaConfig: {
             title: '商品列表',
+            jsonSchema: {
+              type: 'object',
+              properties: {
+                name: {
+                  type: 'string',
+                  title: '商品名称',
+                },
+                price: {
+                  type: 'number',
+                  title: '商品价格',
+                },
+                stock: {
+                  type: 'number',
+                  title: '商品库存',
+                },
+                description: {
+                  type: 'string',
+                  title: '商品描述',
+                },
+                isActive: {
+                  type: 'boolean',
+                  title: '是否上架',
+                },
+              },
+            },
           },
           name: 'goodsList',
           meta: {
