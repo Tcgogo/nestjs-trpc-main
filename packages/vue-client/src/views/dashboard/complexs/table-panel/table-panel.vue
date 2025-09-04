@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import { VxeColumn, VxeTable } from 'vxe-table'
 import { client } from '@/trpc'
+
+const operates = {
+  index: 'query',
+  show: 'query',
+  create: 'mutate',
+  update: 'mutate',
+  delete: 'mutate',
+} as const
 
 const route = useRoute()
 
@@ -8,14 +17,41 @@ const schemaConfig = route.meta.schemaConfig
 const formData = ref({})
 
 const shops = ref<{ id: number, name: string }[]>([])
+
+function getFetchFn(api: any, type: keyof typeof operates) {
+  // @ts-expect-error 类型提示
+  if (client?.[api]?.[type]?.[operates[type]]) {
+    // @ts-expect-error 类型提示
+    return client[api][type][operates[type]]
+  }
+}
+
 onMounted(async () => {
-  shops.value = await client.tablesShop.index.query({})
-  console.log('%c [ shops ]-12', 'font-size:13px; background:pink; color:#bf2c9f;', shops)
+  if (schemaConfig?.api) {
+    if (getFetchFn(schemaConfig.api, 'index')) {
+      shops.value = await getFetchFn(schemaConfig.api, 'index')({})
+    }
+  }
 })
 
 async function createShop() {
-  await client.tablesShop.create.mutate({ name: 'test' })
+  // await client.tablesShop.create.mutate({ name: 'test' })
 }
+
+const columns = computed(() => {
+  if (!schemaConfig?.jsonSchema.properties) {
+    return []
+  }
+
+  const properties = schemaConfig.jsonSchema.properties
+
+  return Object.keys(properties).map((key) => {
+    return {
+      field: key,
+      title: properties[key].title,
+    }
+  })
+})
 </script>
 
 <template>
@@ -25,11 +61,14 @@ async function createShop() {
       createShop
     </button>
     <div v-if="schemaConfig">
-      {{ schemaConfig }}
+      {{ route.meta }}
     </div>
 
-    <div>
-      {{ shops }}
+    <div v-if="schemaConfig">
+      <VxeTable :data="shops">
+        <VxeColumn type="seq" width="60" />
+        <VxeColumn v-for="column in columns" :key="column.field" :field="column.field" :title="column.title" />
+      </VxeTable>
     </div>
   </div>
 </template>

@@ -37,7 +37,6 @@
     "lucide-vue-next": "^0.525.0",
     "mitt": "^3.0.1",
     "nprogress": "^0.2.0",
-    "vue-form-render": "workspace:*",
     "path-browserify": "^1.0.1",
     "path-to-regexp": "^8.2.0",
     "pinia": "^3.0.3",
@@ -49,8 +48,10 @@
     "vconsole": "^3.15.1",
     "vee-validate": "^4.15.1",
     "vue": "^3.5.17",
+    "vue-form-render": "workspace:*",
     "vue-router": "^4.5.1",
     "vue-sonner": "^2.0.1",
+    "vxe-table": "^4.16.6",
     "zod": "^3.25.67"
   },
   "devDependencies": {
@@ -97,6 +98,7 @@
     "vite-plugin-compression2": "^2.2.0",
     "vite-plugin-env-parse": "^1.0.15",
     "vite-plugin-fake-server": "^2.2.0",
+    "vite-plugin-lazy-import": "^1.0.7",
     "vite-plugin-pages": "^0.33.1",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-vue-devtools": "^7.7.7",

@@ -13,4 +13,16 @@ export class Shop {
 
   @Column()
   name!: string
+
+  @Column({ type: 'tinyint' })
+  stock!: number
+
+  @Column({ type: 'double' })
+  price!: number
+
+  @Column()
+  description!: string
+
+  @Column({ name: 'is_active', type: 'tinyint' })
+  isActive!: number
 }

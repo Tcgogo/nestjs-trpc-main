@@ -635,6 +635,9 @@ importers:
       vue-sonner:
         specifier: ^2.0.1
         version: 2.0.1
+      vxe-table:
+        specifier: ^4.16.6
+        version: 4.16.6(vue@3.5.17(typescript@5.8.3))
       zod:
         specifier: ^3.25.67
         version: 3.25.76
@@ -768,6 +771,9 @@ importers:
       vite-plugin-fake-server:
         specifier: ^2.2.0
         version: 2.2.0
+      vite-plugin-lazy-import:
+        specifier: ^1.0.7
+        version: 1.0.7
       vite-plugin-pages:
         specifier: ^0.33.1
         version: 0.33.1(@vue/compiler-sfc@3.5.17)(vite@7.0.4(@types/node@22.16.3)(jiti@2.4.2)(sass-embedded@1.89.2)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))(vue-router@4.5.1(vue@3.5.17(typescript@5.8.3)))
@@ -3534,6 +3540,11 @@ packages:
   '@vueuse/shared@9.13.0':
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
 
+  '@vxe-ui/core@4.2.11':
+    resolution: {integrity: sha512-Cv0XKTGgFD+CD2MGixxM+k60Y3tFEJYErQj59tuPd0y0HuSFc7sQk0fuXdbcNgxZxtAi4zX3nsDk3kY+/HeAgQ==}
+    peerDependencies:
+      vue: ^3.2.0
+
   '@webassemblyjs/ast@1.14.1':
     resolution: {integrity: sha512-nuBEDgQfm1ccRp/8bCQrx1frohyufl4JlbMMZ4P1wpeOfDhF6FQkxZJ1b/e+PLwr6X1Nhw6OLme5usuBWYBvuQ==}
 
@@ -4718,6 +4729,9 @@ packages:
 
   dom-serializer@2.0.0:
     resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
+
+  dom-zindex@1.0.6:
+    resolution: {integrity: sha512-FKWIhiU96bi3xpP9ewRMgANsoVmMUBnMnmpCT6dPMZOunVYJQmJhSRruoI0XSPoHeIif3kyEuiHbFrOJwEJaEA==}
 
   domelementtype@1.3.1:
     resolution: {integrity: sha512-BSKB+TSpMpFI/HOxCNr1O8aMOTZ8hT3pM3GQ0w/mWRmkhEDSFJkkyzz4XQsBV44BChwGkrDfMyjVD0eA2aFV3w==}
@@ -9204,6 +9218,9 @@ packages:
       '@nuxt/kit':
         optional: true
 
+  vite-plugin-lazy-import@1.0.7:
+    resolution: {integrity: sha512-mE6oAObOb4wqso4AoUGi9cLjdR+4vay1RCaKJvziBuFPlziZl7J0aw2hsqRTokLVRx3bli0a0VyjMOwsNDv58A==}
+
   vite-plugin-pages@0.33.1:
     resolution: {integrity: sha512-ITLgZQCphuuovKqJg4cD7Mqo3SlaUO95O+Vfu1Kz9lF8fkAwNRK3XM25rGqaWXVja5OYinsskNH8Q8Eqvjk71Q==}
     peerDependencies:
@@ -9410,6 +9427,12 @@ packages:
       typescript:
         optional: true
 
+  vxe-pc-ui@4.9.14:
+    resolution: {integrity: sha512-YtpLUU6x43UQnjPBMqgewAYdC9w5FGC/ZHO3ZiYl3fWt+HACkJgreJzgfX4z0QkzLdp/6vmDS4rvnH9vpdNmrw==}
+
+  vxe-table@4.16.6:
+    resolution: {integrity: sha512-EIIwTHb9T1IpVp4flsiAMu2CqvTyLvBn846u4FvIyMk33ciJTTYZiqUzb2Zi+RHIDKr3DDGbOO094v9StQ6Q6g==}
+
   wangeditor@4.7.15:
     resolution: {integrity: sha512-aPTdREd8BxXVyJ5MI+LU83FQ7u1EPd341iXIorRNYSOvoimNoZ4nPg+yn3FGbB93/owEa6buLw8wdhYnMCJQLg==}
 
@@ -9537,6 +9560,9 @@ packages:
   write-file-atomic@5.0.1:
     resolution: {integrity: sha512-+QU2zd6OTD8XWIJCbffaiQeH9U73qIqafo1x6V1snCWYGJf6cVE0cDR4D8xRzcEnfI21IFrUPzPGtcPf8AC+Rw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+
+  xe-utils@3.7.8:
+    resolution: {integrity: sha512-V/k6B/ASYir6yLYhp62DnM17po9u1N9mou/rn4if5WoFCsAO49JpCiVpkDpwCv4zxGfWmhWgzmz4FytWF+pDVw==}
 
   xlsx@0.18.5:
     resolution: {integrity: sha512-dmg3LCjBPHZnQp5/F/+nnTa+miPJxUXB6vtk42YjBBKayDNagxGEeIdWApkYPOf3Z3pm3k62Knjzp7lMeTEtFQ==}
@@ -12596,6 +12622,12 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
+  '@vxe-ui/core@4.2.11(vue@3.5.17(typescript@5.8.3))':
+    dependencies:
+      dom-zindex: 1.0.6
+      vue: 3.5.17(typescript@5.8.3)
+      xe-utils: 3.7.8
+
   '@webassemblyjs/ast@1.14.1':
     dependencies:
       '@webassemblyjs/helper-numbers': 1.13.2
@@ -13871,6 +13903,8 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 5.0.3
       entities: 4.5.0
+
+  dom-zindex@1.0.6: {}
 
   domelementtype@1.3.1: {}
 
@@ -19153,6 +19187,13 @@ snapshots:
       - rollup
       - supports-color
 
+  vite-plugin-lazy-import@1.0.7:
+    dependencies:
+      '@rollup/pluginutils': 5.2.0(rollup@4.44.2)
+      es-module-lexer: 1.7.0
+      rollup: 4.44.2
+      xe-utils: 3.7.8
+
   vite-plugin-pages@0.33.1(@vue/compiler-sfc@3.5.17)(vite@7.0.4(@types/node@22.16.3)(jiti@2.4.2)(sass-embedded@1.89.2)(terser@5.43.1)(tsx@4.20.3)(yaml@2.8.0))(vue-router@4.5.1(vue@3.5.17(typescript@5.8.3))):
     dependencies:
       '@types/debug': 4.1.12
@@ -19354,6 +19395,18 @@ snapshots:
       '@vue/shared': 3.5.17
     optionalDependencies:
       typescript: 5.8.3
+
+  vxe-pc-ui@4.9.14(vue@3.5.17(typescript@5.8.3)):
+    dependencies:
+      '@vxe-ui/core': 4.2.11(vue@3.5.17(typescript@5.8.3))
+    transitivePeerDependencies:
+      - vue
+
+  vxe-table@4.16.6(vue@3.5.17(typescript@5.8.3)):
+    dependencies:
+      vxe-pc-ui: 4.9.14(vue@3.5.17(typescript@5.8.3))
+    transitivePeerDependencies:
+      - vue
 
   wangeditor@4.7.15:
     dependencies:
@@ -19561,6 +19614,8 @@ snapshots:
     dependencies:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
+
+  xe-utils@3.7.8: {}
 
   xlsx@0.18.5:
     dependencies:

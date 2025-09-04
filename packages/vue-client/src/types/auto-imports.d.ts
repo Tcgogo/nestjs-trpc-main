@@ -84,7 +84,7 @@ declare global {
   const useSettingsStore: typeof import('../store/modules/settings')['useSettingsStore']
   const useSlots: typeof import('vue')['useSlots']
   const useTabbar: typeof import('../utils/composables/useTabbar')['default']
-  const useTabbarStore: typeof import('../store/modules/tabbar')['useTabbarStore']
+  const useTabbarStore: typeof import('../store/modules/tableData')['useTabbarStore']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
   const useUserStore: typeof import('../store/modules/user')['useUserStore']
   const watch: typeof import('vue')['watch']

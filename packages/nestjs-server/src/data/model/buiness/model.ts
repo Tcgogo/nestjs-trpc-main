@@ -1,3 +1,6 @@
+import type { AppRouter } from '@/src/@generated/server'
+import { getApiName } from '../utils'
+
 const config: Model.Info = {
   model: 'buiness',
   title: '电商系统',
@@ -12,9 +15,11 @@ const config: Model.Info = {
           path: '/dashboard/schema',
           component: 'Schema',
           schemaConfig: {
-            title: '商品列表',
+            title: '商品列表1',
+            api: getApiName('tablesShop'),
             jsonSchema: {
               type: 'object',
+              title: '商品',
               properties: {
                 name: {
                   type: 'string',

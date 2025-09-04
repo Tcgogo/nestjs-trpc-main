@@ -22,6 +22,7 @@ export class ModelRouter {
     }
 
     const config = await this.modelService.getModelConfig(key)
+    console.log('%c [ config ]-25', 'font-size:13px; background:pink; color:#bf2c9f;', JSON.stringify(config, null, 2))
 
     return config
   }

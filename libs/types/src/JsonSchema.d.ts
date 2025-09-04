@@ -124,7 +124,7 @@ declare namespace JsonSchema {
   }
 
   /** 对象属性 */
-  interface ObjectProperty {
+  interface ObjectProperty extends BaseProperty {
     type: 'object'
 
     /** 字段属性 */
