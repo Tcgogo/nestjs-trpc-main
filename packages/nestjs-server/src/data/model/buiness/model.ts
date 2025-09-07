@@ -1,4 +1,4 @@
-import type { AppRouter } from '@/src/@generated/server'
+import type { Model } from '@tcgogo/types'
 import { getApiName } from '../utils'
 
 const config: Model.Info = {
@@ -20,6 +20,15 @@ const config: Model.Info = {
             jsonSchema: {
               type: 'object',
               title: '商品',
+              'ui:VxeTable': {
+                border: true,
+                round: true,
+                align: 'center',
+                stripe: true,
+                columnConfig: {
+                  resizable: true,
+                },
+              },
               properties: {
                 name: {
                   type: 'string',
@@ -28,6 +37,9 @@ const config: Model.Info = {
                 price: {
                   type: 'number',
                   title: '商品价格',
+                  'ui:VxeColumn': {
+                    sortable: true,
+                  },
                 },
                 stock: {
                   type: 'number',
@@ -36,6 +48,9 @@ const config: Model.Info = {
                 description: {
                   type: 'string',
                   title: '商品描述',
+                  'ui:VxeColumn': {
+                    width: 400,
+                  },
                 },
                 isActive: {
                   type: 'boolean',

@@ -1,6 +1,6 @@
-/// <reference path="./JsonSchema.d.ts" />
+import type { JsonSchema } from './JsonSchema'
 
-declare namespace Model {
+export declare namespace Model {
   interface Meta {
     /** 标题 */
     title?: string | (() => string)

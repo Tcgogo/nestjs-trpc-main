@@ -1,3 +1,4 @@
+import type { Model } from '@tcgogo/types'
 import { readdirSync, readFileSync } from 'node:fs'
 import { basename, dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'

@@ -1,27 +1,33 @@
+import type { UITable } from './VxeTable'
+
 interface BaseProperty {
   /** 字段类型 */
-  'type': 'string' | 'number' | 'boolean' | 'null' | 'array' | 'object'
+  type: 'string' | 'number' | 'boolean' | 'null' | 'array' | 'object'
 
   /** 字段名称 */
-  'title': string
+  title: string
   /** 字段描述 */
-  'description'?: string
+  description?: string
   /** 字段默认值 */
-  'default'?: string
+  default?: string
 
   /** 字段是否只读 */
-  'readonly'?: boolean
+  readonly?: boolean
 
   /** 字段枚举值 */
-  'enum'?: any[]
+  enum?: any[]
+
+  'ui:VxeColumn'?: UITable.VxeColumn
+
+  'ui:VxeTable'?: UITable.VxeTable
 
   /** 组件attrs属性 */
-  'ui:attrs'?: {
+  [key: `ui:${string}`]: {
     [key: string]: any
   }
 }
 
-declare namespace JsonSchema {
+export declare namespace JsonSchema {
 
   /** 字符串属性 */
   interface StringProperty extends BaseProperty {

@@ -1,3 +1,4 @@
+import type { Model } from '@tcgogo/types'
 import { z } from 'zod'
 
 // 基础字段定义
@@ -35,7 +36,7 @@ const MenuItemSchema: z.ZodSchema<Model.recordMainRaw> = z.lazy(() => z.union([
         title: z.string(),
         type: z.literal('object'),
         properties: z.record(z.string(), z.any()),
-      }),
+      }).and(z.record(z.string(), z.any())),
     }),
     children: z.array(MenuItemSchema).optional(),
   }),

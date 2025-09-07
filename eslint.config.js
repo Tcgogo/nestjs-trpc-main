@@ -25,6 +25,7 @@ export default antfu(
       'jsonc/no-useless-escape': 'off',
       'vue/no-empty-pattern': 'off',
       'no-new-func': 'off',
+      'style/quote-props': 'off',
       'ts/no-unused-expressions': ['error', {
         allowShortCircuit: true,
         allowTernary: true,

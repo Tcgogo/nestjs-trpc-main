@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { JsonSchema } from '@tcgogo/types'
 import { VxeColumn, VxeTable } from 'vxe-table'
 import { client } from '@/trpc'
 
@@ -48,9 +49,26 @@ const columns = computed(() => {
   return Object.keys(properties).map((key) => {
     return {
       field: key,
-      title: properties[key].title,
-    }
+      ...properties[key],
+    } as JsonSchema.ObjectProperty & { field: string }
   })
+})
+
+const tableProps = computed(() => {
+  const vxeTable = schemaConfig?.jsonSchema?.['ui:VxeTable'] || {}
+  const vxeColumns = schemaConfig?.jsonSchema?.['ui:VxeColumn'] || {}
+
+  return {
+    VxeTable: {
+      // 默认props
+      border: true,
+
+      ...vxeTable,
+    },
+    VxeColumn: {
+      ...vxeColumns,
+    },
+  }
 })
 </script>
 
@@ -64,10 +82,18 @@ const columns = computed(() => {
       {{ route.meta }}
     </div>
 
+    <div>{{ columns }}</div>
+
     <div v-if="schemaConfig">
-      <VxeTable :data="shops">
-        <VxeColumn type="seq" width="60" />
-        <VxeColumn v-for="column in columns" :key="column.field" :field="column.field" :title="column.title" />
+      <VxeTable v-bind="tableProps.VxeTable" :data="shops">
+        <VxeColumn v-bind="tableProps.VxeColumn" type="seq" width="60" />
+        <VxeColumn
+          v-for="column in columns"
+          v-bind="column['ui:VxeColumn'] || tableProps.VxeColumn"
+          :key="column.field"
+          :field="column.field"
+          :title="column.title"
+        />
       </VxeTable>
     </div>
   </div>
