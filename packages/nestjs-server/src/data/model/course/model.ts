@@ -1,3 +1,5 @@
+import type { Model } from '@tcgogo/types'
+
 const config: Model.Info = {
   model: 'course',
   title: '课程系统',

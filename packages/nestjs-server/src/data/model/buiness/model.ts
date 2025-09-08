@@ -30,9 +30,19 @@ const config: Model.Info = {
                 },
               },
               properties: {
-                name: {
-                  type: 'string',
+                nameList: {
+                  type: 'array',
                   title: '商品名称',
+                  enum: [{
+                    value: '1',
+                    label: '火龙果',
+                  }, {
+                    value: '2',
+                    label: '香蕉',
+                  }, {
+                    value: '3',
+                    label: '苹果',
+                  }],
                 },
                 price: {
                   type: 'number',
@@ -44,12 +54,26 @@ const config: Model.Info = {
                 stock: {
                   type: 'number',
                   title: '商品库存',
+                  'ui:VxeColumn': {
+                    cellRender: {
+                      name: 'ElTag',
+                      props: {
+                        type: 'success',
+                      },
+                    },
+                  },
                 },
                 description: {
                   type: 'string',
                   title: '商品描述',
                   'ui:VxeColumn': {
-                    width: 400,
+                    width: 100,
+                    cellRender: {
+                      name: 'ElImage',
+                      props: {
+                        fit: 'fill',
+                      },
+                    },
                   },
                 },
                 isActive: {

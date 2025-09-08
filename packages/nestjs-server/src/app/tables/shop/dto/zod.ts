@@ -8,6 +8,7 @@ export const getShopListInput = z.object({
 export const getShopListOutput = z.array(z.object({
   id: z.number(),
   name: z.string(),
+  nameList: z.array(z.string()),
   stock: z.number(),
   price: z.number(),
   description: z.string(),

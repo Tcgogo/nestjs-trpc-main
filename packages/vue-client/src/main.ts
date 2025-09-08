@@ -22,6 +22,7 @@ import 'virtual:uno.css'
 
 // 全局样式
 import '@/assets/styles/globals.css'
+
 // vxe-table
 import 'vxe-table/styles/cssvar.scss'
 

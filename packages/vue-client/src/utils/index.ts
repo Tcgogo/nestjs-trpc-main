@@ -10,3 +10,5 @@ export function cn(...inputs: ClassValue[]) {
 export function resolveRoutePath(basePath?: string, routePath?: string) {
   return basePath ? path.resolve(basePath, routePath ?? '') : routePath ?? ''
 }
+
+export * from './schema/table'

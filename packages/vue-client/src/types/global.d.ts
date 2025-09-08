@@ -1,3 +1,4 @@
+import type { Model } from '@tcgogo/types'
 import type { RouteRecordRaw } from 'vue-router'
 
 type RecursiveRequired<T> = {

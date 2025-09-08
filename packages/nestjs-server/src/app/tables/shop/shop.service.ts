@@ -20,8 +20,11 @@ export class ShopService {
 
   async index() {
     const shops = await this.shopRepositroy.find()
-    console.log('%c [ shops ]-21', 'font-size:13px; background:pink; color:#bf2c9f;', shops)
-    return shops
+
+    return shops.map(i => ({
+      ...i,
+      nameList: i.name.split(','),
+    }))
   }
 
   async create(input: z.infer<typeof shopCreateInput>) {
