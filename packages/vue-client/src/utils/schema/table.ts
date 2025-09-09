@@ -1,6 +1,8 @@
 import type { JsonSchema } from '@tcgogo/types'
 import { ElImage, ElSwitch, ElTag } from 'element-plus'
 import ImageEmpty from './imageEmpty.vue'
+import type { VxeColumnSlots } from 'vxe-table'
+
 
 function isBooleanProperty(property: any): property is JsonSchema.BooleanProperty {
   return property.type === 'boolean'
@@ -43,12 +45,12 @@ const ElCompoments = {
   ElImage,
 }
 
-function formRenderDefaultVxeColumn(name: keyof typeof ElCompoments, filed: string, props: any) {
+function formRenderDefaultVxeColumn(name: keyof typeof ElCompoments, filed: string, props: any): VxeColumnSlots['default'] {
   const component: any = ElCompoments[name]
 
   if (!component) {
-    console.warn(`ElCompoments ${name} not found`)
-    return null
+    console.warn(`Compoments ${name} not found`)
+    return;
   }
 
   if (name === 'ElTag') {
@@ -75,9 +77,9 @@ function formRenderDefaultVxeColumn(name: keyof typeof ElCompoments, filed: stri
     }
   }
 
-  return ({ row }: { row: any }) => {
+  return (slotData) => {
     return h(component, {
-      modelValue: row[filed],
+      modelValue: slotData.row[filed],
       ...props,
     })
   }

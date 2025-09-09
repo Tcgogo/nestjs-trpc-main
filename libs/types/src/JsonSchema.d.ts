@@ -1,8 +1,22 @@
 import type { UITable } from './VxeTable'
 
+type IValueType<T extends string = ''>
+  = | 'code'
+    | 'rate'
+    | 'comma-number'
+    | 'switch'
+    | 'percent'
+    | 'images'
+    | 'tags'
+    | 'long-text'
+    | 'long-text-modal'
+    | T
+
 interface BaseProperty {
   /** 字段类型 */
   type: 'string' | 'number' | 'boolean' | 'null' | 'array' | 'object'
+
+  valueType?: IValueType
 
   /** 字段名称 */
   title: string

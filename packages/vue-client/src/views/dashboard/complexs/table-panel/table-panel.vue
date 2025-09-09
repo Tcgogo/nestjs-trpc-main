@@ -104,19 +104,22 @@ const tableProps = computed(() => {
 
 <template>
   <div>
-    <h1>Table Panel</h1>
+    <!-- <h1>Table Panel</h1>
     <button @click="createShop">
       createShop
-    </button>
+    </button> -->
     <div v-if="schemaConfig">
       {{ route.meta }}
     </div>
-
-    <div>{{ columns }}</div>
+<!--
+    <div>{{ columns }}</div> -->
 
     <div v-if="schemaConfig">
       <VxeTable v-bind="tableProps.VxeTable" :data="shops">
         <VxeColumn v-bind="tableProps.VxeColumn" type="seq" width="60" />
+        <VxeColumn>
+          <template #default></template>
+        </VxeColumn>
         <component v-for="column in columns" :is="h(VxeColumn,
           {
             key: column.field,
