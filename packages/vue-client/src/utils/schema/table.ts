@@ -1,7 +1,9 @@
 import type { JsonSchema } from '@tcgogo/types'
 import { ElImage, ElSwitch, ElTag } from 'element-plus'
+import type { ImageProps, SwitchProps, TagProps } from 'element-plus'
 import ImageEmpty from './imageEmpty.vue'
-import type { VxeColumnSlots } from 'vxe-table'
+import type { VxeColumnProps, VxeColumnSlots } from 'vxe-table'
+import type { ExtractPropTypes, HTMLAttributes } from 'vue'
 
 
 function isBooleanProperty(property: any): property is JsonSchema.BooleanProperty {
@@ -28,9 +30,27 @@ function isNullProperty(property: any): property is JsonSchema.NullProperty {
   return property.type === 'null'
 }
 
-const booleanDefaultVxeColumn = {
+const tagDefaultProps: Partial<TagProps> = {
+  type: 'primary'
+}
+
+const switchDefaultProps: Partial<SwitchProps> = {
+  disabled: true
+}
+
+const imageDefaultProps: Partial<ImageProps> = {
+  fit: 'cover',
+  previewTeleported: true,
+  showProgress: true,
+}
+
+const codeDefaultProps: { calss?: HTMLAttributes['class'] } = {
+
+}
+
+
+const booleanDefaultVxeColumn: VxeColumnProps = {
   cellRender: {
-    name: 'ElSwitch',
     props: {
       'active-value': 1,
       'inactive-value': 0,
@@ -45,49 +65,20 @@ const ElCompoments = {
   ElImage,
 }
 
-function formRenderDefaultVxeColumn(name: keyof typeof ElCompoments, filed: string, props: any): VxeColumnSlots['default'] {
-  const component: any = ElCompoments[name]
+// function formRenderDefaultVxeColumn(column: JsonSchema.LinkProperty): VxeColumnSlots['default'] {
+//   const valueType = column.valueType;
+//   const component = valueType ? BUILT_IN_VALUE_TYPES[valueType] : null;
+//   if (!component) {
+//     console.warn(`Compoments tpye ${valueType} not found`)
+//     return;
+//   }
 
-  if (!component) {
-    console.warn(`Compoments ${name} not found`)
-    return;
-  }
-
-  if (name === 'ElTag') {
-    return ({ row }: { row: any }) => {
-      return h(component, {
-        ...props,
-      }, {
-        default: row[filed],
-      })
-    }
-  }
-
-  if (name === 'ElImage') {
-    return ({ row }: { row: any }) => {
-      return h(component, {
-        src: row[filed],
-        'preview-src-list': [row[filed]],
-        ...props,
-      }, {
-        error: () => {
-          return h(ImageEmpty)
-        },
-      })
-    }
-  }
-
-  return (slotData) => {
-    return h(component, {
-      modelValue: slotData.row[filed],
-      ...props,
-    })
-  }
-}
+// }
 
 export {
-  booleanDefaultVxeColumn,
-  formRenderDefaultVxeColumn,
+  tagDefaultProps,
+  switchDefaultProps,
+  imageDefaultProps,
   isArrayProperty,
   isBooleanProperty,
   isNullProperty,

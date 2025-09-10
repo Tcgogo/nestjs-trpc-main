@@ -47,16 +47,25 @@ const config: Model.Info = {
                 price: {
                   type: 'number',
                   title: '商品价格',
+                  valueFormatter: (value) => {
+                    return `${value}%`
+                  },
+                  valueType: 'tags',
                   'ui:VxeColumn': {
                     sortable: true,
+                    cellRender: {
+                      props: {
+                        type: 'success',
+                      }
+                    }
                   },
                 },
                 stock: {
                   type: 'number',
                   title: '商品库存',
+                  valueType: 'percent',
                   'ui:VxeColumn': {
                     cellRender: {
-                      name: 'ElTag',
                       props: {
                         type: 'success',
                       },
@@ -66,13 +75,13 @@ const config: Model.Info = {
                 description: {
                   type: 'string',
                   title: '商品描述',
+                  valueType: 'code',
                   'ui:VxeColumn': {
-                    width: 100,
+                    width: 300,
                     cellRender: {
-                      name: 'ElImage',
                       props: {
-                        fit: 'fill',
-                      },
+                        class: 'min-h-50',
+                      }
                     },
                   },
                 },

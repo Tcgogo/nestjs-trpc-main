@@ -2,10 +2,11 @@
 import type { JsonSchema } from '@tcgogo/types'
 import { VxeColumn, VxeTable } from 'vxe-table'
 import { client } from '@/trpc'
-import { booleanDefaultVxeColumn, formRenderDefaultVxeColumn, isArrayProperty, isBooleanProperty } from '@/utils'
+import { isArrayProperty, isBooleanProperty } from '@/utils'
 import { merge } from '@/utils/object'
 import { h } from 'vue'
 import { ElSwitch } from 'element-plus'
+import { getVxeTableColumnDefault } from '@/utils/schema/valueType'
 
 const operates = {
   index: 'query',
@@ -55,10 +56,10 @@ const columns = computed(() => {
   return Object.keys(properties).map((key) => {
     const property = properties[key]
 
-    if (isBooleanProperty(property)) {
-      property['ui:VxeColumn'] = property['ui:VxeColumn'] || {};
-      property['ui:VxeColumn'] = merge(booleanDefaultVxeColumn, property['ui:VxeColumn'])
-    }
+    // if (isBooleanProperty(property)) {
+    //   property['ui:VxeColumn'] = property['ui:VxeColumn'] || {};
+    //   property['ui:VxeColumn'] = merge(booleanDefaultVxeColumn, property['ui:VxeColumn'])
+    // }
 
     // if (isArrayProperty(property)) {
     //   property['ui:VxeColumn'] = property['ui:VxeColumn'] || {};
@@ -67,13 +68,13 @@ const columns = computed(() => {
 
 
     return {
-      field: key,
       ...properties[key],
-    } as JsonSchema.ObjectProperty & { field: string }
+      field: key,
+    } as JsonSchema.LinkProperty
   })
 })
 
-function getComponentSlotAttrs(column: JsonSchema.ObjectProperty & { field: string }): [any, any, any] {
+function getComponentSlotAttrs(column: JsonSchema.LinkProperty): [any, any, any] {
   const attr = column['ui:VxeColumn'];
   if (!attr?.cellRender?.name) return [] as any;
 
@@ -117,9 +118,6 @@ const tableProps = computed(() => {
     <div v-if="schemaConfig">
       <VxeTable v-bind="tableProps.VxeTable" :data="shops">
         <VxeColumn v-bind="tableProps.VxeColumn" type="seq" width="60" />
-        <VxeColumn>
-          <template #default></template>
-        </VxeColumn>
         <component v-for="column in columns" :is="h(VxeColumn,
           {
             key: column.field,
@@ -128,7 +126,7 @@ const tableProps = computed(() => {
             ...column['ui:VxeColumn'],
           },
           {
-            default: getComponentSlotAttrs(column)?.length ? formRenderDefaultVxeColumn(...getComponentSlotAttrs(column)) : null
+            default: getVxeTableColumnDefault(column)
           }
         )"></component>
         <!-- <VxeColumn  v-bind="column['ui:VxeColumn'] :field="column.field" :title="column.title" /> -->

@@ -35,7 +35,7 @@ const MenuItemSchema: z.ZodSchema<Model.recordMainRaw> = z.lazy(() => z.union([
       jsonSchema: z.object({
         title: z.string(),
         type: z.literal('object'),
-        properties: z.record(z.string(), z.any()),
+        properties: z.any(),
       }).and(z.record(z.string(), z.any())),
     }),
     children: z.array(MenuItemSchema).optional(),

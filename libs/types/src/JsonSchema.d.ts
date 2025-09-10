@@ -1,22 +1,15 @@
 import type { UITable } from './VxeTable'
 
-type IValueType<T extends string = ''>
-  = | 'code'
-    | 'rate'
-    | 'comma-number'
-    | 'switch'
-    | 'percent'
-    | 'images'
-    | 'tags'
-    | 'long-text'
-    | 'long-text-modal'
-    | T
+interface EnumItem {
+  value: string
+  label: string
+}
 
 interface BaseProperty {
   /** 字段类型 */
   type: 'string' | 'number' | 'boolean' | 'null' | 'array' | 'object'
 
-  valueType?: IValueType
+  valueType?: JsonSchema.IValueType
 
   /** 字段名称 */
   title: string
@@ -29,19 +22,36 @@ interface BaseProperty {
   readonly?: boolean
 
   /** 字段枚举值 */
-  enum?: any[]
+  enum?: EnumItem[]
 
   'ui:VxeColumn'?: UITable.VxeColumn
 
   'ui:VxeTable'?: UITable.VxeTable
 
+  valueFormatter?: (value: any, column: JsonSchema.LinkProperty) => any
+
   /** 组件attrs属性 */
   [key: `ui:${string}`]: {
     [key: string]: any
   }
+
+  /** 字段名称 */
+  field?: string
 }
 
 export declare namespace JsonSchema {
+  type IValueType<T extends string = ''>
+  = | 'code'
+    | 'rate'
+    | 'comma-number'
+    | 'switch'
+    | 'percent'
+    | 'images'
+    | 'tags'
+    | 'long-text'
+    | 'long-text-modal'
+    | T
+
 
   /** 字符串属性 */
   interface StringProperty extends BaseProperty {
@@ -143,13 +153,15 @@ export declare namespace JsonSchema {
     maxContains?: number
   }
 
+  type LinkProperty = StringProperty | NumberProperty | BooleanProperty | ArrayProperty | ObjectProperty | NullProperty
+
   /** 对象属性 */
   interface ObjectProperty extends BaseProperty {
     type: 'object'
 
     /** 字段属性 */
     properties?: {
-      [key: string]: StringProperty | NumberProperty | BooleanProperty | ArrayProperty | ObjectProperty | NullProperty
+      [key: string]: LinkProperty
     }
 
     /** 字段必填属性 */
@@ -157,7 +169,7 @@ export declare namespace JsonSchema {
 
     /** 字段模式属性 */
     patternProperties?: {
-      [key: string]: StringProperty | NumberProperty | BooleanProperty | ArrayProperty | ObjectProperty | NullProperty
+      [key: string]: LinkProperty
     }
 
     /** 字段额外属性 */

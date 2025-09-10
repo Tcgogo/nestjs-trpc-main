@@ -12,3 +12,4 @@ export function resolveRoutePath(basePath?: string, routePath?: string) {
 }
 
 export * from './schema/table'
+export * from './helper'

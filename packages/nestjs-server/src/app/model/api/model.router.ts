@@ -9,6 +9,26 @@ const getModelConfigInput = z.object({
   modelKey: z.string().optional(),
 })
 
+function objectToString(obj2: any, fun?: any) {
+  // 返回一个将对象中的函数都转化为字符串的对象　不直接在原对象上面改
+  const stringifyFunction = (obj: any) => {
+    let newobj = JSON.parse(JSON.stringify(obj))
+    for (let key in obj) {
+      if (obj[key] instanceof Function) {
+        newobj[key] = obj[key].toString().replace(/[\n\t]/g, '')
+        continue
+      }
+      if (obj[key] instanceof Object) {
+        newobj[key] = stringifyFunction(obj[key])
+      }
+    }
+    return newobj
+  }
+  // 用于替代JSON.stringify函数
+  let _object = stringifyFunction(obj2) // 将对象中的函数转为字符串
+  return JSON.stringify(_object, null, 2) // 将对象转为字符串
+}
+
 @Router({ alias: 'model' })
 export class ModelRouter {
   constructor(@Inject(ModelService) private modelService: ModelService) { }
@@ -22,7 +42,6 @@ export class ModelRouter {
     }
 
     const config = await this.modelService.getModelConfig(key)
-    console.log('%c [ config ]-25', 'font-size:13px; background:pink; color:#bf2c9f;', JSON.stringify(config, null, 2))
 
     return config
   }
