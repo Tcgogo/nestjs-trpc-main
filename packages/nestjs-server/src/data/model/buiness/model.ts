@@ -29,6 +29,12 @@ const config: Model.Info = {
                   resizable: true,
                 },
               },
+              'ui:HandleColumn': {
+                width: 150,
+                fixed: 'left',
+                align: 'center',
+                title: '操作2',
+              },
               properties: {
                 nameList: {
                   type: 'array',
@@ -56,8 +62,8 @@ const config: Model.Info = {
                     cellRender: {
                       props: {
                         type: 'success',
-                      }
-                    }
+                      },
+                    },
                   },
                 },
                 stock: {
@@ -75,19 +81,47 @@ const config: Model.Info = {
                 description: {
                   type: 'string',
                   title: '商品描述',
-                  valueType: 'code',
+                  valueType: 'long-text',
                   'ui:VxeColumn': {
                     width: 300,
                     cellRender: {
                       props: {
-                        class: 'min-h-50',
-                      }
+
+                      },
                     },
                   },
                 },
                 isActive: {
                   type: 'boolean',
                   title: '是否上架',
+                },
+                test1: {
+                  type: 'string',
+                  title: '测试1',
+                },
+                test2: {
+                  type: 'string',
+                  title: '测试2',
+                },
+                test3: {
+                  type: 'string',
+                  title: '测试3',
+                },
+                test4: {
+                  type: 'string',
+                  title: '测试4',
+                },
+                test5: {
+                  type: 'string',
+                  title: '测试5',
+                },
+                test6: {
+                  type: 'string',
+                  title: '测试6',
+                },
+                test7: {
+                  type: 'string',
+                  title: '测试7',
                 },
               },
             },

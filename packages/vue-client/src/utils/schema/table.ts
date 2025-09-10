@@ -1,10 +1,10 @@
 import type { JsonSchema } from '@tcgogo/types'
-import { ElImage, ElSwitch, ElTag } from 'element-plus'
-import type { ImageProps, SwitchProps, TagProps } from 'element-plus'
-import ImageEmpty from './imageEmpty.vue'
-import type { VxeColumnProps, VxeColumnSlots } from 'vxe-table'
+import type { ElTooltipProps, ImageProps, SwitchProps, TagProps } from 'element-plus'
 import type { ExtractPropTypes, HTMLAttributes } from 'vue'
-
+import type { VxeColumnProps, VxeColumnSlots } from 'vxe-table'
+import { ElImage, ElSwitch, ElTag } from 'element-plus'
+import { cn } from '..'
+import ImageEmpty from './imageEmpty.vue'
 
 function isBooleanProperty(property: any): property is JsonSchema.BooleanProperty {
   return property.type === 'boolean'
@@ -31,11 +31,11 @@ function isNullProperty(property: any): property is JsonSchema.NullProperty {
 }
 
 const tagDefaultProps: Partial<TagProps> = {
-  type: 'primary'
+  type: 'primary',
 }
 
 const switchDefaultProps: Partial<SwitchProps> = {
-  disabled: true
+  disabled: true,
 }
 
 const imageDefaultProps: Partial<ImageProps> = {
@@ -48,6 +48,10 @@ const codeDefaultProps: { calss?: HTMLAttributes['class'] } = {
 
 }
 
+const longTextDefaultProps: Partial<ElTooltipProps> = {
+  placement: 'top',
+  popperClass: cn('max-w-[500px]'),
+}
 
 const booleanDefaultVxeColumn: VxeColumnProps = {
   cellRender: {
@@ -76,8 +80,6 @@ const ElCompoments = {
 // }
 
 export {
-  tagDefaultProps,
-  switchDefaultProps,
   imageDefaultProps,
   isArrayProperty,
   isBooleanProperty,
@@ -85,4 +87,7 @@ export {
   isNumberProperty,
   isObjectProperty,
   isStringProperty,
+  longTextDefaultProps,
+  switchDefaultProps,
+  tagDefaultProps,
 }

@@ -97,8 +97,8 @@ const slots = useSlots()
         <div class="fixed transition-opacity invisible inset-0 z-1009 bg-black/50 op-0 backdrop-blur-sm" :class="{ 'op-100! visible!': settingsStore.mode === 'mobile' && !settingsStore.settings.menu.subMenuCollapse }" @click="settingsStore.toggleSidebarCollapse()" />
         <div class="main-container pb-[var(--g-main-container-padding-bottom)]">
           <Topbar />
-          <div class="main">
-            <div v-if="Object.keys(slots).length > 0" class="flex-1" >
+          <div class="main w-full">
+            <div v-if="Object.keys(slots).length > 0" class="flex-1 w-full">
               <slot />
             </div>
 
@@ -202,8 +202,8 @@ const slots = useSlots()
     transition: margin-left 0.3s, background-color 0.3s, box-shadow 0.3s;
 
     .main {
-      display: flex;
       position: relative;
+      display: flex;
       flex: auto;
       height: 100%;
       margin: calc(var(--g-tabbar-actual-height) + var(--g-toolbar-actual-height)) 0 0;

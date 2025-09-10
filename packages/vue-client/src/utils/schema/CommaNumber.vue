@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isEmpty } from '../helper';
+import { isEmpty } from '../helper'
 
 const { value } = defineProps<{
   value: number | string
@@ -14,7 +14,7 @@ const CommaNumber = computed(() => {
   }
 
   // 保证 value 是数字
-  if (isNaN(Number(value))) {
+  if (Number.isNaN(Number(value))) {
     return value
   }
 

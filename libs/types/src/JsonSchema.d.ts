@@ -24,9 +24,14 @@ interface BaseProperty {
   /** 字段枚举值 */
   enum?: EnumItem[]
 
+  /** 表格列字段 */
   'ui:VxeColumn'?: UITable.VxeColumn
 
+  /** 表格字段 */
   'ui:VxeTable'?: UITable.VxeTable
+
+  /** 操作按钮列 */
+  'ui:HandleColumn'?: UITable.VxeColumn
 
   valueFormatter?: (value: any, column: JsonSchema.LinkProperty) => any
 
@@ -51,7 +56,6 @@ export declare namespace JsonSchema {
     | 'long-text'
     | 'long-text-modal'
     | T
-
 
   /** 字符串属性 */
   interface StringProperty extends BaseProperty {

@@ -1,15 +1,15 @@
 import type { JsonSchema } from '@tcgogo/types'
-import { ElImage, ElSwitch, ElTag } from 'element-plus'
 import type { VxeColumnProps, VxeColumnSlots } from 'vxe-table'
-import { imageDefaultProps, isArrayProperty, isBooleanProperty, isNumberProperty, switchDefaultProps, tagDefaultProps } from './table'
+import { ElImage, ElSwitch, ElTag } from 'element-plus'
 import { cloneDeep, merge } from 'es-toolkit'
-import ImageEmpty from './imageEmpty.vue'
 import { isEmpty, isImage, parseStringToFunction } from '../helper'
-import CommaNumber from './CommaNumber.vue'
 import Code from './Code.vue'
+import CommaNumber from './CommaNumber.vue'
+import ImageEmpty from './imageEmpty.vue'
+import LongText from './LongText.vue'
+import { imageDefaultProps, isArrayProperty, isBooleanProperty, isNumberProperty, longTextDefaultProps, switchDefaultProps, tagDefaultProps } from './table'
 
-
-type IValueTypeProps  = {
+type IValueTypeProps = {
   [key in JsonSchema.IValueType]: VxeColumnSlots['default']
 }
 
@@ -66,96 +66,95 @@ const ElCompoments = {
 //   '': {},
 // }
 
-
 function handleBooleanProperty(column: JsonSchema.BooleanProperty) {
-  const valueType = column.valueType || column['ui:VxeColumn']?.cellRender?.name;
+  const valueType = column.valueType || column['ui:VxeColumn']?.cellRender?.name
 
-  if(!valueType) {
+  if (!valueType) {
     column.valueType = 'switch'
   }
 
   // 处理值
-  if(column.valueFormatter) {
+  if (column.valueFormatter) {
     column.valueFormatter = parseStringToFunction(column.valueFormatter)
-    return column;
+    return column
   }
 
   return {
     ...column,
-    valueFormatter: (value: any) => !!value
+    valueFormatter: (value: any) => !!value,
   }
 }
 
 function handleNumberRunder(column: JsonSchema.NumberProperty) {
-  const valueType = column.valueType || column['ui:VxeColumn']?.cellRender?.name;
+  const valueType = column.valueType || column['ui:VxeColumn']?.cellRender?.name
 
-  if(!valueType) {
+  if (!valueType) {
     column.valueType = 'comma-number'
   }
 
-  if(column.valueFormatter) {
+  if (column.valueFormatter) {
     column.valueFormatter = parseStringToFunction(column.valueFormatter)
-    return column;
-  }
-
-  return {
-    ...column,
-    valueFormatter: (value: any) => value
-  }
-}
-
-function handleArrayRunder(column: JsonSchema.ArrayProperty) {
-  const valueType = column.valueType || column['ui:VxeColumn']?.cellRender?.name;
-
-  // Array 默认 tags 渲染
-  if(!valueType) {
-    column.valueType = 'tags'
-  }
-
-  // 处理值
-  if(column.valueFormatter) {
-    column.valueFormatter = parseStringToFunction(column.valueFormatter)
-    return column;
-  }
-
-  return {
-    ...column,
-    valueFormatter: (value: any) => {
-      if(Array.isArray(value)) return value;
-
-      if(typeof value === 'string') return value.split(',');
-
-      console.warn('无法处理 Array type value', value);
-      return value;
-    },
-  };
-}
-
-function handleDefaultRunder(column: JsonSchema.LinkProperty) {
-  // 处理值
-  if(column.valueFormatter) {
-    column.valueFormatter = parseStringToFunction(column.valueFormatter)
-    return column;
+    return column
   }
 
   return {
     ...column,
     valueFormatter: (value: any) => value,
-  };
+  }
+}
+
+function handleArrayRunder(column: JsonSchema.ArrayProperty) {
+  const valueType = column.valueType || column['ui:VxeColumn']?.cellRender?.name
+
+  // Array 默认 tags 渲染
+  if (!valueType) {
+    column.valueType = 'tags'
+  }
+
+  // 处理值
+  if (column.valueFormatter) {
+    column.valueFormatter = parseStringToFunction(column.valueFormatter)
+    return column
+  }
+
+  return {
+    ...column,
+    valueFormatter: (value: any) => {
+      if (Array.isArray(value)) { return value }
+
+      if (typeof value === 'string') { return value.split(',') }
+
+      console.warn('无法处理 Array type value', value)
+      return value
+    },
+  }
+}
+
+function handleDefaultRunder(column: JsonSchema.LinkProperty) {
+  // 处理值
+  if (column.valueFormatter) {
+    column.valueFormatter = parseStringToFunction(column.valueFormatter)
+    return column
+  }
+
+  return {
+    ...column,
+    valueFormatter: (value: any) => value,
+  }
 }
 
 function handleSwitchRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['default'] {
-  let cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {};
+  const cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {}
   // 合并默认配置
   cellRender.props = merge(cloneDeep(switchDefaultProps), cellRender.props || {})
 
   return ({ row }) => {
-    const value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!];
+    const value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!]
 
     // 处理数组
-    if(Array.isArray(value)) {
+    if (Array.isArray(value)) {
       return h('div', {
-        class: 'flex items-center gap-1',
+        class: 'flex items-center justify-center gap-1',
       }, value.map(item => h(ElSwitch, {
         modelValue: item,
         ...cellRender.props,
@@ -171,19 +170,19 @@ function handleSwitchRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['de
 }
 
 function handleTagRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['default'] {
-  let cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {};
+  const cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {}
   // 合并默认配置
   cellRender.props = merge(cloneDeep(tagDefaultProps), cellRender.props || {})
 
   return ({ row }) => {
-    let value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!];
+    const value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!]
 
     // 处理数组
-    if(Array.isArray(value)) {
-      const target = value.map(item => column.enum?.find(enumItem => enumItem.value === item)?.label || item);
+    if (Array.isArray(value)) {
+      const target = value.map(item => column.enum?.find(enumItem => enumItem.value === item)?.label || item)
 
       return h('div', {
-        class: 'flex items-center gap-1',
+        class: 'flex items-center justify-center gap-1',
       }, target.map(item => h(ElTag, {
         ...cellRender.props,
       }, {
@@ -191,7 +190,7 @@ function handleTagRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['defau
       })))
     }
 
-    const target = column.enum?.find(enumItem => enumItem.value === value)?.label || value;
+    const target = column.enum?.find(enumItem => enumItem.value === value)?.label || value
 
     // 处理单个值
     return h(ElTag, {
@@ -203,21 +202,21 @@ function handleTagRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['defau
 }
 
 function handleImageRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['default'] {
-  let cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {};
+  const cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {}
   // 合并默认配置
   cellRender.props = merge(cloneDeep(imageDefaultProps), cellRender.props || {})
 
   return ({ row }) => {
-    let value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!];
+    const value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!]
 
     // 处理数组
-    if(Array.isArray(value)) {
-      let target = value.map(item => column.enum?.find(enumItem => enumItem.value === item)?.label || item);
+    if (Array.isArray(value)) {
+      const target = value.map(item => column.enum?.find(enumItem => enumItem.value === item)?.label || item)
 
       // target = target.map(item => isImage(item) ? item : 'error.png');
 
       return h('div', {
-        class: 'flex items-center gap-1',
+        class: 'flex items-center justify-center gap-1',
       }, target.map(item => h(ElImage, {
         ...cellRender.props,
         src: item,
@@ -227,7 +226,7 @@ function handleImageRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['def
       })))
     }
 
-    let target = column.enum?.find(enumItem => enumItem.value === value)?.label || value;
+    const target = column.enum?.find(enumItem => enumItem.value === value)?.label || value
 
     // 处理单个值
     return h(ElImage, {
@@ -241,24 +240,24 @@ function handleImageRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['def
 }
 
 function handleCommaNumberRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['default'] {
-  const cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {};
+  const cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {}
 
   return ({ row }) => {
-    let value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!];
+    const value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!]
 
     // 处理数组
-    if(Array.isArray(value)) {
-      let target = value.map(item => column.enum?.find(enumItem => enumItem.value === item)?.label || item);
+    if (Array.isArray(value)) {
+      const target = value.map(item => column.enum?.find(enumItem => enumItem.value === item)?.label || item)
 
       return h('div', {
-        class: 'flex items-center gap-1',
+        class: 'flex items-center justify-center gap-1',
       }, target.map(item => h(CommaNumber, {
         ...(cellRender.props || {}),
         value: item,
       })))
     }
 
-    let target = column.enum?.find(enumItem => enumItem.value === value)?.label || value;
+    const target = column.enum?.find(enumItem => enumItem.value === value)?.label || value
 
     // 处理单个值
     return h(CommaNumber, {
@@ -269,23 +268,23 @@ function handleCommaNumberRunder(column: JsonSchema.LinkProperty): VxeColumnSlot
 }
 
 function handlePercentRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['default'] {
-  const cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {};
+  const cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {}
   return ({ row }) => {
-    let value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!];
+    const value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!]
 
     // 处理数组
-    if(Array.isArray(value)) {
-      let target = value.map(item => column.enum?.find(enumItem => enumItem.value === item)?.label || item);
+    if (Array.isArray(value)) {
+      const target = value.map(item => column.enum?.find(enumItem => enumItem.value === item)?.label || item)
 
       return h('div', {
-        class: 'flex items-center gap-1',
+        class: 'flex items-center justify-center gap-1',
       }, target.map(item => h('span', {
         ...(cellRender.props || {}),
         innerHTML: isEmpty(item) ? '-' : `${item}%`,
       })))
     }
 
-    let target = column.enum?.find(enumItem => enumItem.value === value)?.label || value;
+    const target = column.enum?.find(enumItem => enumItem.value === value)?.label || value
 
     // 处理单个值
     return h('span', {
@@ -295,26 +294,25 @@ function handlePercentRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['d
   }
 }
 
-
 function handleCodeRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['default'] {
-  const cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {};
+  const cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {}
 
   return ({ row }) => {
-    let value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!];
+    const value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!]
 
     // 处理数组
-    if(Array.isArray(value)) {
-      let target = value.map(item => column.enum?.find(enumItem => enumItem.value === item)?.label || item);
+    if (Array.isArray(value)) {
+      const target = value.map(item => column.enum?.find(enumItem => enumItem.value === item)?.label || item)
 
       return h('div', {
-        class: 'flex items-center gap-1',
+        class: 'flex items-center justify-center gap-1',
       }, target.map(item => h(Code, {
         ...(cellRender.props || {}),
         code: item,
       })))
     }
 
-    let target = column.enum?.find(enumItem => enumItem.value === value)?.label || value;
+    const target = column.enum?.find(enumItem => enumItem.value === value)?.label || value
 
     // 处理单个值
     return h(Code, {
@@ -324,33 +322,72 @@ function handleCodeRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['defa
   }
 }
 
-export function getVxeTableColumnDefault(column: JsonSchema.LinkProperty) {
-  const type = column.type;
-  const valueType = column.valueType || column['ui:VxeColumn']?.cellRender?.name;
+function handleLongTextRunder(column: JsonSchema.LinkProperty): VxeColumnSlots['default'] {
+  const cellRender: NonNullable<VxeColumnProps['cellRender']> = column['ui:VxeColumn']?.cellRender || {}
+  // 合并默认配置
+  cellRender.props = merge(cloneDeep(longTextDefaultProps), cellRender.props || {})
 
-  if(isBooleanProperty(column)) {
-    column = handleBooleanProperty(column);
-  } else if(isNumberProperty(column)) {
-    column = handleNumberRunder(column);
-  } else if(isArrayProperty(column)) {
-    column = handleArrayRunder(column);
-  } else {
+  return ({ row }) => {
+    const value = column.valueFormatter ? column.valueFormatter(row[column.field!], column) : row[column.field!]
+
+    // 处理数组
+    if (Array.isArray(value)) {
+      const target = value.map(item => column.enum?.find(enumItem => enumItem.value === item)?.label || item)
+
+      return h('div', {
+        class: 'flex items-center justify-center gap-1',
+      }, target.map(item => h(LongText, {
+        text: item,
+        content: item,
+        ...(cellRender.props || {}),
+        appendTo: 'body',
+        teleported: true,
+      })))
+    }
+
+    const target = column.enum?.find(enumItem => enumItem.value === value)?.label || value
+
+    // 处理单个值
+    return h(LongText, {
+      ...(cellRender.props || {}),
+      text: target,
+      content: target,
+      appendTo: 'body',
+      teleported: true,
+    })
+  }
+}
+
+export function getVxeTableColumnDefault(column: JsonSchema.LinkProperty) {
+  const type = column.type
+  const valueType = column.valueType || column['ui:VxeColumn']?.cellRender?.name
+
+  if (isBooleanProperty(column)) {
+    column = handleBooleanProperty(column)
+  }
+  else if (isNumberProperty(column)) {
+    column = handleNumberRunder(column)
+  }
+  else if (isArrayProperty(column)) {
+    column = handleArrayRunder(column)
+  }
+  else {
     column = handleDefaultRunder(column)
   }
 
-  if(valueType === 'switch') return handleSwitchRunder(column);
+  if (valueType === 'switch') { return handleSwitchRunder(column) }
 
-  if(valueType === 'tags') return handleTagRunder(column);
+  if (valueType === 'tags') { return handleTagRunder(column) }
 
-  if(valueType === 'images') return handleImageRunder(column);
+  if (valueType === 'images') { return handleImageRunder(column) }
 
-  if(valueType === 'comma-number') return handleCommaNumberRunder(column);
+  if (valueType === 'comma-number') { return handleCommaNumberRunder(column) }
 
-  if(valueType === 'percent') return handlePercentRunder(column);
+  if (valueType === 'percent') { return handlePercentRunder(column) }
 
-  if(valueType === 'code') return handleCodeRunder(column);
+  if (valueType === 'code') { return handleCodeRunder(column) }
 
-  return null;
+  if (valueType === 'long-text') { return handleLongTextRunder(column) }
+
+  return null
 }
-
-
