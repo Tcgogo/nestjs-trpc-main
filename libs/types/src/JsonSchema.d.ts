@@ -54,7 +54,6 @@ export declare namespace JsonSchema {
     | 'images'
     | 'tags'
     | 'long-text'
-    | 'long-text-modal'
     | T
 
   /** 字符串属性 */

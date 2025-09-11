@@ -3,6 +3,7 @@ import antfu from '@antfu/eslint-config'
 export default antfu(
   {
     unocss: true,
+    jsdoc: false, // 禁用 JSDoc 插件以避免兼容性问题
     ignores: [
       '**/public',
       '**/node_modules',

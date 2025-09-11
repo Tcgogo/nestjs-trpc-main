@@ -31,7 +31,7 @@ const config: Model.Info = {
               },
               'ui:HandleColumn': {
                 width: 150,
-                fixed: 'left',
+                fixed: 'right',
                 align: 'center',
                 title: '操作2',
               },
