@@ -1,3 +1,4 @@
+import type { CreateSchema } from './CreateSchema'
 import type { UITable } from './VxeTable'
 
 interface EnumItem {
@@ -54,7 +55,6 @@ export declare namespace JsonSchema {
     | 'images'
     | 'tags'
     | 'long-text'
-    | 'long-text-modal'
     | T
 
   /** 字符串属性 */
@@ -104,6 +104,8 @@ export declare namespace JsonSchema {
     /** 字段是否必填 */
     required?: boolean
 
+    /** 创建选项 */
+    createOption?: CreateSchema.BooleanCreateOption
   }
 
   /** 空属性 */

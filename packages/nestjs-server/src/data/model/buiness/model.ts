@@ -31,11 +31,21 @@ const config: Model.Info = {
               },
               'ui:HandleColumn': {
                 width: 150,
-                fixed: 'left',
+                fixed: 'right',
                 align: 'center',
                 title: '操作2',
               },
               properties: {
+                isActive2: {
+                  type: 'boolean',
+                  title: '是否上架2',
+                  createOption: {
+                    field: 'el-radio',
+                    props: {
+                      border: true,
+                    },
+                  },
+                },
                 nameList: {
                   type: 'array',
                   title: '商品名称',

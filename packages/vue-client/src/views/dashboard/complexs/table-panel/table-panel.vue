@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { JsonSchema } from '@tcgogo/types'
-import { ElSwitch } from 'element-plus'
 import { h } from 'vue'
 import { VxeColumn, VxeTable } from 'vxe-table'
 import { client } from '@/trpc'
-import { isArrayProperty, isBooleanProperty } from '@/utils'
-import { merge } from '@/utils/object'
+import { useFaModal } from '@/ui/components/FaModal'
 import { getVxeTableColumnDefault } from '@/utils/schema/valueType'
+import Widgets from '@/widgets/index.vue'
 
 const operates = {
   index: 'query',
@@ -24,6 +23,7 @@ const formData = ref({})
 
 const shops = ref<{ id: number, name: string }[]>([])
 
+/** 获取接口函数 */
 function getFetchFn(api: any, type: keyof typeof operates) {
   // @ts-expect-error 类型提示
   if (client?.[api]?.[type]?.[operates[type]]) {
@@ -42,10 +42,26 @@ onMounted(async () => {
   }
 })
 
+const { open: openModal, update: updateModal } = useFaModal().create({
+  destroyOnClose: true,
+  closeOnClickOverlay: false,
+  closeOnPressEscape: false,
+  beforeClose: (action, done) => {
+    console.log('%c [ action ]-52', 'font-size:13px; background:pink; color:#bf2c9f;', action)
+    done()
+  },
+  content: () => h(Widgets, {
+    schema: schemaConfig!.jsonSchema,
+    formData,
+  }),
+})
+
 async function createShop() {
   // await client.tablesShop.create.mutate({ name: 'test' })
+  openModal()
 }
 
+/** 表格列 */
 const columns = computed(() => {
   if (!schemaConfig?.jsonSchema.properties) {
     return []
@@ -61,6 +77,7 @@ const columns = computed(() => {
   })
 })
 
+/** 默认配置 */
 const tableProps = computed(() => {
   const vxeTable = schemaConfig?.jsonSchema?.['ui:VxeTable'] || {}
   const vxeColumns = schemaConfig?.jsonSchema?.['ui:VxeColumn'] || {}
@@ -89,15 +106,18 @@ const tableProps = computed(() => {
 
 <template>
   <div class="w-full">
-    <!-- <h1>Table Panel</h1>
-    <button @click="createShop">
-      createShop
-    </button> -->
     <div v-if="schemaConfig">
-      {{ route.meta }}
+      <!-- {{ route.meta }} -->
     </div>
-    <!--
-    <div>{{ columns }}</div> -->
+
+    <div class="flex justify-end pb-3">
+      <ElButton type="primary" size="default" @click="createShop">
+        <template #icon>
+          <FaIcon name="i-ep:plus" />
+        </template>
+        新增
+      </ElButton>
+    </div>
 
     <div v-if="schemaConfig" class="w-full flex">
       <VxeTable v-bind="tableProps.VxeTable" :data="shops" class="w-full">
@@ -120,7 +140,7 @@ const tableProps = computed(() => {
           <template #default="scope">
             <div class="flex justify-center px-3">
               <ElButton type="warning" size="small" plain>
-                编辑
+                编辑{{ scope.row.id }}
               </ElButton>
               <ElButton type="danger" size="small" plain>
                 删除

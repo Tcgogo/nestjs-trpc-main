@@ -20,6 +20,7 @@ const props = withDefaults(
   defineProps<ModalProps>(),
   {
     modelValue: false,
+    zIndex: 2000,
     loading: false,
     closable: true,
     maximize: false,
@@ -61,7 +62,7 @@ defineExpose({
   areaRef: dialogAreaRef,
 })
 
-const modalId = useId()
+const modalId = shallowRef(props.id ?? useId())
 const isOpen = ref(props.modelValue)
 const isMaximize = ref(props.maximize)
 
@@ -72,9 +73,16 @@ watch(() => props.modelValue, (newValue) => {
 const hasOpened = ref(false)
 const isClosed = ref(true)
 
-watch(() => isOpen.value, (value) => {
+watch(isOpen, (val) => {
+  emits('update:modelValue', val)
+  if (val) {
+    emits('open')
+  }
+  else {
+    emits('close')
+  }
   isClosed.value = false
-  if (value && !hasOpened.value) {
+  if (val && !hasOpened.value) {
     hasOpened.value = true
   }
 }, {
@@ -98,7 +106,6 @@ function setTransform() {
 }
 
 watch(isOpen, (val) => {
-  emits('update:modelValue', val)
   if (val) {
     nextTick(() => {
       if (dialogContentRef.value) {
@@ -106,10 +113,6 @@ watch(isOpen, (val) => {
         setTransform()
       }
     })
-    emits('open')
-  }
-  else {
-    emits('close')
   }
 })
 
@@ -177,7 +180,7 @@ function handleFocusOutside(e: Event) {
 }
 
 function handleClickOutside(e: Event) {
-  if (!props.closeOnClickOverlay || (e.target as HTMLElement).dataset.modalId !== modalId) {
+  if (!props.closeOnClickOverlay || (e.target as HTMLElement).dataset.modalId !== modalId.value) {
     e.preventDefault()
     e.stopPropagation()
   }
@@ -212,6 +215,7 @@ function handleAnimationEnd() {
       ref="dialogContentRef"
       :modal-id="modalId"
       :open="isOpen"
+      :z-index="props.zIndex"
       :closable="props.closable"
       :overlay="props.overlay"
       :overlay-blur="props.overlayBlur"
@@ -265,6 +269,10 @@ function handleAnimationEnd() {
           </DialogDescription>
         </slot>
       </DialogHeader>
+      <VisuallyHidden v-else>
+        <DialogTitle />
+        <DialogDescription />
+      </VisuallyHidden>
       <FaScrollArea v-if="!!slots.default" ref="dialogAreaRef" class="flex-1">
         <div :class="cn('min-h-40 p-4', props.contentClass)">
           <slot />
@@ -274,7 +282,7 @@ function handleAnimationEnd() {
         </div>
       </FaScrollArea>
       <DialogFooter
-        v-if="footer" :class="cn('p-2 gap-y-2', props.footerClass, {
+        v-if="footer" :class="cn('p-3 gap-y-2', props.footerClass, {
           'md:justify-center': props.center,
           'border-t': props.border,
         })"
