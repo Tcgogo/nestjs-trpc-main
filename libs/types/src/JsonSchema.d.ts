@@ -72,6 +72,9 @@ export declare namespace JsonSchema {
 
     /** 字段验证正则表达式 */
     pattern?: string
+
+    /** 创建选项 */
+    createOption?: CreateSchema.StringCreateOption | object
   }
 
   /** 数字属性 */
@@ -105,7 +108,7 @@ export declare namespace JsonSchema {
     required?: boolean
 
     /** 创建选项 */
-    createOption?: CreateSchema.BooleanCreateOption
+    createOption?: CreateSchema.BooleanCreateOption | object
   }
 
   /** 空属性 */

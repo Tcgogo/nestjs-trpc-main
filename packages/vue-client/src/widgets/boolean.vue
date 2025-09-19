@@ -4,19 +4,25 @@ import { ElCheckbox, ElRadio, ElSwitch } from 'element-plus'
 import { merge } from 'es-toolkit'
 import { h } from 'vue'
 
-const { schema } = defineProps<{
+const { schema, formData } = defineProps<{
   schema: JsonSchema.BooleanProperty
+  formData: any
+  prop: string
 }>()
 
+const data = reactive({
+  formData,
+})
+
 const booleanFileds: Record<CreateSchema.BooleanCreateOption['field'], any> = {
-  'el-switch': ElSwitch,
-  'el-checkbox': ElCheckbox,
-  'el-radio': ElRadio,
+  'switch': ElSwitch,
+  'checkbox': ElCheckbox,
+  'radio': ElRadio,
 }
 
 const createOption = computed(() => {
   const defaultOption: CreateSchema.BooleanCreateOption = {
-    field: 'el-switch',
+    field: 'switch',
     props: {
       inlinePrompt: true,
       activeText: '是',
@@ -27,29 +33,32 @@ const createOption = computed(() => {
   // 合并 schema
   return merge(defaultOption, { ...schema, ...(schema.createOption || {}) })
 })
-
-const value = ref(false)
 </script>
 
 <template>
-  <div v-if="schema.createOption" class="form-item flex items-center gap-2">
+  <el-form-item v-if="schema.createOption" :label="schema.title" :prop="prop">
     <div class="form-item">
-      <div v-if="createOption.field === 'el-switch'" class="form-item_content flex items-center gap-5">
-        <div class="form-item-title">
-          {{ schema.title }}
-        </div>
+      <!-- el-switch -->
+      <template v-if="createOption.field === 'switch'">
         <component
           :is="booleanFileds[createOption.field]"
-          v-model="value"
+          v-model="data.formData[prop]"
           v-bind="createOption.props"
         />
-      </div>
+      </template>
 
-      <div v-else-if="createOption.field === 'el-radio'" class="form-item_content flex items-center gap-5">
-        <div class="form-item-title">
-          {{ schema.title }}
-        </div>
-        <el-radio-group v-model="value" v-bind="createOption.groupProps || {}">
+      <!-- el-checkbox -->
+      <template v-else-if="createOption.field === 'checkbox'">
+        <component
+          :is="h(booleanFileds[createOption.field], {}, () => h('div', { class: 'form-item-title' }, schema.title))"
+          v-model="data.formData[prop]"
+          v-bind="createOption.props"
+        />
+      </template>
+
+      <!-- el-radio -->
+      <template v-else-if="createOption.field === 'radio'">
+        <el-radio-group v-model="data.formData[prop]" v-bind="createOption.groupProps || {}">
           <ElRadio :value="true" size="large" v-bind="createOption.props">
             {{ createOption.props?.activeText || '是' }}
           </ElRadio>
@@ -57,27 +66,9 @@ const value = ref(false)
             {{ createOption.props?.inactiveText || '否' }}
           </ElRadio>
         </el-radio-group>
-      </div>
-
-      <div v-else class="form-item_content">
-        <component
-          :is="h(booleanFileds[createOption.field], {}, () => h('div', { class: 'form-item-title' }, schema.title))"
-          v-model="value"
-          v-bind="createOption.props"
-        />
-      </div>
+      </template>
     </div>
-
-    <!-- <component
-      :is="booleanFileds[createOption.field]"
-      v-model="value"
-      v-bind="createOption.props"
-    />
-
-    <div class="form-item-title">
-      {{ schema.title }}
-    </div> -->
-  </div>
+  </el-form-item>
 </template>
 
 <style scoped lang="less"></style>

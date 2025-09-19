@@ -40,7 +40,7 @@ const config: Model.Info = {
                   type: 'boolean',
                   title: '是否上架2',
                   createOption: {
-                    field: 'el-radio',
+                    field: 'radio',
                     props: {
                       border: true,
                     },
@@ -91,6 +91,7 @@ const config: Model.Info = {
                 description: {
                   type: 'string',
                   title: '商品描述',
+                  required: true,
                   valueType: 'long-text',
                   'ui:VxeColumn': {
                     width: 300,
@@ -100,6 +101,7 @@ const config: Model.Info = {
                       },
                     },
                   },
+                  createOption: {},
                 },
                 isActive: {
                   type: 'boolean',
