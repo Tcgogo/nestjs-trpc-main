@@ -36,6 +36,114 @@ const config: Model.Info = {
                 title: '操作2',
               },
               properties: {
+                timeSelect: {
+                  type: 'string',
+                  title: '时间',
+                  createOption: {
+                    field: 'time-select',
+                  },
+                },
+                timePicker: {
+                  type: 'string',
+                  title: '时间',
+                  createOption: {
+                    field: 'time-picker',
+                  },
+                },
+                radio: {
+                  type: 'string',
+                  title: '单选',
+                  createOption: {
+                    field: 'radio-group',
+                    props: {
+
+                      props: {
+                        value: 'value',
+                        label: 'label',
+                        disabled: 'disabled',
+                      },
+                      options: [
+                        {
+                          value: '1',
+                          label: '火龙果',
+                        },
+                        {
+                          value: '2',
+                          label: '香蕉',
+                          disabled: true,
+                        },
+                        {
+                          value: '3',
+                          label: '苹果',
+                        },
+                      ],
+                    },
+                  },
+                },
+                mention: {
+                  type: 'string',
+                  title: '提及',
+                  createOption: {
+                    field: 'mention',
+                    props: {
+                      options: [
+                        {
+                          value: '火龙果',
+                          label: '火龙果',
+                        },
+                        {
+                          value: '香蕉',
+                          label: '香蕉',
+                        },
+                      ],
+                    },
+                  },
+                },
+                date: {
+                  type: 'string',
+                  title: '日期',
+                  createOption: {
+                    field: 'date-picker',
+                    props: {
+                      type: 'daterange',
+                      rangeSeparator: 'To',
+                      startPlaceholder: 'Start date',
+                      endPlaceholder: 'End date',
+                    },
+                  },
+                },
+                color: {
+                  type: 'string',
+                  title: '颜色',
+                  createOption: {
+                    field: 'color-picker',
+                  },
+                },
+                title: {
+                  type: 'string',
+                  title: '标题',
+                  createOption: {
+                    field: 'select',
+                    props: {
+                      border: true,
+                      options: [
+                        {
+                          value: '1',
+                          label: '火龙果',
+                        },
+                        {
+                          value: '2',
+                          label: '香蕉',
+                          disabled: true,
+                        },
+                        {
+                          value: '3',
+                          label: '苹果',
+                        },
+                      ],
+                    },
+                  },
+                },
                 isActive2: {
                   type: 'boolean',
                   title: '是否上架2',

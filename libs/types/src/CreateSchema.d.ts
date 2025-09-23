@@ -1,5 +1,5 @@
 /** 组件 props 类型 */
-import type { CheckboxProps, InputProps, RadioGroupProps, RadioProps, SwitchProps } from 'element-plus'
+import type { CheckboxProps, ColorPickerProps, DatePickerProps, InputProps, MentionProps, RadioGroupProps, RadioProps, SelectProps, SwitchProps, TimePickerProps, TimeSelectProps } from 'element-plus'
 import type { JsonSchema } from './JsonSchema'
 
 interface BaseBooleanProps {
@@ -34,5 +34,40 @@ export declare namespace CreateSchema {
    props: Partial<InputProps>
  }
 
- type StringCreateOption = ElInputCreateOption & Omit<JsonSchema.StringProperty, 'type' | 'title'>
+ interface ElSelectCreateOption {
+   field: 'select'
+   props: Partial<SelectProps>
+ }
+
+ interface ElColorPickerCreateOption {
+   field: 'color-picker'
+   props: Partial<ColorPickerProps>
+ }
+
+ interface ElDatePickerCreateOption {
+   field: 'date-picker'
+   props: Partial<DatePickerProps>
+ }
+
+ interface ElTimePickerCreateOption {
+   field: 'time-picker'
+   props: Partial<TimePickerProps>
+ }
+
+ interface ElTimeSelectCreateOption {
+   field: 'time-select'
+   props: Partial<TimeSelectProps>
+ }
+
+ interface ElMentionCreateOption {
+   field: 'mention'
+   props: Partial<MentionProps>
+ }
+
+ interface ElRadioGroupCreateOption {
+   field: 'radio-group'
+   props: Partial<RadioGroupProps>
+ }
+
+ type StringCreateOption = (ElTimeSelectCreateOption | ElTimePickerCreateOption | ElRadioGroupCreateOption | ElMentionCreateOption | ElInputCreateOption | ElSelectCreateOption | ElColorPickerCreateOption | ElDatePickerCreateOption) & Omit<JsonSchema.StringProperty, 'type' | 'title'>
 }
