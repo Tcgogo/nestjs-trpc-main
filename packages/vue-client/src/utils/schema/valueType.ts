@@ -73,6 +73,10 @@ function handleArrayRunder(column: JsonSchema.ArrayProperty) {
   return {
     ...column,
     valueFormatter: (value: any) => {
+      if (!value) {
+        return value
+      }
+
       if (Array.isArray(value)) { return value }
 
       if (typeof value === 'string') { return value.split(',') }

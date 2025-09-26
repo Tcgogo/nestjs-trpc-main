@@ -1,5 +1,5 @@
 /** 组件 props 类型 */
-import type { CheckboxProps, ColorPickerProps, DatePickerProps, InputProps, MentionProps, RadioGroupProps, RadioProps, SelectProps, SwitchProps, TimePickerProps, TimeSelectProps } from 'element-plus'
+import type { CascaderProps, CheckboxGroupProps, CheckboxProps, ColorPickerProps, DatePickerProps, InputProps, MentionProps, RadioGroupProps, RadioProps, SelectProps, SwitchProps, TimeSelectProps } from 'element-plus'
 import type { JsonSchema } from './JsonSchema'
 
 interface BaseBooleanProps {
@@ -18,6 +18,11 @@ export declare namespace CreateSchema {
     field: 'checkbox'
     props: Partial<CheckboxProps> & BaseBooleanProps
     groupProps?: never
+  }
+
+  interface ElCheckboxGroupCreateOption {
+    field: 'checkbox-group'
+    props: Partial<CheckboxGroupProps>
   }
 
   interface ElRadioCreateOption {
@@ -51,7 +56,7 @@ export declare namespace CreateSchema {
 
  interface ElTimePickerCreateOption {
    field: 'time-picker'
-   props: Partial<TimePickerProps>
+   props: Partial<DatePickerProps>
  }
 
  interface ElTimeSelectCreateOption {
@@ -69,5 +74,12 @@ export declare namespace CreateSchema {
    props: Partial<RadioGroupProps>
  }
 
- type StringCreateOption = (ElTimeSelectCreateOption | ElTimePickerCreateOption | ElRadioGroupCreateOption | ElMentionCreateOption | ElInputCreateOption | ElSelectCreateOption | ElColorPickerCreateOption | ElDatePickerCreateOption) & Omit<JsonSchema.StringProperty, 'type' | 'title'>
+ interface ElCascaderCreateOption {
+   field: 'cascader'
+   props: Partial<CascaderProps>
+ }
+
+ type StringCreateOption = (ElCheckboxGroupCreateOption | ElCascaderCreateOption | ElTimeSelectCreateOption | ElTimePickerCreateOption | ElRadioGroupCreateOption | ElMentionCreateOption | ElInputCreateOption | ElSelectCreateOption | ElColorPickerCreateOption | ElDatePickerCreateOption) & Omit<JsonSchema.StringProperty, 'type' | 'title'>
+
+ type ArrayCreateOption = (ElCheckboxGroupCreateOption | ElCascaderCreateOption | ElTimeSelectCreateOption | ElTimePickerCreateOption | ElSelectCreateOption | ElDatePickerCreateOption) & Omit<JsonSchema.ArrayProperty, 'type' | 'title'>
 }

@@ -10,40 +10,34 @@ const { schema, formData, prop } = defineProps<{
   formData: any
 }>()
 
-function isArrayType(createOption: CreateSchema.StringCreateOption) {
+function isStringType(createOption: CreateSchema.ArrayCreateOption) {
   const arrayType = ['years', 'months', 'dates', 'datetimerange', 'daterange', 'monthrange', 'yearrange']
-  const flag1 = createOption?.field === 'date-picker' && arrayType.includes(createOption.props?.type || '')
-  const flag2 = createOption?.field === 'cascader'
-  const flag3 = createOption?.field === 'checkbox-group'
-  return flag1 || flag2 || flag3
+  const flag1 = createOption?.field === 'date-picker' && !arrayType.includes(createOption.props?.type || '')
+  return flag1
 }
 
 const data = reactive({
   formData,
 })
 
-const booleanFileds: Record<CreateSchema.StringCreateOption['field'], any> = {
-  'input': ElInput,
+const booleanFileds: Record<CreateSchema.ArrayCreateOption['field'], any> = {
   'select': ElSelect,
-  'color-picker': ElColorPicker,
-  'date-picker': ElDatePicker,
-  'mention': ElMention,
-  'radio-group': ElRadioGroup,
-  'time-picker': ElTimePicker,
-  'time-select': ElTimeSelect,
   'cascader': ElCascader,
   'checkbox-group': ElCheckboxGroup,
+  'date-picker': ElDatePicker,
+  'time-picker': ElTimePicker,
+  'time-select': ElTimeSelect,
 }
 
 const createOption = computed(() => {
-  const defaultOption: CreateSchema.StringCreateOption = {
-    field: 'input',
+  const defaultOption: CreateSchema.ArrayCreateOption = {
+    field: 'select',
     props: {
       placeholder: '请输入',
     },
   }
 
-  const createOption = schema?.createOption as CreateSchema.StringCreateOption
+  const createOption = schema?.createOption as CreateSchema.ArrayCreateOption
 
   if (createOption?.field === 'select') {
     const defaultProps = {
@@ -61,15 +55,25 @@ const createOption = computed(() => {
   if (createOption?.field === 'time-picker') {
     const defaultProps = {
       props: {
-        type: 'datetime',
+        type: 'datetimerange',
       },
     }
 
     createOption!.props = merge(defaultProps, createOption!.props || {})
   }
 
-  if (isArrayType(createOption)) {
-    console.warn(`String-${prop}: ${createOption.field}`, '当前值类型为 Array，提交时会强制转换成 String')
+  if (createOption?.field === 'date-picker') {
+    const defaultProps = {
+      props: {
+        type: 'daterange',
+      },
+    }
+
+    createOption!.props = merge(defaultProps, createOption!.props || {})
+  }
+
+  if (isStringType(createOption)) {
+    console.warn(`Array-${prop}: ${createOption.field}`, '当前值类型为 String，提交时会强制转换成 Array')
   }
 
   // 合并 schema

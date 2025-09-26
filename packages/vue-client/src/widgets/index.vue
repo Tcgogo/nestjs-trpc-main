@@ -2,7 +2,9 @@
 import type { JsonSchema } from '@tcgogo/types'
 import type { FormRules } from 'element-plus'
 import BooleanField from './boolean.vue'
+import ObjectField from './object.vue'
 import StringField from './string.vue'
+import ArrayField from './array.vue'
 
 const { schema, formData } = defineProps({
   schema: {
@@ -19,8 +21,8 @@ const Field: Record<JsonSchema.LinkProperty['type'], any> = {
   boolean: BooleanField,
   string: StringField,
   number: null,
-  object: null,
-  array: null,
+  object: ObjectField,
+  array: ArrayField,
   null: null,
 }
 

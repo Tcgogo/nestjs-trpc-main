@@ -160,6 +160,9 @@ export declare namespace JsonSchema {
 
     /** 字段最大包含 */
     maxContains?: number
+
+    /** 创建选项 */
+    createOption?: CreateSchema.ArrayCreateOption | object
   }
 
   type LinkProperty = StringProperty | NumberProperty | BooleanProperty | ArrayProperty | ObjectProperty | NullProperty

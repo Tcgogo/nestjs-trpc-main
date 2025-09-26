@@ -50,6 +50,8 @@ const { open: openModal, update: updateModal } = useFaModal().create({
     console.log('%c [ action ]-52', 'font-size:13px; background:pink; color:#bf2c9f;', action)
     done()
   },
+  showCancelButton: true,
+  title: schemaConfig!.jsonSchema?.title,
   content: () => h(Widgets, {
     schema: schemaConfig!.jsonSchema,
     formData,

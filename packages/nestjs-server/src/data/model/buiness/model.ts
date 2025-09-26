@@ -36,6 +36,161 @@ const config: Model.Info = {
                 title: '操作2',
               },
               properties: {
+                arraySelect: {
+                  type: 'array',
+                  title: '数组选择',
+                  createOption: {
+                    field: 'select',
+                    props: {
+                      options: [
+                        {
+                          value: '1',
+                          label: '火龙果',
+                        },
+                        {
+                          value: '2',
+                          label: '香蕉',
+                        },
+                      ],
+                    },
+                  },
+                },
+                arrayCheckboxGroup: {
+                  type: 'array',
+                  title: '数组多选',
+                  createOption: {
+                    field: 'checkbox-group',
+                    props: {
+                      options: [
+                        {
+                          value: '1',
+                          label: '火龙果',
+                        },
+                        {
+                          value: '2',
+                          label: '香蕉',
+                        },
+                      ],
+                    },
+                  },
+                },
+                arrayCascader: {
+                  type: 'array',
+                  title: '数组级联',
+                  createOption: {
+                    field: 'cascader',
+                    props: {
+                      options: [
+                        {
+                          value: '1',
+                          label: '火龙果',
+                          children: [
+                            {
+                              value: '1-1',
+                              label: '火龙果1',
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  },
+                },
+                arrayTimeSelect: {
+                  type: 'array',
+                  title: '数组时间',
+                  createOption: {
+                    field: 'time-select',
+                  },
+                },
+                arrayTimePicker: {
+                  type: 'array',
+                  title: '数组时间',
+                  createOption: {
+                    field: 'time-picker',
+                  },
+                },
+                object: {
+                  type: 'object',
+                  title: '对象2',
+                  properties: {
+                    name: {
+                      type: 'string',
+                      title: '名称',
+                      createOption: {},
+                    },
+                    age: {
+                      type: 'string',
+                      title: '年龄',
+                      createOption: {},
+                    },
+                    isActive: {
+                      type: 'boolean',
+                      title: '是否上架',
+                      createOption: {},
+                    },
+                  },
+                },
+
+                checkboxGroup: {
+                  type: 'string',
+                  title: '多选',
+                  createOption: {
+                    field: 'checkbox-group',
+                    props: {
+                      props: {
+                        value: 'value',
+                        label: 'label',
+                        disabled: 'disabled',
+                      },
+                      options: [
+                        {
+                          value: '1',
+                          label: '火龙果',
+                        },
+                        {
+                          value: '2',
+                          label: '香蕉',
+                          disabled: true,
+                        },
+                        {
+                          value: '3',
+                          label: '苹果',
+                        },
+                      ],
+                    },
+                  },
+                },
+                cascader: {
+                  type: 'string',
+                  title: '级联',
+                  createOption: {
+                    field: 'cascader',
+                    props: {
+                      options: [
+                        {
+                          value: '1',
+                          label: '火龙果',
+                          children: [
+                            {
+                              value: '1-1',
+                              label: '火龙果1',
+                            },
+                          ],
+                        },
+                        {
+                          value: '2',
+                          label: '香蕉',
+                          children: [
+                            {
+                              value: '2-1',
+                              label: '香蕉1',
+                            },
+                          ],
+                        },
+                      ],
+                    },
+                  },
+                },
                 timeSelect: {
                   type: 'string',
                   title: '时间',
@@ -152,6 +307,27 @@ const config: Model.Info = {
                     props: {
                       border: true,
                     },
+                  },
+                },
+                switch: {
+                  type: 'boolean',
+                  title: '开关',
+                  createOption: {
+                    field: 'switch',
+                  },
+                },
+                checkbox: {
+                  type: 'boolean',
+                  title: 'checkbox',
+                  createOption: {
+                    field: 'checkbox',
+                  },
+                },
+                radio2: {
+                  type: 'boolean',
+                  title: '单选',
+                  createOption: {
+                    field: 'radio',
                   },
                 },
                 nameList: {
