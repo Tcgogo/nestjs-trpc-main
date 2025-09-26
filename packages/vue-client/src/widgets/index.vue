@@ -45,20 +45,54 @@ const rules = reactive<FormRules<any>>({
     { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
   ],
 })
+
+const formProps = computed(() => {
+  const defaultProps = {
+    rules,
+    model: formData,
+    labelWidth: 'auto',
+    inline: true
+  }
+
+  return {
+    ...(schema['ui:ElForm'] || {}),
+    ...defaultProps,
+  }
+})
+
+const rowProps = computed(() => {
+  const defaultProps = {
+    gutter: 24
+  }
+
+  return {
+    ...defaultProps,
+    ...(schema['ui:ElRow'] || {}),
+  }
+})
+
+const getColProps = (item: JsonSchema.LinkProperty) => {
+  const defaultProps = {
+    span: 12,
+    ...(schema['ui:ElCol'] || {}),
+  }
+
+  return {
+    ...defaultProps,
+    ...(item['ui:ElCol'] || {}),
+  }
+}
 </script>
 
 <template>
   <div class="vue-form-render">
-    {{ formData }}
-    <el-form :rules="rules" :model="formData" label-width="auto">
-      <component
-        :is="Field[item.value.type]"
-        v-for="item in properties"
-        :key="item.key"
-        :prop="item.key"
-        :form-data="formData"
-        :schema="item.value"
-      />
+    <!-- {{ formData }} -->
+    <el-form v-bind="formProps">
+      <el-row v-bind="rowProps">
+        <el-col v-for="item in properties" :key="item.key" v-bind="getColProps(item.value)">
+          <component :is="Field[item.value.type]" :prop="item.key" :form-data="formData" :schema="item.value" />
+        </el-col>
+      </el-row>
     </el-form>
   </div>
 </template>

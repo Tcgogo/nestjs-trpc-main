@@ -1,3 +1,4 @@
+import type { ColProps, FormProps, RowProps } from 'element-plus'
 import type { CreateSchema } from './CreateSchema'
 import type { UITable } from './VxeTable'
 
@@ -33,6 +34,9 @@ interface BaseProperty {
 
   /** 操作按钮列 */
   'ui:HandleColumn'?: UITable.VxeColumn
+
+  /** ElCol属性 */
+  'ui:ElCol'?: Partial<ColProps>
 
   valueFormatter?: (value: any, column: JsonSchema.LinkProperty) => any
 
@@ -201,5 +205,9 @@ export declare namespace JsonSchema {
 
     /** 字段最大属性数 */
     maxProperties?: number
+
+    'ui:ElForm'?: Partial<FormProps>
+
+    'ui:ElRow'?: Partial<RowProps>
   }
 }

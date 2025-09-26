@@ -8,7 +8,7 @@ const schemaConfig = route.meta.schemaConfig
   <div>
     <h1>Search Panel</h1>
     <div>
-      {{ schemaConfig }}
+      <!-- {{ schemaConfig }} -->
     </div>
   </div>
 </template>

@@ -50,8 +50,10 @@ const { open: openModal, update: updateModal } = useFaModal().create({
     console.log('%c [ action ]-52', 'font-size:13px; background:pink; color:#bf2c9f;', action)
     done()
   },
+  class: 'max-w-[60vw]',
   showCancelButton: true,
-  title: schemaConfig!.jsonSchema?.title,
+  title: `${schemaConfig!.jsonSchema?.title} - 新增数据`,
+  description: schemaConfig!.jsonSchema?.description,
   content: () => h(Widgets, {
     schema: schemaConfig!.jsonSchema,
     formData,

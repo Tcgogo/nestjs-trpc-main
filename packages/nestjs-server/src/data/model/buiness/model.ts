@@ -20,6 +20,7 @@ const config: Model.Info = {
             jsonSchema: {
               type: 'object',
               title: '商品',
+              description: '商品描述',
               'ui:VxeTable': {
                 border: true,
                 round: true,
@@ -34,6 +35,9 @@ const config: Model.Info = {
                 fixed: 'right',
                 align: 'center',
                 title: '操作2',
+              },
+              'ui:ElForm': {
+                labelPosition: 'top',
               },
               properties: {
                 inputNumber: {
@@ -283,6 +287,9 @@ const config: Model.Info = {
                 date: {
                   type: 'string',
                   title: '日期',
+                  'ui:ElCol': {
+                    span: 24,
+                  },
                   createOption: {
                     field: 'date-picker',
                     props: {
