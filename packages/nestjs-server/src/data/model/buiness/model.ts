@@ -36,6 +36,32 @@ const config: Model.Info = {
                 title: '操作2',
               },
               properties: {
+                inputNumber: {
+                  type: 'number',
+                  title: '输入框',
+                  createOption: {},
+                },
+                rate: {
+                  type: 'number',
+                  title: '评分',
+                  createOption: {
+                    field: 'rate',
+                  },
+                },
+                slider: {
+                  type: 'number',
+                  title: '滑块',
+                  createOption: {
+                    field: 'slider',
+                  },
+                },
+                input: {
+                  type: 'number',
+                  title: '输入框',
+                  createOption: {
+                    field: 'input',
+                  },
+                },
                 arraySelect: {
                   type: 'array',
                   title: '数组选择',

@@ -5,6 +5,7 @@ import BooleanField from './boolean.vue'
 import ObjectField from './object.vue'
 import StringField from './string.vue'
 import ArrayField from './array.vue'
+import NumberField from './number.vue'
 
 const { schema, formData } = defineProps({
   schema: {
@@ -20,7 +21,7 @@ const { schema, formData } = defineProps({
 const Field: Record<JsonSchema.LinkProperty['type'], any> = {
   boolean: BooleanField,
   string: StringField,
-  number: null,
+  number: NumberField,
   object: ObjectField,
   array: ArrayField,
   null: null,

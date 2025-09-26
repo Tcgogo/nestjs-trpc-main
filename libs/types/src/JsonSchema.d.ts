@@ -98,6 +98,9 @@ export declare namespace JsonSchema {
 
     /** 字段是否为整数 */
     multipleOf?: number
+
+    /** 创建选项 */
+    createOption?: CreateSchema.NumberCreateOption | object
   }
 
   /** 布尔属性 */

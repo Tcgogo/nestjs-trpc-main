@@ -1,5 +1,5 @@
 /** 组件 props 类型 */
-import type { CascaderProps, CheckboxGroupProps, CheckboxProps, ColorPickerProps, DatePickerProps, InputProps, MentionProps, RadioGroupProps, RadioProps, SelectProps, SwitchProps, TimeSelectProps } from 'element-plus'
+import type { CascaderProps, CheckboxGroupProps, CheckboxProps, ColorPickerProps, DatePickerProps, InputNumberProps, InputProps, MentionProps, RadioGroupProps, RadioProps, RateProps, SelectProps, SliderProps, SwitchProps, TimeSelectProps } from 'element-plus'
 import type { JsonSchema } from './JsonSchema'
 
 interface BaseBooleanProps {
@@ -79,7 +79,24 @@ export declare namespace CreateSchema {
    props: Partial<CascaderProps>
  }
 
+ interface ElRateCreateOption {
+   field: 'rate'
+   props: Partial<RateProps>
+ }
+
+ interface ElSliderCreateOption {
+   field: 'slider'
+   props: Partial<SliderProps>
+ }
+
+ interface ElInputNumberCreateOption {
+   field: 'input-number'
+   props: Partial<InputNumberProps>
+ }
+
  type StringCreateOption = (ElCheckboxGroupCreateOption | ElCascaderCreateOption | ElTimeSelectCreateOption | ElTimePickerCreateOption | ElRadioGroupCreateOption | ElMentionCreateOption | ElInputCreateOption | ElSelectCreateOption | ElColorPickerCreateOption | ElDatePickerCreateOption) & Omit<JsonSchema.StringProperty, 'type' | 'title'>
 
  type ArrayCreateOption = (ElCheckboxGroupCreateOption | ElCascaderCreateOption | ElTimeSelectCreateOption | ElTimePickerCreateOption | ElSelectCreateOption | ElDatePickerCreateOption) & Omit<JsonSchema.ArrayProperty, 'type' | 'title'>
+
+ type NumberCreateOption = (ElSliderCreateOption | ElRateCreateOption | ElInputCreateOption | ElInputNumberCreateOption) & Omit<JsonSchema.NumberProperty, 'type' | 'title'>
 }
