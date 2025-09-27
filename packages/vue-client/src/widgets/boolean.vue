@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { parseStringToFunction } from '@/utils';
 import type { CreateSchema, JsonSchema } from '@tcgogo/types'
 import { ElCheckbox, ElRadio, ElSwitch } from 'element-plus'
 import { merge } from 'es-toolkit'
 import { h } from 'vue'
 
-const { schema, formData } = defineProps<{
+const { schema, formData, prop } = defineProps<{
+  root: JsonSchema.ObjectProperty
   schema: JsonSchema.BooleanProperty
   formData: any
   prop: string
@@ -14,6 +16,17 @@ const data = reactive({
   formData,
 })
 
+/** 处理默认值 */
+function handleDefault() {
+  if (schema.default) {
+    data.formData[prop] = schema.default
+  }
+}
+
+onBeforeMount(() => {
+  handleDefault()
+})
+
 const booleanFileds: Record<CreateSchema.BooleanCreateOption['field'], any> = {
   'switch': ElSwitch,
   'checkbox': ElCheckbox,
@@ -21,6 +34,13 @@ const booleanFileds: Record<CreateSchema.BooleanCreateOption['field'], any> = {
 }
 
 const createOption = computed(() => {
+  const createOption = schema?.createOption as CreateSchema.BooleanCreateOption
+
+  // 处理 on 事件
+  if (createOption?.on) {
+    createOption.on = parseStringToFunction(createOption.on)
+  }
+
   const defaultOption: CreateSchema.BooleanCreateOption = {
     field: 'switch',
     props: {
@@ -31,7 +51,7 @@ const createOption = computed(() => {
   }
 
   // 合并 schema
-  return merge(defaultOption, { ...schema, ...(schema.createOption || {}) })
+  return merge(defaultOption, { ...schema, ...(createOption || {}) })
 })
 </script>
 
@@ -69,6 +89,7 @@ const createOption = computed(() => {
       </template>
     </div>
   </el-form-item>
+
 </template>
 
 <style scoped lang="less"></style>

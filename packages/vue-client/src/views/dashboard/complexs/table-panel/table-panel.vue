@@ -19,8 +19,6 @@ const route = useRoute()
 
 const schemaConfig = route.meta.schemaConfig
 
-const formData = ref({})
-
 const shops = ref<{ id: number, name: string }[]>([])
 
 /** 获取接口函数 */
@@ -56,7 +54,6 @@ const { open: openModal, update: updateModal } = useFaModal().create({
   description: schemaConfig!.jsonSchema?.description,
   content: () => h(Widgets, {
     schema: schemaConfig!.jsonSchema,
-    formData,
   }),
 })
 
@@ -111,7 +108,7 @@ const tableProps = computed(() => {
 <template>
   <div class="w-full">
     <div v-if="schemaConfig">
-      <!-- {{ route.meta }} -->
+      {{ schemaConfig }}
     </div>
 
     <div class="flex justify-end pb-3">

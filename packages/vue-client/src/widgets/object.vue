@@ -12,8 +12,16 @@ const data = reactive({
   formData,
 })
 
-/** 初始化 */
-data.formData[prop] = {}
+/** 处理默认值 */
+function handleDefault() {
+  if (schema.default) {
+    data.formData[prop] = schema.default || {}
+  }
+}
+
+onBeforeMount(() => {
+  handleDefault()
+})
 </script>
 
 <template>

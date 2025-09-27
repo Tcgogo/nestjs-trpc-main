@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { parseStringToFunction } from '@/utils';
 import type { CreateSchema, JsonSchema } from '@tcgogo/types'
 import { ElCascader, ElCheckboxGroup, ElColorPicker, ElDatePicker, ElInput, ElMention, ElRadioGroup, ElSelect, ElTimePicker, ElTimeSelect } from 'element-plus'
 import { merge } from 'es-toolkit'
 import { h } from 'vue'
 
 const { schema, formData, prop } = defineProps<{
+  root: JsonSchema.ObjectProperty
   schema: JsonSchema.StringProperty
   prop: string
   formData: any
@@ -20,6 +22,17 @@ const data = reactive({
   formData,
 })
 
+/** 处理默认值 */
+function handleDefault() {
+  if (schema.default) {
+    data.formData[prop] = schema.default || []
+  }
+}
+
+onBeforeMount(() => {
+  handleDefault()
+})
+
 const booleanFileds: Record<CreateSchema.ArrayCreateOption['field'], any> = {
   'select': ElSelect,
   'cascader': ElCascader,
@@ -30,6 +43,13 @@ const booleanFileds: Record<CreateSchema.ArrayCreateOption['field'], any> = {
 }
 
 const createOption = computed(() => {
+  const createOption = schema?.createOption as CreateSchema.ArrayCreateOption
+
+  // 处理 on 事件
+  if (createOption?.on) {
+    createOption.on = parseStringToFunction(createOption.on)
+  }
+
   const defaultOption: CreateSchema.ArrayCreateOption = {
     field: 'select',
     props: {
@@ -37,7 +57,6 @@ const createOption = computed(() => {
     },
   }
 
-  const createOption = schema?.createOption as CreateSchema.ArrayCreateOption
 
   if (createOption?.field === 'select') {
     const defaultProps = {
@@ -77,7 +96,7 @@ const createOption = computed(() => {
   }
 
   // 合并 schema
-  return merge(defaultOption, { ...schema, ...(schema.createOption || {}) })
+  return merge(defaultOption, { ...schema, ...(createOption || {}) })
 })
 </script>
 
@@ -88,6 +107,7 @@ const createOption = computed(() => {
         :is="h(booleanFileds[createOption.field], {})"
         v-model="data.formData[prop]"
         v-bind="createOption.props"
+        v-on="createOption.on?.(prop, formData, root.properties) || {}"
       />
     </div>
   </el-form-item>

@@ -43,11 +43,40 @@ const config: Model.Info = {
                 inputNumber: {
                   type: 'number',
                   title: '输入框',
-                  createOption: {},
+                  createOption: {
+                    control: [
+                      {
+                        handle: (prop, formData, properties) => {
+                          return formData[prop] !== 1
+                        },
+                        properties: {
+                          rate: 'hidden',
+                        },
+                      },
+
+                      {
+                        handle: (prop, formData, properties) => {
+                          return 1
+                        },
+                        properties: {
+                          rate: 'default',
+                        },
+                      },
+                    ],
+                    on: (prop, formData, properties) => {
+                      return {
+                        change: (value: string) => {
+                          console.log('%c [ value ]-69', 'font-size:13px; background:pink; color:#bf2c9f;', value)
+                          formData.slider = value
+                        },
+                      }
+                    },
+                  },
                 },
                 rate: {
                   type: 'number',
                   title: '评分',
+                  hidden: true,
                   createOption: {
                     field: 'rate',
                   },
@@ -82,6 +111,18 @@ const config: Model.Info = {
                           label: '香蕉',
                         },
                       ],
+                    },
+
+                    on: (prop, formData, properties) => {
+                      return {
+                        change: (value: string) => {
+                          const target = properties?.arrayCheckboxGroup
+                          if (target) {
+                            target.hidden = value === '2'
+                          }
+                        },
+
+                      }
                     },
                   },
                 },

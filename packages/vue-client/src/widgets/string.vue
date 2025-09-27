@@ -3,8 +3,10 @@ import type { CreateSchema, JsonSchema } from '@tcgogo/types'
 import { ElCascader, ElCheckboxGroup, ElColorPicker, ElDatePicker, ElInput, ElMention, ElRadioGroup, ElSelect, ElTimePicker, ElTimeSelect } from 'element-plus'
 import { merge } from 'es-toolkit'
 import { h } from 'vue'
+import { parseStringToFunction } from '@/utils';
 
 const { schema, formData, prop } = defineProps<{
+  root: JsonSchema.ObjectProperty
   schema: JsonSchema.StringProperty
   prop: string
   formData: any
@@ -22,6 +24,17 @@ const data = reactive({
   formData,
 })
 
+/** 处理默认值 */
+function handleDefault() {
+  if (schema.default) {
+    data.formData[prop] = schema.default || ''
+  }
+}
+
+onBeforeMount(() => {
+  handleDefault()
+})
+
 const booleanFileds: Record<CreateSchema.StringCreateOption['field'], any> = {
   'input': ElInput,
   'select': ElSelect,
@@ -36,14 +49,19 @@ const booleanFileds: Record<CreateSchema.StringCreateOption['field'], any> = {
 }
 
 const createOption = computed(() => {
+  const createOption = schema?.createOption as CreateSchema.StringCreateOption
+
+  // 处理 on 事件
+  if (createOption?.on) {
+    createOption.on = parseStringToFunction(createOption.on)
+  }
+
   const defaultOption: CreateSchema.StringCreateOption = {
     field: 'input',
     props: {
       placeholder: '请输入',
     },
   }
-
-  const createOption = schema?.createOption as CreateSchema.StringCreateOption
 
   if (createOption?.field === 'select') {
     const defaultProps = {

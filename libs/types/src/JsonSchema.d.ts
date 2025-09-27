@@ -15,13 +15,18 @@ interface BaseProperty {
 
   /** 字段名称 */
   title: string
+
   /** 字段描述 */
   description?: string
+
   /** 字段默认值 */
   default?: string
 
   /** 字段是否只读 */
   readonly?: boolean
+
+  /** 字段是否隐藏 */
+  hidden?: boolean
 
   /** 字段枚举值 */
   enum?: EnumItem[]
@@ -173,6 +178,8 @@ export declare namespace JsonSchema {
   }
 
   type LinkProperty = StringProperty | NumberProperty | BooleanProperty | ArrayProperty | ObjectProperty | NullProperty
+
+  type LinkPropertyAnd = Omit<StringProperty, 'type'> & Omit<NumberProperty, 'type'> & Omit<BooleanProperty, 'type'> & Omit<ArrayProperty, 'type'> & Omit<ObjectProperty, 'type'> & Omit<NullProperty, 'type'>
 
   /** 对象属性 */
   interface ObjectProperty extends BaseProperty {
