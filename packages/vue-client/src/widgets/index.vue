@@ -28,20 +28,16 @@ const controlMap: Record<string, CreateSchema.BaseCreateOption['control']> = {}
 // 创建一个ref
 const rowSchema = ref(schema)
 
-onBeforeMount(() => {
-  // 搜集所有 control
-  Object.keys(rowSchema.value.properties || {}).forEach((key) => {
-    // @ts-expect-error 类型错误
-    const item = rowSchema.value.properties![key].createOption as CreateSchema.BaseCreateOption
-    if (item?.control) {
-      controlMap[key] = item.control.map(i => ({
-        ...i,
-        handle: parseStringToFunction(i.handle),
-      }))
-    }
-  })
-
-  initFileds.value.control = true
+// 搜集所有 control
+Object.keys(rowSchema.value.properties || {}).forEach((key) => {
+  // @ts-expect-error 类型错误
+  const item = rowSchema.value.properties![key].createOption as CreateSchema.BaseCreateOption
+  if (item?.control) {
+    controlMap[key] = item.control.map(i => ({
+      ...i,
+      handle: parseStringToFunction(i.handle),
+    }))
+  }
 })
 
 /**
@@ -65,13 +61,10 @@ watch(() => formData, (newVal, oldVal) => {
     })
   })
 
-  if (initFileds.value.control && Object.keys(controlMap).length) {
-    initFileds.value.form = true
-  }
+  initFileds.value.form = true
 }, {
   deep: true,
   immediate: true,
-  flush: 'post'
 })
 
 /** 组件 */
@@ -141,11 +134,21 @@ const resetForm = () => {
   if (!formElRef.value) return
 
   formElRef.value.resetFields()
+  handleFormDefault()
 }
 
 const validateForm = () => {
   if (!formElRef.value) return
   return formElRef.value.validate()
+}
+
+function handleFormDefault() {
+  properties.value.forEach((item) => {
+    if (item.value.default) {
+      // @ts-expect-error 类型错误
+      formData.value[item.key] = item.value.default
+    }
+  })
 }
 
 defineExpose({
@@ -156,13 +159,13 @@ defineExpose({
 </script>
 
 <template>
-  <div class="vue-form-render">
-    {{ formData }}
+  <div class="vue-form-render" v-if="initFileds.form">
     <el-form v-bind="formProps" ref="formElRef">
       <el-row v-bind="rowProps">
         <template v-for="item in properties" :key="item.key">
           <el-col v-show="!item.value.hidden" v-bind="getColProps(item.value)">
-            <component @change="() => null" :root="rowSchema" :is="Field[item.value.type]" :prop="item.key" :form-data="formData" :schema="item.value" />
+            <component @change="() => null" :root="rowSchema" :is="Field[item.value.type]" :prop="item.key"
+              :form-data="formData" :schema="item.value" />
           </el-col>
         </template>
       </el-row>
