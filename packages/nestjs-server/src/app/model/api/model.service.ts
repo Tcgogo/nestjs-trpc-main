@@ -19,18 +19,19 @@ function deepSetFnToString(menu?: Model.recordMainRaw[]) {
           property.valueFormatter = `${property.valueFormatter}` as any
         }
 
-        const createOption = property.createOption as CreateSchema.BaseCreateOption
+        const createOption = property.createOption as any
 
-        createOption?.control?.forEach((item) => {
-          item.handle = `${item.handle}` as any
+        createOption?.control?.forEach((item: any) => {
+          item.handle = `${item.handle}`
         })
 
-        // @ts-expect-error 类型错误
         if (createOption?.on) {
-        // @ts-expect-error 类型错误
-          createOption.on = `${createOption.on}` as any
+          createOption.on = `${createOption.on}`
         }
 
+        if (property?.['ui:ElFormItem']) {
+          property['ui:ElFormItem'] = `${property['ui:ElFormItem']}` as any
+        }
       })
     }
     else if (item.children) {

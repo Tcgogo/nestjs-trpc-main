@@ -66,7 +66,6 @@ const config: Model.Info = {
                     on: (prop, formData, properties) => {
                       return {
                         change: (value: string) => {
-                          console.log('%c [ value ]-69', 'font-size:13px; background:pink; color:#bf2c9f;', value)
                           formData.slider = value
                         },
                       }
@@ -120,6 +119,11 @@ const config: Model.Info = {
                           if (target) {
                             target.hidden = value === '2'
                           }
+
+                          const target2 = properties?.arrayCascader
+                          if (target2) {
+                            target2.required = value === '1'
+                          }
                         },
 
                       }
@@ -164,6 +168,25 @@ const config: Model.Info = {
                         },
                       ],
                     },
+                  },
+
+                  'ui:ElFormItem': () => {
+                    return {
+                      rules: [
+                        {
+                          required: true,
+                          message: '请选择',
+                        },
+                        {
+                          validator: (rule, value, callback) => {
+                            if (value === '2') {
+                              callback(new Error('请选择火龙果'))
+                            }
+                            callback()
+                          },
+                        },
+                      ],
+                    }
                   },
                 },
                 arrayTimeSelect: {

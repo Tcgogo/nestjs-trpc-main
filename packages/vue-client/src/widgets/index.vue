@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import type { CreateSchema, JsonSchema } from '@tcgogo/types'
-import type { FormRules } from 'element-plus'
-import { watchDebounced, watchThrottled } from '@vueuse/core'
 import { findProperties, parseStringToFunction } from '@/utils'
 import ArrayField from './array.vue'
 import BooleanField from './boolean.vue'
 import NumberField from './number.vue'
 import ObjectField from './object.vue'
 import StringField from './string.vue'
+import type { FormInstance } from 'element-plus'
 
 const { schema } = defineProps({
   schema: {
@@ -49,7 +48,7 @@ onBeforeMount(() => {
  * 监听formData变化
  * 处理 control
  */
-watchDebounced(() => formData, (newVal, oldVal) => {
+watch(() => formData, (newVal, oldVal) => {
   const keys = Object.keys(controlMap) as (keyof typeof controlMap)[]
 
   keys.forEach((key) => {
@@ -59,10 +58,8 @@ watchDebounced(() => formData, (newVal, oldVal) => {
       const controlKeys = Object.entries(item.properties)
       controlKeys.forEach(([key, value]) => {
         const properties = findProperties(rowSchema.value.properties, key)
-          console.log('%c [ properties ]-58', 'font-size:13px; background:pink; color:#bf2c9f;', result)
         if (properties) {
           properties[value] = result
-          console.log('%c [  ]-50', 'font-size:13px; background:pink; color:#bf2c9f;', schema)
         }
       })
     })
@@ -74,8 +71,7 @@ watchDebounced(() => formData, (newVal, oldVal) => {
 }, {
   deep: true,
   immediate: true,
-  debounce: 100,
-  maxWait: 300,
+  flush: 'post'
 })
 
 /** 组件 */
@@ -100,18 +96,9 @@ const properties = computed(() => {
   })
 })
 
-// TODO: 构建 rules
-const rules = reactive<FormRules<any>>({
-  description: [
-    { required: true, message: 'Please input Activity name', trigger: 'blur' },
-    { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
-  ],
-})
-
 /** 获取el-form属性 */
 const formProps = computed(() => {
   const defaultProps = {
-    rules,
     model: formData,
     labelWidth: 'auto',
     inline: true,
@@ -147,12 +134,31 @@ function getColProps(item: JsonSchema.LinkProperty) {
     ...(item['ui:ElCol'] || {}),
   }
 }
+
+const formElRef = useTemplateRef<FormInstance>('formElRef')
+
+const resetForm = () => {
+  if (!formElRef.value) return
+
+  formElRef.value.resetFields()
+}
+
+const validateForm = () => {
+  if (!formElRef.value) return
+  return formElRef.value.validate()
+}
+
+defineExpose({
+  resetForm,
+  validateForm,
+  formData
+})
 </script>
 
 <template>
-  <div v-if="initFileds.form" class="vue-form-render">
+  <div class="vue-form-render">
     {{ formData }}
-    <el-form v-bind="formProps">
+    <el-form v-bind="formProps" ref="formElRef">
       <el-row v-bind="rowProps">
         <template v-for="item in properties" :key="item.key">
           <el-col v-show="!item.value.hidden" v-bind="getColProps(item.value)">

@@ -58,9 +58,7 @@ const dialogHeaderRef = ref()
 const dialogAreaRef = useTemplateRef('dialogAreaRef')
 const dialogRef = ref()
 
-defineExpose({
-  areaRef: dialogAreaRef,
-})
+
 
 const modalId = shallowRef(props.id ?? useId())
 const isOpen = ref(props.modelValue)
@@ -207,6 +205,17 @@ function handleAnimationEnd() {
     isClosed.value = true
   }
 }
+const instance = getCurrentInstance()
+onMounted(() => {
+  emits('getModalRef', instance)
+})
+
+defineExpose({
+  areaRef: dialogAreaRef,
+  onCancel,
+  onConfirm,
+  isConfirmButtonLoading,
+})
 </script>
 
 <template>
@@ -287,7 +296,7 @@ function handleAnimationEnd() {
           'border-t': props.border,
         })"
       >
-        <slot name="footer">
+        <slot name="footer" :loading="confirmButtonLoading || isConfirmButtonLoading">
           <FaButton v-if="showCancelButton" variant="outline" @click="onCancel">
             {{ cancelButtonText }}
           </FaButton>

@@ -1,4 +1,4 @@
-import type { ColProps, FormProps, RowProps } from 'element-plus'
+import type { ColProps, FormItemProps, FormProps, RowProps } from 'element-plus'
 import type { CreateSchema } from './CreateSchema'
 import type { UITable } from './VxeTable'
 
@@ -42,6 +42,12 @@ interface BaseProperty {
 
   /** ElCol属性 */
   'ui:ElCol'?: Partial<ColProps>
+
+  /** ElFormItem属性 */
+  'ui:ElFormItem'?: (prop: string, formData: any, properties: { [key: string]: JsonSchema.LinkProperty }) => Partial<FormItemProps>
+
+  /** 可修改属性，初始化不传 */
+  readonly '$elFormItem'?: Partial<FormItemProps>
 
   valueFormatter?: (value: any, column: JsonSchema.LinkProperty) => any
 

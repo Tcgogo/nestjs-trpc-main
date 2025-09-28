@@ -47,16 +47,19 @@ export interface ModalEmits {
   'closed': []
   'confirm': []
   'cancel': []
+  'getModalRef': [value: any]
 }
 
 type BaseOptions = Omit<ModalProps, 'modelValue'> & {
   content?: Component | VNode | string
+  footerSlot?: Component | VNode | string
   onOpen?: () => void
   onOpened?: () => void
   onClose?: () => void
   onClosed?: () => void
   onConfirm?: () => void
   onCancel?: () => void
+  getModalRef?: (modalRef: InstanceType<typeof Modal>) => void
 }
 
 type alertOptions = Pick<BaseOptions, 'title' | 'description' | 'icon' | 'alignCenter' | 'overlay' | 'overlayBlur' | 'confirmButtonText' | 'confirmButtonDisabled' | 'confirmButtonLoading' | 'closeOnClickOverlay' | 'closeOnPressEscape' | 'class' | 'headerClass' | 'contentClass' | 'footerClass' | 'content' | 'onConfirm'>
@@ -70,13 +73,15 @@ export function useFaModal() {
     const options = reactive({ ...initialOptions })
     const instance = getCurrentInstance()
     let vnode: VNode | null = null
-
     const updateVNode = () => {
       vnode = createVNode(Modal, Object.assign({
         'id': instance && instance.uid ? `FaModal-${instance.uid}` : undefined,
         'modelValue': visible.value,
         'onUpdate:modelValue': (val: boolean) => {
           visible.value = val
+        },
+        'onGetModalRef': (ref: any) => {
+          options.getModalRef?.(ref.exposed)
         },
         ...options,
       }), {
@@ -89,6 +94,18 @@ export function useFaModal() {
           }
           else if (options.content) {
             return h(options.content)
+          }
+          return null
+        },
+        footer: () => {
+          if (typeof options.footerSlot === 'string') {
+            return options.footerSlot
+          }
+          else if (isVNode(options.footerSlot)) {
+            return options.footerSlot
+          }
+          else if (options.footerSlot) {
+            return h(options.footerSlot)
           }
           return null
         },
