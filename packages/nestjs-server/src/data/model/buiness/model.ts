@@ -552,12 +552,57 @@ const config: Model.Info = {
       },
       children: [
         {
-          path: '/multilevel_menu_example',
-          component: { path: 'multilevel_menu_example/level2/level3/page2.vue' },
-          name: 'orderList',
+          path: '/dashboard/schema2',
+          component: 'Schema',
+          name: 'orderList2',
           meta: {
             title: '订单列表',
             icon: 'material-symbols:receipt-long-outline',
+          },
+          schemaConfig: {
+            api: getApiName('tablesShop'),
+            jsonSchema: {
+              type: 'object',
+              title: '水果订单列表',
+              description: '这是水果订单列表',
+              properties: {
+                name: {
+                  type: 'string',
+                  title: '名称',
+                  required: true,
+                  createOption: {},
+                },
+                price: {
+                  type: 'number',
+                  title: '价格',
+                  required: true,
+                  createOption: {
+                    props: {
+                      min: 0,
+                      max: 100,
+                      step: 0.1,
+                      precision: 1,
+                      controlsPosition: 'right',
+                    },
+                  },
+                },
+                description: {
+                  type: 'string',
+                  title: '描述',
+                  createOption: {},
+                },
+                isActive: {
+                  type: 'boolean',
+                  title: '是否上架',
+                  required: true,
+                  createOption: {},
+                },
+                createtime: {
+                  type: 'string',
+                  title: '创建时间',
+                },
+              },
+            },
           },
         },
         {
