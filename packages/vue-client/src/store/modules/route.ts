@@ -103,7 +103,6 @@ export const useRouteStore = defineStore(
     // 格式化后端路由数据
     function formatBackRoutes(routes: any, views = import.meta.glob('../../views/**/*.vue')): Route.recordMainRaw[] {
       return routes.map((route: any) => {
-        console.log('%c [route]-106', 'font-size:13px; background:#336699; color:#fff;', route)
         switch (route.component) {
           case 'Layout':
             route.component = () => import('@/layouts/index.vue')

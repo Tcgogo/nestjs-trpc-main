@@ -56,7 +56,7 @@ const { open: openModal, update: updateModal } = useFaModal().create({
   closeOnClickOverlay: false,
   closeOnPressEscape: false,
   beforeClose: (action, done) => {
-    if(action === 'confirm') {
+    if (action === 'confirm') {
       onFormSubmit()
     }
     done()
@@ -124,7 +124,6 @@ const tableProps = computed(() => {
     VxeTable: {
       // 默认props
       border: true,
-
       ...vxeTable,
     },
     VxeColumn: {
@@ -135,6 +134,7 @@ const tableProps = computed(() => {
       minWidth: 140,
       align: 'center' as const,
       fixed: 'right' as const,
+      width: 'auto',
       ...vxeHandleColumn,
     },
   }

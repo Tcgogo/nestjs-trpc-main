@@ -13,6 +13,12 @@ import TablePanel from '../complexs/table-panel/table-panel.vue'
 const route = useRoute()
 
 const schemaConfig = route.meta.schemaConfig
+
+onBeforeMount(() => {
+  if (!route.name || !route.path) {
+    console.warn('name or path is not set')
+  }
+})
 </script>
 
 <template>
@@ -34,7 +40,7 @@ const schemaConfig = route.meta.schemaConfig
 
           <SearchPanel />
 
-          <TablePanel />
+          <TablePanel :key="route.name || route.path" />
         </FaPageMain>
       </div>
     </div>

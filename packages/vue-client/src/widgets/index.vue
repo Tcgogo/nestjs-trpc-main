@@ -7,6 +7,7 @@ import NumberField from './number.vue'
 import ObjectField from './object.vue'
 import StringField from './string.vue'
 import type { FormInstance } from 'element-plus'
+import { isObject } from '@vueuse/core'
 
 const { schema } = defineProps({
   schema: {
@@ -86,7 +87,8 @@ const properties = computed(() => {
       key,
       value: rowSchema.value.properties![key],
     }
-  })
+  // @ts-expect-error 类型错误
+  }).filter((item) => isObject(item.value.createOption))
 })
 
 /** 获取el-form属性 */
