@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { isEmpty, parseStringToFunction } from '@/utils';
 import type { CreateSchema, JsonSchema } from '@tcgogo/types'
 import { ElInput, ElInputNumber, ElRate, ElSlider } from 'element-plus'
 import { merge } from 'es-toolkit'
 import { h } from 'vue'
+import { isEmpty, parseStringToFunction } from '@/utils'
 
 const { schema, formData, prop, root } = defineProps<{
   root: JsonSchema.ObjectProperty
@@ -27,8 +27,7 @@ const data = reactive({
 /** 处理默认值 */
 function handleDefault() {
   if ('default' in schema) {
-
-    if(!isEmpty(data.formData[prop])) {
+    if (!isEmpty(data.formData[prop])) {
       console.warn('注意：中途修改了默认值！')
     }
 
@@ -41,7 +40,6 @@ watch(() => schema.default, () => {
 }, {
   immediate: true,
 })
-
 
 const booleanFileds: Record<CreateSchema.NumberCreateOption['field'], any> = {
   'input': ElInput,
@@ -66,7 +64,7 @@ function handleCreateOption() {
   }
 
   // @ts-expect-error 处理只读
-  schema['$elFormItem'] = formItemProps
+  schema.$elFormItem = formItemProps
 
   // 处理 on 事件
   if (createOption?.on) {
@@ -79,7 +77,6 @@ function handleCreateOption() {
       placeholder: '请输入',
     },
   }
-
 
   if (createOption?.field === 'input') {
     const defaultProps = {
@@ -104,7 +101,7 @@ onBeforeMount(() => {
 
 <template>
   <!-- ui:ElFormItem 类型有问题 -->
-  <el-form-item v-if="schemaCreateOption" v-bind="schema['$elFormItem'] as any" :label="schema.title" :prop="prop">
+  <el-form-item v-if="schemaCreateOption" v-bind="schema.$elFormItem as any" :label="schema.title" :prop="prop">
     <div class="form-item w-full">
       <component
         :is="h(booleanFileds[schemaCreateOption.field], {})"

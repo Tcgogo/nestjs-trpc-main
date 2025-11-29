@@ -3,7 +3,7 @@ import type { CreateSchema, JsonSchema } from '@tcgogo/types'
 import { ElCascader, ElCheckboxGroup, ElColorPicker, ElDatePicker, ElInput, ElMention, ElRadioGroup, ElSelect, ElTimePicker, ElTimeSelect } from 'element-plus'
 import { merge } from 'es-toolkit'
 import { h } from 'vue'
-import { isEmpty, parseStringToFunction } from '@/utils';
+import { isEmpty, parseStringToFunction } from '@/utils'
 
 const { schema, formData, prop, root } = defineProps<{
   root: JsonSchema.ObjectProperty
@@ -27,7 +27,7 @@ const data = reactive({
 /** 处理默认值 */
 function handleDefault() {
   if (schema.default) {
-    if(!isEmpty(data.formData[prop])) {
+    if (!isEmpty(data.formData[prop])) {
       console.warn('注意：中途修改了默认值！')
     }
 
@@ -40,7 +40,6 @@ watch(() => schema.default, () => {
 }, {
   immediate: true,
 })
-
 
 const booleanFileds: Record<CreateSchema.StringCreateOption['field'], any> = {
   'input': ElInput,
@@ -71,7 +70,7 @@ function handleCreateOption() {
   }
 
   // @ts-expect-error 处理只读
-  schema['$elFormItem'] = formItemProps
+  schema.$elFormItem = formItemProps
 
   // 处理 on 事件
   if (createOption?.on) {
@@ -123,12 +122,13 @@ onBeforeMount(() => {
 
 <template>
   <!-- ui:ElFormItem 类型有问题 -->
-  <el-form-item v-if="schemaCreateOption" v-bind="schema['$elFormItem'] as any" :label="schema.title" :prop="prop">
+  <el-form-item v-if="schemaCreateOption" v-bind="schema.$elFormItem as any" :label="schema.title" :prop="prop">
     <div class="form-item w-full">
-      <component :is="h(booleanFileds[schemaCreateOption.field], {})" v-model="data.formData[prop]"
+      <component
+        :is="h(booleanFileds[schemaCreateOption.field], {})" v-model="data.formData[prop]"
         v-bind="schemaCreateOption.props"
         v-on="schemaCreateOption.on?.(prop, formData, root.properties) || {}"
-        />
+      />
     </div>
   </el-form-item>
 </template>

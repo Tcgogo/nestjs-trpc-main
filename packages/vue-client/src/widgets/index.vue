@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import type { CreateSchema, JsonSchema } from '@tcgogo/types'
+import type { FormInstance } from 'element-plus'
+import { isObject } from '@vueuse/core'
 import { findProperties, parseStringToFunction } from '@/utils'
 import ArrayField from './array.vue'
 import BooleanField from './boolean.vue'
 import NumberField from './number.vue'
 import ObjectField from './object.vue'
 import StringField from './string.vue'
-import type { FormInstance } from 'element-plus'
-import { isObject } from '@vueuse/core'
 
 const { schema } = defineProps({
   schema: {
@@ -88,7 +88,7 @@ const properties = computed(() => {
       value: rowSchema.value.properties![key],
     }
   // @ts-expect-error 类型错误
-  }).filter((item) => isObject(item.value.createOption))
+  }).filter(item => isObject(item.value.createOption))
 })
 
 /** 获取el-form属性 */
@@ -132,15 +132,15 @@ function getColProps(item: JsonSchema.LinkProperty) {
 
 const formElRef = useTemplateRef<FormInstance>('formElRef')
 
-const resetForm = () => {
-  if (!formElRef.value) return
+function resetForm() {
+  if (!formElRef.value) { return }
 
   formElRef.value.resetFields()
   handleFormDefault()
 }
 
-const validateForm = () => {
-  if (!formElRef.value) return
+function validateForm() {
+  if (!formElRef.value) { return }
   return formElRef.value.validate()
 }
 
@@ -156,18 +156,20 @@ function handleFormDefault() {
 defineExpose({
   resetForm,
   validateForm,
-  formData
+  formData,
 })
 </script>
 
 <template>
-  <div class="vue-form-render" v-if="initFileds.form">
+  <div v-if="initFileds.form" class="vue-form-render">
     <el-form v-bind="formProps" ref="formElRef">
       <el-row v-bind="rowProps">
         <template v-for="item in properties" :key="item.key">
           <el-col v-show="!item.value.hidden" v-bind="getColProps(item.value)">
-            <component @change="() => null" :root="rowSchema" :is="Field[item.value.type]" :prop="item.key"
-              :form-data="formData" :schema="item.value" />
+            <component
+              :is="Field[item.value.type]" :root="rowSchema" :prop="item.key" :form-data="formData"
+              :schema="item.value" @change="() => null"
+            />
           </el-col>
         </template>
       </el-row>

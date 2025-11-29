@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { JsonSchema } from '@tcgogo/types'
+import { isEmpty, parseStringToFunction } from '@/utils'
 import Index from './index.vue'
-import { isEmpty, parseStringToFunction } from '@/utils';
 
 const { schema, formData, prop, root } = defineProps<{
   root: JsonSchema.ObjectProperty
@@ -17,7 +17,7 @@ const data = reactive({
 /** 处理默认值 */
 function handleDefault() {
   if (schema.default) {
-    if(!isEmpty(data.formData[prop])) {
+    if (!isEmpty(data.formData[prop])) {
       console.warn('注意：中途修改了默认值！')
     }
 
@@ -31,7 +31,6 @@ watch(() => schema.default, () => {
   immediate: true,
 })
 
-
 function getFormItemProps() {
   const fn = parseStringToFunction(schema['ui:ElFormItem'])
 
@@ -44,7 +43,7 @@ function getFormItemProps() {
   }
 
   // @ts-expect-error 处理只读
-  schema['$elFormItem'] = formItemProps
+  schema.$elFormItem = formItemProps
 }
 
 onBeforeMount(() => {
@@ -54,7 +53,7 @@ onBeforeMount(() => {
 
 <template>
   <!-- ui:ElFormItem 类型有问题 -->
-  <el-form-item v-if="schema.properties" v-bind="schema['$elFormItem'] as any" :label="schema.title" :prop="prop">
+  <el-form-item v-if="schema.properties" v-bind="schema.$elFormItem as any" :label="schema.title" :prop="prop">
     <div class="form-item w-full">
       <Index :schema="schema" :form-data="data.formData[prop]" />
     </div>

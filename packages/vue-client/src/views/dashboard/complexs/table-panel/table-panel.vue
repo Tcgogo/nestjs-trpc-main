@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { JsonSchema } from '@tcgogo/types'
+import type FaModal from '@/ui/components/FaModal/index.vue'
 import { h } from 'vue'
 import { VxeColumn, VxeTable } from 'vxe-table'
 import { client } from '@/trpc'
+import FaButton from '@/ui/components/FaButton/index.vue'
 import { useFaModal } from '@/ui/components/FaModal'
-import FaModal from '@/ui/components/FaModal/index.vue'
 import { getVxeTableColumnDefault } from '@/utils/schema/valueType'
 import Widgets from '@/widgets/index.vue'
-import FaButton from '@/ui/components/FaButton/index.vue'
 
 const operates = {
   index: 'query',
@@ -44,10 +44,12 @@ onMounted(async () => {
 
 const formRef = ref<InstanceType<typeof Widgets>>()
 
-const widgetsComponent = () => h(Widgets, {
-  schema: schemaConfig!.jsonSchema,
-  ref: (ref) => formRef.value = ref as InstanceType<typeof Widgets>,
-})
+function widgetsComponent() {
+  return h(Widgets, {
+    schema: schemaConfig!.jsonSchema,
+    ref: ref => formRef.value = ref as InstanceType<typeof Widgets>,
+  })
+}
 
 const modalRef = ref<InstanceType<typeof FaModal>>()
 
@@ -82,12 +84,12 @@ const { open: openModal, update: updateModal } = useFaModal().create({
     h(FaButton, {
       loading: modalRef.value?.isConfirmButtonLoading,
       onClick: async () => {
-        await formRef.value?.validateForm();
+        await formRef.value?.validateForm()
         modalRef.value?.onConfirm()
       },
-    }, '确定')
+    }, '确定'),
   ]),
-  getModalRef: (ref) => modalRef.value = ref,
+  getModalRef: ref => modalRef.value = ref,
 })
 async function createShop() {
   // await client.tablesShop.create.mutate({ name: 'test' })
@@ -95,7 +97,7 @@ async function createShop() {
 }
 
 function onFormSubmit() {
-  console.log('%c [formRef.value?.formData]-99', 'font-size:13px; background:#336699; color:#fff;', formRef.value?.formData);
+  console.log('%c [formRef.value?.formData]-99', 'font-size:13px; background:#336699; color:#fff;', formRef.value?.formData)
 }
 
 /** 表格列 */
@@ -159,18 +161,20 @@ const tableProps = computed(() => {
     <div v-if="schemaConfig" class="w-full flex">
       <VxeTable v-bind="tableProps.VxeTable" :data="shops" class="w-full">
         <VxeColumn v-bind="tableProps.VxeColumn" type="seq" width="60" />
-        <component :is="h(VxeColumn,
-          {
-            key: column.field,
-            field: column.field,
-            title: column.title,
-            width: 140,
-            ...column['ui:VxeColumn'],
-          },
-          {
-            default: getVxeTableColumnDefault(column),
-          },
-        )" v-for="column in columns" :key="column.field" />
+        <component
+          :is="h(VxeColumn,
+                 {
+                   key: column.field,
+                   field: column.field,
+                   title: column.title,
+                   width: 140,
+                   ...column['ui:VxeColumn'],
+                 },
+                 {
+                   default: getVxeTableColumnDefault(column),
+                 },
+          )" v-for="column in columns" :key="column.field"
+        />
         <VxeColumn v-bind="tableProps.VxeHandleColumn">
           <template #default="scope">
             <div class="flex justify-center px-3">

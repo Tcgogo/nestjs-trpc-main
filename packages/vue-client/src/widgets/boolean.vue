@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { isEmpty, parseStringToFunction } from '@/utils';
 import type { CreateSchema, JsonSchema } from '@tcgogo/types'
 import { ElCheckbox, ElRadio, ElSwitch } from 'element-plus'
 import { merge } from 'es-toolkit'
 import { h } from 'vue'
+import { isEmpty, parseStringToFunction } from '@/utils'
 
 const { schema, formData, prop, root } = defineProps<{
   root: JsonSchema.ObjectProperty
@@ -19,7 +19,7 @@ const data = reactive({
 /** 处理默认值 */
 function handleDefault() {
   if (schema.default) {
-    if(!isEmpty(data.formData[prop])) {
+    if (!isEmpty(data.formData[prop])) {
       console.warn('注意：中途修改了默认值！')
     }
 
@@ -32,7 +32,6 @@ watch(() => schema.default, () => {
 }, {
   immediate: true,
 })
-
 
 const booleanFileds: Record<CreateSchema.BooleanCreateOption['field'], any> = {
   'switch': ElSwitch,
@@ -56,7 +55,7 @@ function handleCreateOption() {
   }
 
   // @ts-expect-error 处理只读
-  schema['$elFormItem'] = formItemProps
+  schema.$elFormItem = formItemProps
 
   // 处理 on 事件
   if (createOption?.on) {
@@ -83,12 +82,14 @@ onBeforeMount(() => {
 
 <template>
   <!-- ui:ElFormItem 类型有问题 -->
-  <el-form-item v-if="schemaCreateOption" v-bind="schema['$elFormItem'] as any" :label="schema.title" :prop="prop">
+  <el-form-item v-if="schemaCreateOption" v-bind="schema.$elFormItem as any" :label="schema.title" :prop="prop">
     <div class="form-item">
       <!-- el-switch -->
       <template v-if="schemaCreateOption.field === 'switch'">
-        <component :is="booleanFileds[schemaCreateOption.field]" v-model="data.formData[prop]"
-          v-bind="schemaCreateOption.props" v-on="schemaCreateOption.on?.(prop, formData, root.properties) || {}" />
+        <component
+          :is="booleanFileds[schemaCreateOption.field]" v-model="data.formData[prop]"
+          v-bind="schemaCreateOption.props" v-on="schemaCreateOption.on?.(prop, formData, root.properties) || {}"
+        />
       </template>
 
       <!-- el-checkbox -->
@@ -96,13 +97,16 @@ onBeforeMount(() => {
         <component
           :is="h(booleanFileds[schemaCreateOption.field], {}, () => h('div', { class: 'form-item-title' }, schema.title))"
           v-model="data.formData[prop]" v-bind="schemaCreateOption.props"
-          v-on="schemaCreateOption.on?.(prop, formData, root.properties) || {}" />
+          v-on="schemaCreateOption.on?.(prop, formData, root.properties) || {}"
+        />
       </template>
 
       <!-- el-radio -->
       <template v-else-if="schemaCreateOption.field === 'radio'">
-        <el-radio-group v-model="data.formData[prop]" v-bind="schemaCreateOption.groupProps || {}"
-          v-on="schemaCreateOption.on?.(prop, formData, root.properties) || {}">
+        <el-radio-group
+          v-model="data.formData[prop]" v-bind="schemaCreateOption.groupProps || {}"
+          v-on="schemaCreateOption.on?.(prop, formData, root.properties) || {}"
+        >
           <ElRadio :value="true" size="large" v-bind="schemaCreateOption.props">
             {{ schemaCreateOption.props?.activeText || '是' }}
           </ElRadio>
@@ -113,7 +117,6 @@ onBeforeMount(() => {
       </template>
     </div>
   </el-form-item>
-
 </template>
 
 <style scoped lang="less"></style>

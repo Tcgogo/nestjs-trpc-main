@@ -31,6 +31,9 @@ export default antfu(
         allowShortCircuit: true,
         allowTernary: true,
       }],
+      'vue/no-mutating-props': ['error', {
+        'shallowOnly': true,
+      }],
     },
   },
   {
