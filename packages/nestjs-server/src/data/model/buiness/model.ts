@@ -572,6 +572,12 @@ const config: Model.Info = {
                   required: true,
                   createOption: {},
                 },
+                stock: {
+                  type: 'number',
+                  title: '库存',
+                  required: true,
+                  createOption: {},
+                },
                 price: {
                   type: 'number',
                   title: '价格',
@@ -597,9 +603,38 @@ const config: Model.Info = {
                   required: true,
                   createOption: {},
                 },
-                createtime: {
+                arr: {
+                  type: 'array',
+                  title: '数组',
+                  createOption: {
+                    field: 'checkbox-group',
+                    props: {
+                      options: [
+                        {
+                          value: 1,
+                          label: '火龙果',
+                        },
+                        {
+                          value: 2,
+                          label: '香蕉',
+                        },
+                        {
+                          value: 3,
+                          label: '苹果',
+                        },
+                      ],
+                    },
+                  },
+                },
+                createdAt: {
                   type: 'string',
                   title: '创建时间',
+                  createOption: {
+                    field: 'date-picker',
+                    props: {
+                      type: 'datetime',
+                    },
+                  },
                 },
               },
             },

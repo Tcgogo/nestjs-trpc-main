@@ -8,11 +8,12 @@ export const getShopListInput = z.object({
 export const getShopListOutput = z.array(z.object({
   id: z.number(),
   name: z.string(),
-  nameList: z.array(z.string()),
   stock: z.number(),
   price: z.number(),
   description: z.string(),
-  isActive: z.number(),
+  isActive: z.boolean(),
+  arr: z.array(z.number()),
+  createdAt: z.any(),
 }))
 
 export const shopCreateInput = z.object({
@@ -20,5 +21,7 @@ export const shopCreateInput = z.object({
   stock: z.number(),
   price: z.number(),
   description: z.string(),
-  isActive: z.number(),
+  isActive: z.boolean(),
+  arr: z.array(z.number()),
+  createdAt: z.any(),
 })

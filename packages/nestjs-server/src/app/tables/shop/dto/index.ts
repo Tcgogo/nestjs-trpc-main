@@ -14,15 +14,21 @@ export class Shop {
   @Column()
   name!: string
 
-  @Column({ type: 'tinyint' })
+  @Column()
   stock!: number
 
-  @Column({ type: 'double' })
+  @Column()
   price!: number
 
   @Column()
   description!: string
 
-  @Column({ name: 'is_active', type: 'tinyint' })
-  isActive!: number
+  @Column()
+  isActive!: boolean
+
+  @Column('int', { array: true })
+  arr!: number[]
+
+  @Column({ type: 'timestamp' })
+  createdAt!: number
 }

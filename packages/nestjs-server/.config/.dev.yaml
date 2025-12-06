@@ -1,8 +1,8 @@
 DB_CONFIG:
-  type: mysql # 数据库链接类型
+  type: postgres # 数据库链接类型
   host: localhost
-  port: 3306
-  username: root
+  port: 5432
+  username: postgres
   password: '123456'
   database: temp # 后面改成 scid
   retryDelay: 500

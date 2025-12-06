@@ -9,7 +9,7 @@ import NumberField from './number.vue'
 import ObjectField from './object.vue'
 import StringField from './string.vue'
 
-const { schema } = defineProps({
+const { schema, rowData } = defineProps({
   schema: {
     type: Object as PropType<JsonSchema.ObjectProperty>,
     required: true,
@@ -149,6 +149,13 @@ function validateForm() {
 }
 
 function handleFormDefault() {
+  if(rowData) {
+    Object.keys(rowData).forEach((key) => {
+      // @ts-expect-error 类型错误
+      formData.value[key] = rowData[key]
+    })
+  }
+
   properties.value.forEach((item) => {
     if (item.value.default) {
       // @ts-expect-error 类型错误
@@ -156,6 +163,11 @@ function handleFormDefault() {
     }
   })
 }
+
+// 初始化数据
+onBeforeMount(() => {
+  handleFormDefault()
+})
 
 defineExpose({
   resetForm,

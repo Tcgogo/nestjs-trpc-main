@@ -49,17 +49,14 @@ const editFormRef = ref<InstanceType<typeof Widgets>>()
 // 当前编辑的行数据
 const rowData = ref<any>()
 
-function widgetsComponent(edit = false) {
+function widgetsComponent() {
   return h(Widgets, {
     rowData: rowData.value,
     schema: schemaConfig!.jsonSchema,
     ref: r => {
       const ref = r as InstanceType<typeof Widgets>
-      if (edit) {
-        editFormRef.value = ref
-      } else {
-        createFormRef.value = ref
-      }
+      createFormRef.value = ref
+      editFormRef.value = ref
     }
   })
 }
@@ -148,6 +145,7 @@ const { open: openEditModal, update: updateEditModal } = useFaModal().create({
 
 
 async function createButtonClick() {
+  rowData.value = undefined
   // await client.tablesShop.create.mutate({ name: 'test' })
   openCreateModal()
 }
@@ -159,6 +157,10 @@ async function editButtonClick(row: any) {
 
 function onFormSubmit() {
 
+  console.log('%c []-162', 'font-size:13px; background:#336699; color:#fff;', createFormRef.value?.formData);
+  // createFormRef.value?.formData;
+  // client.tablesShop.create.mutate(createFormRef.value!.formData as any)
+  getFetchFn(schemaConfig!.api, 'create')(createFormRef.value?.formData)
   console.log('%c []-161', 'font-size:13px; background:#336699; color:#fff;', 123);
 }
 
