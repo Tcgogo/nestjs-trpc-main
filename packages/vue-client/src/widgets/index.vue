@@ -14,6 +14,10 @@ const { schema } = defineProps({
     type: Object as PropType<JsonSchema.ObjectProperty>,
     required: true,
   },
+  rowData: {
+    type: Object as PropType<any>,
+    required: false,
+  },
 })
 
 const formData = ref({})
@@ -162,6 +166,7 @@ defineExpose({
 
 <template>
   <div v-if="initFileds.form" class="vue-form-render">
+    {{ rowData }}
     <el-form v-bind="formProps" ref="formElRef">
       <el-row v-bind="rowProps">
         <template v-for="item in properties" :key="item.key">
@@ -174,5 +179,6 @@ defineExpose({
         </template>
       </el-row>
     </el-form>
+    {{ formData }}
   </div>
 </template>

@@ -42,18 +42,32 @@ onMounted(async () => {
   }
 })
 
-const formRef = ref<InstanceType<typeof Widgets>>()
+const createFormRef = ref<InstanceType<typeof Widgets>>()
+const editFormRef = ref<InstanceType<typeof Widgets>>()
 
-function widgetsComponent() {
+
+// 当前编辑的行数据
+const rowData = ref<any>()
+
+function widgetsComponent(edit = false) {
   return h(Widgets, {
+    rowData: rowData.value,
     schema: schemaConfig!.jsonSchema,
-    ref: ref => formRef.value = ref as InstanceType<typeof Widgets>,
+    ref: r => {
+      const ref = r as InstanceType<typeof Widgets>
+      if (edit) {
+        editFormRef.value = ref
+      } else {
+        createFormRef.value = ref
+      }
+    }
   })
 }
 
-const modalRef = ref<InstanceType<typeof FaModal>>()
+const createModalRef = ref<InstanceType<typeof FaModal>>()
+const editModalRef = ref<InstanceType<typeof FaModal>>()
 
-const { open: openModal, update: updateModal } = useFaModal().create({
+const { open: openCreateModal, update: updateCreateModal } = useFaModal().create({
   destroyOnClose: true,
   closeOnClickOverlay: false,
   closeOnPressEscape: false,
@@ -72,32 +86,80 @@ const { open: openModal, update: updateModal } = useFaModal().create({
     h(FaButton, {
       variant: 'outline',
       onClick: () => {
-        modalRef.value?.onCancel()
+        createModalRef.value?.onCancel()
       },
     }, '取消'),
     h(FaButton, {
       variant: 'outline',
       onClick: () => {
-        formRef.value?.resetForm()
+        createFormRef.value?.resetForm()
       },
     }, '重置'),
     h(FaButton, {
-      loading: modalRef.value?.isConfirmButtonLoading,
+      loading: createModalRef.value?.isConfirmButtonLoading,
       onClick: async () => {
-        await formRef.value?.validateForm()
-        modalRef.value?.onConfirm()
+        await createFormRef.value?.validateForm()
+        createModalRef.value?.onConfirm()
       },
     }, '确定'),
   ]),
-  getModalRef: ref => modalRef.value = ref,
+  getModalRef: ref => createModalRef.value = ref,
 })
-async function createShop() {
+
+
+const { open: openEditModal, update: updateEditModal } = useFaModal().create({
+  destroyOnClose: true,
+  closeOnClickOverlay: false,
+  closeOnPressEscape: false,
+  beforeClose: (action, done) => {
+    if (action === 'confirm') {
+      onFormSubmit()
+    }
+    done()
+  },
+  class: 'max-w-[60vw]',
+  showCancelButton: true,
+  title: `${schemaConfig!.jsonSchema?.title} - 编辑数据`,
+  description: schemaConfig!.jsonSchema?.description,
+  content: widgetsComponent,
+  footerSlot: () => h('div', { class: 'flex gap-3' }, [
+    h(FaButton, {
+      variant: 'outline',
+      onClick: () => {
+        editModalRef.value?.onCancel()
+      },
+    }, '取消'),
+    h(FaButton, {
+      variant: 'outline',
+      onClick: () => {
+        editFormRef.value?.resetForm()
+      },
+    }, '重置'),
+    h(FaButton, {
+      loading: editModalRef.value?.isConfirmButtonLoading,
+      onClick: async () => {
+        await editFormRef.value?.validateForm()
+        editModalRef.value?.onConfirm()
+      },
+    }, '确定'),
+  ]),
+  getModalRef: ref => editModalRef.value = ref,
+})
+
+
+async function createButtonClick() {
   // await client.tablesShop.create.mutate({ name: 'test' })
-  openModal()
+  openCreateModal()
+}
+
+async function editButtonClick(row: any) {
+  rowData.value = row
+  openEditModal()
 }
 
 function onFormSubmit() {
-  console.log('%c [formRef.value?.formData]-99', 'font-size:13px; background:#336699; color:#fff;', formRef.value?.formData)
+
+  console.log('%c []-161', 'font-size:13px; background:#336699; color:#fff;', 123);
 }
 
 /** 表格列 */
@@ -150,7 +212,7 @@ const tableProps = computed(() => {
     </div>
 
     <div class="flex justify-end pb-3">
-      <ElButton type="primary" size="default" @click="createShop">
+      <ElButton type="primary" size="default" @click="createButtonClick">
         <template #icon>
           <FaIcon name="i-ep:plus" />
         </template>
@@ -161,24 +223,22 @@ const tableProps = computed(() => {
     <div v-if="schemaConfig" class="w-full flex">
       <VxeTable v-bind="tableProps.VxeTable" :data="shops" class="w-full">
         <VxeColumn v-bind="tableProps.VxeColumn" type="seq" width="60" />
-        <component
-          :is="h(VxeColumn,
-                 {
-                   key: column.field,
-                   field: column.field,
-                   title: column.title,
-                   width: 140,
-                   ...column['ui:VxeColumn'],
-                 },
-                 {
-                   default: getVxeTableColumnDefault(column),
-                 },
-          )" v-for="column in columns" :key="column.field"
-        />
+        <component :is="h(VxeColumn,
+          {
+            key: column.field,
+            field: column.field,
+            title: column.title,
+            width: 140,
+            ...column['ui:VxeColumn'],
+          },
+          {
+            default: getVxeTableColumnDefault(column),
+          },
+        )" v-for="column in columns" :key="column.field" />
         <VxeColumn v-bind="tableProps.VxeHandleColumn">
           <template #default="scope">
             <div class="flex justify-center px-3">
-              <ElButton type="warning" size="small" plain>
+              <ElButton @click="editButtonClick(scope.row)" type="warning" size="small" plain>
                 编辑{{ scope.row.id }}
               </ElButton>
               <ElButton type="danger" size="small" plain>
